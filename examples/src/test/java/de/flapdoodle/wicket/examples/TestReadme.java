@@ -21,9 +21,11 @@
 package de.flapdoodle.wicket.examples;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 
 import de.flapdoodle.functions.Function1;
 import de.flapdoodle.wicket.model.Models;
@@ -31,7 +33,9 @@ import de.flapdoodle.wicket.model.Models;
 
 public class TestReadme {
 
-	// simple model transformation
+/*
+#### simple model transformation
+*/
 	public IModel<Integer> createSumModel(IModel<List<Integer>> source) {
 		return Models.on(source).apply(new Function1<Integer, List<Integer>>() {
 			@Override
@@ -43,5 +47,23 @@ public class TestReadme {
 				return sum;
 			}
 		});
+	}
+
+/*
+#### unmodifiable and read only
+
+A model is read only if setObject can not be used. But if you can change the content of the
+model value, the model is not unmodifiable. Its not the best idea to change a model value so there
+are some functions to prevent this. 
+*/
+	public void unmodifiableAndReadOnly() {
+		
+	List<Integer> source=new ArrayList<Integer>(Arrays.asList(1,2,3));
+	IModel<List<Integer>> unmodifiableListModel = Models.unmodifiable(source);
+	
+	IModel<List<? extends Integer>> modifiableListModel = Model.ofList(Arrays.asList(1,2,3));
+	IModel<List<Integer>> asUnmodifiableListModel = Models.unmodifiable(modifiableListModel);
+	IModel<List<? extends Integer>> readOnlyListModel = Models.readOnly(modifiableListModel);
+	
 	}
 }
