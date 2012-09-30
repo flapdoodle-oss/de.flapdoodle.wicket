@@ -31,15 +31,12 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.util.ListModel;
 
-import de.flapdoodle.annotations.Usage;
-import de.flapdoodle.usage.model.UseModels;
+import de.flapdoodle.functions.Function1;
+import de.flapdoodle.functions.Function2;
+import de.flapdoodle.functions.Function3;
+import de.flapdoodle.wicket.model.transformation.Functions;
 import de.flapdoodle.wicket.model.transformation.ModelSet;
 
-/**
- * @see UseModels
- * @author mosmann
- *
- */
 public abstract class Models
 {
 	private Models() {
@@ -49,21 +46,33 @@ public abstract class Models
 	@SuppressWarnings("unchecked")
 	private static final IModel<?> EMPTY_MODEL=new EmptyModel();
 
-	public static <T, M1> ModelSet.Set1<M1> on(IModel<M1> model)
+	public static <M1> ModelSet.Set1<M1> on(IModel<M1> model)
 	{
 		return new ModelSet.Set1<M1>(model);
 	}
 
-	public static <T, M1, M2> ModelSet.Set2<M1, M2> on(IModel<M1> model, IModel<M2> model2)
+	public static <M1, M2> ModelSet.Set2<M1, M2> on(IModel<M1> model, IModel<M2> model2)
 	{
 		return new ModelSet.Set2<M1, M2>(model, model2);
 	}
 
-	public static <T, M1, M2, M3> ModelSet.Set3<M1, M2, M3> on(IModel<M1> model, IModel<M2> model2, IModel<M3> model3)
+	public static <M1, M2, M3> ModelSet.Set3<M1, M2, M3> on(IModel<M1> model, IModel<M2> model2, IModel<M3> model3)
 	{
 		return new ModelSet.Set3<M1, M2, M3>(model, model2, model3);
 	}
 
+	public static <R,T> Functions.Reference1<R,T> apply(Function1<R, T> function) {
+		return new Functions.Reference1<R,T>(function);
+	}
+	
+	public static <R,T1,T2> Functions.Reference2<R,T1,T2> apply(Function2<R, T1, T2> function) {
+		return new Functions.Reference2<R,T1,T2>(function);
+	}
+	
+	public static <R,T1,T2,T3> Functions.Reference3<R,T1,T2,T3> apply(Function3<R, T1, T2, T3> function) {
+		return new Functions.Reference3<R,T1,T2,T3>(function);
+	}
+	
 	public static <T> IModel<List<T>> copyOfList(Collection<T> list) {
 		return copyOfList(new ArrayList<T>(list));
 	}

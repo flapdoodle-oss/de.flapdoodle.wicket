@@ -23,6 +23,13 @@ public class TestModels {
 			}
 		});
 		
+		Models.apply(new Function1<String, Integer>() {
+			@Override
+			public String apply(Integer value) {
+				return ""+value;
+			}
+		}).on(source);
+		
 		Assert.assertEquals("1", model.getObject());
 		source.setObject(2);
 		Assert.assertEquals("1", model.getObject());
