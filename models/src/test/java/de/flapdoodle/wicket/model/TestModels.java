@@ -13,7 +13,7 @@ import de.flapdoodle.functions.Function3;
 public class TestModels {
 
 	@Test
-	public void testWithOneSourceModel() {
+	public void testWithOneSourceModelFunctionLastStyle() {
 		Model<Integer> source = Model.of(1);
 		
 		IModel<String> model = Models.on(source).apply(new Function1<String, Integer>() {
@@ -23,20 +23,33 @@ public class TestModels {
 			}
 		});
 		
-		Models.apply(new Function1<String, Integer>() {
+		checkModelModifications(source, model);
+
+		checkExceptionOnSetObject(model,"Some String");
+	}
+	
+	@Test
+	public void testWithOneSourceModelFunctionFirstStyle() {
+		Model<Integer> source = Model.of(1);
+		
+		IModel<String> model = Models.apply(new Function1<String, Integer>() {
 			@Override
 			public String apply(Integer value) {
 				return ""+value;
 			}
-		}).on(source);
+		}).to(source);
 		
+		checkModelModifications(source, model);
+
+		checkExceptionOnSetObject(model,"Some String");
+	}
+
+	private void checkModelModifications(Model<Integer> source, IModel<String> model) {
 		Assert.assertEquals("1", model.getObject());
 		source.setObject(2);
 		Assert.assertEquals("1", model.getObject());
 		model.detach();
 		Assert.assertEquals("2", model.getObject());
-
-		checkExceptionOnSetObject(model,"Some String");
 	}
 
 	@Test

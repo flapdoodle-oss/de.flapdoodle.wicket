@@ -20,16 +20,7 @@
  */
 package de.flapdoodle.wicket.model;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.wicket.model.AbstractReadOnlyModel;
-import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.util.ListModel;
 
 import de.flapdoodle.functions.Function1;
 import de.flapdoodle.functions.Function2;
@@ -37,97 +28,124 @@ import de.flapdoodle.functions.Function3;
 import de.flapdoodle.wicket.model.transformation.Functions;
 import de.flapdoodle.wicket.model.transformation.ModelSet;
 
+/**
+ * wicket model support functions 
+ */
 public abstract class Models
 {
 	private Models() {
 		// no instance
 	}
-	
-	@SuppressWarnings("unchecked")
-	private static final IModel<?> EMPTY_MODEL=new EmptyModel();
 
-	public static <M1> ModelSet.Set1<M1> on(IModel<M1> model)
+	/**
+	 * Creates a model based on a set of models and a function.
+	 * <ul>
+	 * 	<li>step 1: create a model set</li>
+	 * 	<li>step 2: provide a function</li>
+	 * </ul>
+	 * IModel<X> model=Models.on(source).apply(function);
+	 * 
+	 * @param <T> model type
+	 * @param source source model
+	 * @return model set with one model
+	 */
+	public static <T> ModelSet.Set1<T> on(IModel<T> source)
 	{
-		return new ModelSet.Set1<M1>(model);
+		return new ModelSet.Set1<T>(source);
 	}
 
-	public static <M1, M2> ModelSet.Set2<M1, M2> on(IModel<M1> model, IModel<M2> model2)
+	/**
+	 * Creates a model based on a set of models and a function.
+	 * <ul>
+	 * 	<li>step 1: create a model set</li>
+	 * 	<li>step 2: provide a function</li>
+	 * </ul>
+	 * IModel<X> model=Models.on(first,second).apply(function);
+	 * 
+	 * @param <T1> first model type
+	 * @param <T2> second model type
+	 * @param first first source model
+	 * @param second second source model
+	 * @return model set with two models
+	 */
+	public static <T1, T2> ModelSet.Set2<T1, T2> on(IModel<T1> first, IModel<T2> second)
 	{
-		return new ModelSet.Set2<M1, M2>(model, model2);
+		return new ModelSet.Set2<T1, T2>(first, second);
 	}
 
-	public static <M1, M2, M3> ModelSet.Set3<M1, M2, M3> on(IModel<M1> model, IModel<M2> model2, IModel<M3> model3)
+	/**
+	 * Creates a model based on a set of models and a function.
+	 * <ul>
+	 * 	<li>step 1: create a model set</li>
+	 * 	<li>step 2: provide a function</li>
+	 * </ul>
+	 * IModel<X> model=Models.on(first,second,third).apply(function);
+	 * 
+	 * @param <T1> first model type
+	 * @param <T2> second model type
+	 * @param <T3> third model type
+	 * @param first first source model
+	 * @param second second source model
+	 * @param third second source model
+	 * @return model set with three models
+	 */
+	public static <T1, T2, T3> ModelSet.Set3<T1, T2, T3> on(IModel<T1> first, IModel<T2> second, IModel<T3> third)
 	{
-		return new ModelSet.Set3<M1, M2, M3>(model, model2, model3);
+		return new ModelSet.Set3<T1, T2, T3>(first, second, third);
 	}
 
+	/**
+	 * Creates a model based on a function and a set of models.
+	 * <ul>
+	 * 	<li>step 1: provide a function</li>
+	 * 	<li>step 2: chose matching models</li>
+	 * </ul>
+	 * IModel<X> model=Models.apply(function).to(source);
+	 *
+	 * @param <R> resulting model type
+	 * @param <T> source model type
+	 * @param function transforming function
+	 * @return a function reference
+	 */
 	public static <R,T> Functions.Reference1<R,T> apply(Function1<R, T> function) {
 		return new Functions.Reference1<R,T>(function);
 	}
 	
+	/**
+	 * Creates a model based on a function and a set of models.
+	 * <ul>
+	 * 	<li>step 1: provide a function</li>
+	 * 	<li>step 2: chose matching models</li>
+	 * </ul>
+	 * IModel<X> model=Models.apply(function).to(first,second);
+	 * 
+	 * @param <R> resulting model type
+	 * @param <T1> first source model type
+	 * @param <T2> second source model type
+	 * @param function transforming function
+	 * @return a function reference
+	 */
 	public static <R,T1,T2> Functions.Reference2<R,T1,T2> apply(Function2<R, T1, T2> function) {
 		return new Functions.Reference2<R,T1,T2>(function);
 	}
 	
+	/**
+	 * Creates a model based on a function and a set of models.
+	 * <ul>
+	 * 	<li>step 1: provide a function</li>
+	 * 	<li>step 2: chose matching models</li>
+	 * </ul>
+	 * IModel<X> model=Models.apply(function).to(first,second);
+	 * 
+	 * @param <R> resulting model type
+	 * @param <T1> first source model type
+	 * @param <T2> second source model type
+	 * @param <T3> third source model type
+	 * @param function transforming function
+	 * @return a function reference
+	 */
 	public static <R,T1,T2,T3> Functions.Reference3<R,T1,T2,T3> apply(Function3<R, T1, T2, T3> function) {
 		return new Functions.Reference3<R,T1,T2,T3>(function);
 	}
-	
-	public static <T> IModel<List<T>> copyOfList(Collection<T> list) {
-		return copyOfList(new ArrayList<T>(list));
-	}
 
-	public static <T> IModel<List<T>> copyOfList(List<T> list)
-	{
-		return new ListModel<T>(new ArrayList<T>(list));
-	}
-
-	public static <T extends Enum<T>> IModel<List<T>> listOf(T... list)
-	{
-		return new ListModel<T>(Arrays.asList(list));
-	}
-
-	public static IModel<List<String>> listOfStrings(String... list)
-	{
-		return new ListModel<String>(Arrays.asList(list));
-	}
-
-	public static <T extends Enum<T>> IModel<List<T>> listAllOf(Class<T> enumType)
-	{
-		return listOf(enumType.getEnumConstants());
-	}
-
-	public static <K,V> IModel<List<K>> listOfKeys(final IModel<? extends Map<? extends K, V>> mapModel) {
-		return new AbstractReadOnlyModel<List<K>>()
-		{
-			@Override
-			public List<K> getObject()
-			{
-				return new ArrayList<K>(mapModel.getObject().keySet());
-			}
-		};
-	}
-
-	public static <T> IModel<T> newCompoundProperty(T bean) {
-		return new CompoundPropertyModel<T>(bean);
-	}
-
-	public static <T> IModel<T> newCompoundProperty(IModel<T> beanModel) {
-		return new CompoundPropertyModel<T>(beanModel);
-	}
-
-	@SuppressWarnings("unchecked")
-	public static <T> IModel<T> empty()
-	{
-		return (IModel<T>) EMPTY_MODEL;
-	}
-
-	static class EmptyModel<T> extends AbstractReadOnlyModel<T>
-	{
-		@Override
-		public T getObject()
-		{
-			return null;
-		}
-	}
 }
