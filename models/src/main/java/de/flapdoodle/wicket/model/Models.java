@@ -38,6 +38,7 @@ import de.flapdoodle.wicket.model.transformation.ModelSet;
  */
 public abstract class Models
 {
+
 	private Models() {
 		// no instance
 	}
@@ -160,12 +161,7 @@ public abstract class Models
 	 * @return resulting model
 	 */
 	public static <T> IModel<List<T>> unmodifiable(IModel<List<? extends T>> source) {
-		return Models.on(source).apply(new Function1<List<T>, List<? extends T>>() {
-			@Override
-			public List<T> apply(List<? extends T> value) {
-				return value!=null ? Collections.unmodifiableList(value) : null;
-			}
-		});
+		return Models.on(source).apply(new UnmodifiableIfNotNull<T>());
 	}
 	
 	/**
@@ -188,13 +184,8 @@ public abstract class Models
 	 * @param source source
 	 * @return resulting model
 	 */
-	public static <T> IModel<List<? extends T>> emptyIfNull(IModel<List<? extends T>> source) {
-		return Models.on(source).apply(new Function1<List<? extends T>, List<? extends T>>() {
-			@Override
-			public List<? extends T> apply(List<? extends T> value) {
-				return value!=null ? value : new ArrayList<T>();
-			}
-		});
+	public static <T> IModel<List<T>> emptyIfNull(IModel<List<T>> source) {
+		return Models.on(source).apply(new EmptyListIfNull<T>());
 	}
 	
 	/**
@@ -203,10 +194,29 @@ public abstract class Models
 	 * @return model of same type
 	 */
 	public static <T> IModel<T> readOnly(IModel<T> source) {
-		return Models.on(source).apply(new Function1<T, T>() {
-			public T apply(T value) {
-				return value;
-			};
-		});
+		return Models.on(source).apply(new Noop<T>());
+	}
+
+	private static final class UnmodifiableIfNotNull<T> implements Function1<List<T>, List<? extends T>> {
+
+		@Override
+		public List<T> apply(List<? extends T> value) {
+			return value!=null ? Collections.unmodifiableList(value) : null;
+		}
+	}
+
+	private static final class EmptyListIfNull<T> implements Function1<List<T>, List<T>> {
+
+		@Override
+		public List<T> apply(List<T> value) {
+			return value!=null ? value : new ArrayList<T>();
+		}
+	}
+
+	private static final class Noop<T> implements Function1<T, T> {
+
+		public T apply(T value) {
+			return value;
+		}
 	}
 }

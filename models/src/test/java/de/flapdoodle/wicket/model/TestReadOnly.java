@@ -70,9 +70,10 @@ public class TestReadOnly {
 		Assert.assertNotNull(exceptionFromSetObject(model, new ArrayList<String>()));
 	}
 	
+	@Test
 	public void listEmptyIfNull() {
 		IModel<List<? extends String>> sourceModel=Model.<String>ofList(null);
-		IModel<List<? extends String>> nullCheckedModel = Models.emptyIfNull(sourceModel);
+		IModel<List<String>> nullCheckedModel = Models.emptyIfNull(Models.unmodifiable(sourceModel));
 		Assert.assertNotNull(nullCheckedModel.getObject());
 		Assert.assertTrue(nullCheckedModel.getObject().isEmpty());
 	}

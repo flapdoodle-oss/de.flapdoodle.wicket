@@ -24,8 +24,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 
 import de.flapdoodle.functions.Function1;
 import de.flapdoodle.wicket.model.Models;
@@ -34,15 +42,46 @@ import de.flapdoodle.wicket.model.Models;
 public class UseModelsPage extends WebPage {
 	
 	public UseModelsPage() {
-		ArrayList<String> source = new ArrayList<String>(Arrays.asList("first","second","third"));
+		final ArrayList<String> source = new ArrayList<String>(Arrays.asList("first","second","third"));
 		
-		IModel<List<String>> model = Models.unmodifiable(source);
+		IModel<List<String>> listModel = Models.unmodifiable(source);
 		
-		Models.on(model).apply(new Function1<Integer, List<String>>() {
+		IModel<List<String>> emptyIfNullListModel = Models.emptyIfNull(listModel);
+		
+		IModel<Integer> listSizeModel = Models.on(emptyIfNullListModel).apply(new Function1<Integer, List<String>>() {
 			@Override
 			public Integer apply(List<String> value) {
-				return null;
+				return value.size();
 			}
 		});
+		
+		IModel<String> firstEntryModel = Models.on(emptyIfNullListModel).apply(new Function1<String, List<String>>() {
+			@Override
+			public String apply(List<String> value) {
+				return !value.isEmpty() ? value.get(0) : null;
+			}
+		});
+		
+
+		final WebMarkupContainer ajaxBorder=new WebMarkupContainer("ajaxBorder");
+		ajaxBorder.setOutputMarkupId(true);
+		
+		ajaxBorder.add(new ListView<String>("list",emptyIfNullListModel) {
+			@Override
+			protected void populateItem(ListItem<String> item) {
+				item.add(new Label("label",item.getModel()));
+				item.add(new AjaxLink<String>("link",Model.of(item.getModelObject())) {
+					@Override
+					public void onClick(AjaxRequestTarget target) {
+						source.remove(getModelObject());
+						target.add(ajaxBorder);
+					}
+				});
+			}
+		});
+		
+		ajaxBorder.add(new Label("size",listSizeModel));
+		ajaxBorder.add(new Label("first",firstEntryModel));
+		add(ajaxBorder);
 	}
 }

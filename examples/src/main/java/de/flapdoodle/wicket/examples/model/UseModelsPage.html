@@ -22,12 +22,21 @@
 -->
 <html>
 	<head>
-		<title>Flapdoodle Wicket Examples</title>
+		<title>Use Models</title>
 	</head>
 	<body>
-		<h1>Flapdoodle Wicket Examples</h1>
-		<ul>
-			<li><a wicket:id="models">Models HowTo</a></li> 
-		</ul>
+		<h1>how to use Models functions</h1>
+		
+		<div wicket:id="ajaxBorder">
+			<p>
+				<ul>
+					<li wicket:id="list">
+						<span wicket:id="label"></span> - <a wicket:id="link">delete</a>
+					</li>
+				</ul>
+				size: <span wicket:id="size"></span><br>
+				first: <span wicket:id="first"></span><br>
+			</p>
+		</div>
 	</body>
 </html>
