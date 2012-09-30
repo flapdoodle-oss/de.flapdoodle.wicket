@@ -11,7 +11,8 @@
     <groupId>de.flapdoodle.wicket</groupId>
     <artifactId>de.flapdoodle.wicket</artifactId>
     <name>Flapdoodle Wicket</name>
-    <version>1.5.8-SNAPSHOT</version>
+    <version>1.5.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
     <description>custom wicket extensions which might be useful</description>
     <url>http://github.com/flapdoodle-oss/de.flapdoodle.wicket</url>
@@ -200,4 +201,9 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+    
+    <modules>
+			<module>models</module>
+		</modules>
+	
 </project>
