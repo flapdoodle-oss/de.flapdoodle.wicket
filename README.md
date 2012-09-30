@@ -35,7 +35,7 @@ Snapshots (Repository http://oss.sonatype.org/content/repositories/snapshots)
 
 There are currently one module - models, which provides some model stuff. You must not include this wicket
 library at whole. Use can use only parts. You can use the model stuff with this dependency declaration replacing
-__/*moduleIdGoesHere*/__ with __models__ and the right version (i think you get the pattern):
+__/\*moduleIdGoesHere\*/__ with __models__ and the right version (i think you get the pattern):
 
 	<dependency>
 		<groupId>de.flapdoodle.wicket</groupId>
