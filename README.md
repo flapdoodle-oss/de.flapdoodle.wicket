@@ -40,7 +40,7 @@ __/\*moduleIdGoesHere\*/__ with __models__ and the right version (i think you ge
 	<dependency>
 		<groupId>de.flapdoodle.wicket</groupId>
 		<artifactId>de.flapdoodle.wicket--/*moduleIdGoesHere*/</artifactId>
-		<version>__/*see above for the right one here*/__</version>
+		<version>/*see above for the right one here*/</version>
 	</dependency>
 
 	<dependency>
@@ -48,5 +48,34 @@ __/\*moduleIdGoesHere\*/__ with __models__ and the right version (i think you ge
 		<artifactId>de.flapdoodle.wicket--models</artifactId>
 		<version>/*see above for the right one here*/</version>
 	</dependency>
+
+### Changelog
+
+Initial Version starts with 1.5.0
+
+#### 1.5.1 (SNAPSHOT)
+
+
+#### 1.5.0
+
+- init release
+
+
+### Usage
+
+#### simple model transformation
+
+	public IModel<Integer> createSumModel(IModel<List<Integer>> source) {
+		return Models.on(source).apply(new Function1<Integer, List<Integer>>() {
+			@Override
+			public Integer apply(List<Integer> values) {
+				int sum=0;
+				for (Integer v : values!=null ? values : new ArrayList<Integer>()) {
+					if (v!=null) sum=sum+v;
+				}
+				return sum;
+			}
+		});
+	}
 
 
