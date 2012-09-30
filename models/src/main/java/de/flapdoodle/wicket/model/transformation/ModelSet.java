@@ -25,57 +25,105 @@ import org.apache.wicket.model.IModel;
 import de.flapdoodle.functions.Function1;
 import de.flapdoodle.functions.Function2;
 import de.flapdoodle.functions.Function3;
+import de.flapdoodle.wicket.model.Models;
 
+/**
+ * model sets
+ */
 public abstract class ModelSet
 {
-	public static final class Set1<M1>
+	/**
+	 * a model set with one model
+	 *
+	 * @param <T1> source model type
+	 */
+	public static final class Set1<T1>
 	{
-		IModel<M1> _m1;
+		IModel<T1> _m1;
 		
-		public Set1(IModel<M1> m1)
+		public Set1(IModel<T1> m1)
 		{
 			_m1=m1;
 		}
 		
-		public <T> IModel<T> apply(Function1<T, M1> function)
+		/**
+		 * create a model with a transforming function
+		 * @see Models#on(IModel)
+		 * @param <R> result model type
+		 * @param <T1> first model type from set 
+		 * @param function transforming function
+		 * @return model
+		 */
+		public <R> IModel<R> apply(Function1<R, T1> function)
 		{
-			return new Transformator.Model1<T, M1>(_m1,function);
+			return new Transformator.Model1<R, T1>(_m1,function);
 		}
 	}
 	
-	public static final class Set2<M1,M2>
+	/**
+	 * a model set with one model
+	 *
+	 * @param <T1> first model type
+	 * @param <T2> second model type
+	 */
+	public static final class Set2<T1,T2>
 	{
-		IModel<M1> _m1;
-		IModel<M2> _m2;
+		IModel<T1> _m1;
+		IModel<T2> _m2;
 		
-		public Set2(IModel<M1> m1,IModel<M2> m2)
+		public Set2(IModel<T1> m1,IModel<T2> m2)
 		{
 			_m1=m1;
 			_m2=m2;
 		}
 		
-		public <T> IModel<T> apply(Function2<T, M1, M2> function)
+		/**
+		 * create a model with a transforming function
+		 * @see Models#on(IModel,IModel)
+		 * @param <R> result model type
+		 * @param <T1> first model type from set 
+		 * @param <T2> first model type from set 
+		 * @param function transforming function
+		 * @return model
+		 */
+		public <T> IModel<T> apply(Function2<T, T1, T2> function)
 		{
-			return new Transformator.Model2<T, M1, M2>(_m1,_m2,function);
+			return new Transformator.Model2<T, T1, T2>(_m1,_m2,function);
 		}
 	}
 
-	public static final class Set3<M1,M2,M3>
+	/**
+	 * a model set with one model
+	 *
+	 * @param <T1> first model type
+	 * @param <T2> second model type
+	 * @param <T3> third model type
+	 */
+	public static final class Set3<T1,T2,T3>
 	{
-		IModel<M1> _m1;
-		IModel<M2> _m2;
-		IModel<M3> _m3;
+		IModel<T1> _m1;
+		IModel<T2> _m2;
+		IModel<T3> _m3;
 		
-		public Set3(IModel<M1> m1,IModel<M2> m2,IModel<M3> m3)
+		public Set3(IModel<T1> m1,IModel<T2> m2,IModel<T3> m3)
 		{
 			_m1=m1;
 			_m2=m2;
 			_m3=m3;
 		}
 		
-		public <T> IModel<T> apply(Function3<T, M1, M2, M3> function)
+		/**
+		 * create a model with a transforming function
+		 * @see Models#on(IModel,IModel,IModel)
+		 * @param <R> result model type
+		 * @param <T1> first model type from set 
+		 * @param <T2> first model type from set 
+		 * @param function transforming function
+		 * @return model
+		 */
+		public <T> IModel<T> apply(Function3<T, T1, T2, T3> function)
 		{
-			return new Transformator.Model3<T, M1, M2, M3>(_m1,_m2,_m3, function);
+			return new Transformator.Model3<T, T1, T2, T3>(_m1,_m2,_m3, function);
 		}
 	}
 }

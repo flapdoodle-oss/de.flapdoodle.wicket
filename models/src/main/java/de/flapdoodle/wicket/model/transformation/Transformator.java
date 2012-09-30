@@ -28,7 +28,11 @@ import de.flapdoodle.functions.Function1;
 import de.flapdoodle.functions.Function2;
 import de.flapdoodle.functions.Function3;
 
-public abstract class Transformator<T> extends LoadableDetachableModel<T>
+/**
+ * model implementation using source models and a tranformation function 
+ * @param <T>
+ */
+abstract class Transformator<T> extends LoadableDetachableModel<T>
 {
 	private final IModel<?>[] _subModels;
 	private final Function _function;
@@ -54,7 +58,7 @@ public abstract class Transformator<T> extends LoadableDetachableModel<T>
 				" does not support setObject(Object)");
 	};
 	
-	public final static class Model1<T,M1> extends Transformator<T>
+	final static class Model1<T,M1> extends Transformator<T>
 	{
 		IModel<M1> _m1;
 		Function1<T, M1> _function;
@@ -74,7 +78,7 @@ public abstract class Transformator<T> extends LoadableDetachableModel<T>
 		}
 	}
 	
-	public final static class Model2<T,M1,M2> extends Transformator<T>
+	final static class Model2<T,M1,M2> extends Transformator<T>
 	{
 		IModel<M1> _m1;
 		IModel<M2> _m2;
@@ -96,7 +100,7 @@ public abstract class Transformator<T> extends LoadableDetachableModel<T>
 		}
 	}
 
-	public final static class Model3<T,M1,M2,M3> extends Transformator<T>
+	final static class Model3<T,M1,M2,M3> extends Transformator<T>
 	{
 		IModel<M1> _m1;
 		IModel<M2> _m2;
