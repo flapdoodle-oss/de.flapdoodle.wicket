@@ -30,7 +30,7 @@ import de.flapdoodle.functions.Function2;
 import de.flapdoodle.functions.Function3;
 
 
-public class TestModels {
+public class TestModelTransformations {
 
 	@Test
 	public void sourceModelAndFunction() {

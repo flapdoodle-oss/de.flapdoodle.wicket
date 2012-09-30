@@ -20,6 +20,11 @@
  */
 package de.flapdoodle.wicket.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 
 import de.flapdoodle.functions.Function1;
@@ -148,4 +153,60 @@ public abstract class Models
 		return new Functions.Reference3<R,T1,T2,T3>(function);
 	}
 
+	/**
+	 * creates a read only model from a list and make the model list unmodifiable on read access
+	 * @param <T> list type
+	 * @param source source model
+	 * @return resulting model
+	 */
+	public static <T> IModel<List<T>> unmodifiable(IModel<List<? extends T>> source) {
+		return Models.on(source).apply(new Function1<List<T>, List<? extends T>>() {
+			@Override
+			public List<T> apply(List<? extends T> value) {
+				return value!=null ? Collections.unmodifiableList(value) : null;
+			}
+		});
+	}
+	
+	/**
+	 * creates a read only model from a list, the list is unmodifiable 
+	 * @param <T> list type
+	 * @param list
+	 * @return resulting model
+	 */
+	public static <T> IModel<List<T>> unmodifiable(final List<T> list) {
+		return new AbstractReadOnlyDetachedModel<List<T>>() {
+			@Override
+			protected List<T> load() {
+				return Collections.unmodifiableList(list);
+			}
+		};
+	}
+	
+	/**
+	 * creates a model which returns an empty list of source list is null
+	 * @param source source
+	 * @return resulting model
+	 */
+	public static <T> IModel<List<? extends T>> emptyIfNull(IModel<List<? extends T>> source) {
+		return Models.on(source).apply(new Function1<List<? extends T>, List<? extends T>>() {
+			@Override
+			public List<? extends T> apply(List<? extends T> value) {
+				return value!=null ? value : new ArrayList<T>();
+			}
+		});
+	}
+	
+	/**
+	 * creates a read only version of a model, setObject will throw an exception
+	 * @param source source
+	 * @return model of same type
+	 */
+	public static <T> IModel<T> readOnly(IModel<T> source) {
+		return Models.on(source).apply(new Function1<T, T>() {
+			public T apply(T value) {
+				return value;
+			};
+		});
+	}
 }
