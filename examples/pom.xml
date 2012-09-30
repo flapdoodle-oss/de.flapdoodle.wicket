@@ -24,4 +24,13 @@
 			</plugin>
   	</plugins>
   </build>
+  
+	<dependencies>
+		<dependency>
+			<groupId>de.flapdoodle.wicket</groupId>
+			<artifactId>de.flapdoodle.wicket--models</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+	</dependencies>
+  
 </project>
