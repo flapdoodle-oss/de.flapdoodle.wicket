@@ -40,7 +40,7 @@ __/\*moduleIdGoesHere\*/__ with __models__ and the right version (i think you ge
 	<dependency>
 		<groupId>de.flapdoodle.wicket</groupId>
 		<artifactId>de.flapdoodle.wicket--/*moduleIdGoesHere*/</artifactId>
-		<version>/*see above for the right one here*/</version>
+		<version>__/*see above for the right one here*/__</version>
 	</dependency>
 
 	<dependency>
