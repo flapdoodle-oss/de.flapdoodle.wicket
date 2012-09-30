@@ -11,7 +11,7 @@
 	<groupId>de.flapdoodle.wicket</groupId>
 	<artifactId>de.flapdoodle.wicket</artifactId>
 	<name>${project.name}</name>
-	<version>1.5.0</version>
+	<version>1.5.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<description>custom wicket extensions which might be useful</description>
