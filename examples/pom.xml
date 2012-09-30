@@ -9,7 +9,7 @@
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>de.flapdoodle.wicket.examples</artifactId>
+	<artifactId>de.flapdoodle.wicket--examples</artifactId>
 	<packaging>war</packaging>
   <name>${project.name} - Examples</name>
   
