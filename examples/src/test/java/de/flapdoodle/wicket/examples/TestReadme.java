@@ -28,12 +28,16 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
 import de.flapdoodle.functions.Function1;
+import de.flapdoodle.functions.Function3;
 import de.flapdoodle.wicket.model.Models;
 
 
 public class TestReadme {
 
 /*
+Any model used as source model for a model transformation are detached if the transformating model ist detached. Any transformation evaluation is only done
+once as in LoadableDetachedModel.
+
 #### simple model transformation
 */
 	public IModel<Integer> createSumModel(IModel<List<Integer>> source) {
@@ -49,6 +53,22 @@ public class TestReadme {
 		});
 	}
 
+/*
+#### complex model transformation setup
+*/
+	public <T> IModel<List<T>> subListModel(IModel<List<T>> source,IModel<Integer> offsetModel, IModel<Integer> sizeModel) {
+		IModel<List<T>> emptyIfNull = Models.emptyIfNull(source);
+		
+		return Models.on(emptyIfNull,offsetModel,sizeModel).apply(new Function3<List<T>, List<T>, Integer, Integer>() {
+			@Override
+			public List<T> apply(List<T> list, Integer offset, Integer size) {
+				int startIdx=Math.min(list.size(), offset);
+				int lastIdx=Math.min(list.size(),offset+size);
+				return list.subList(startIdx, lastIdx);
+			}
+		});
+	}
+	
 /*
 #### unmodifiable and read only
 
