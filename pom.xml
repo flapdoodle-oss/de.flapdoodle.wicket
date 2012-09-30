@@ -124,9 +124,9 @@
                         <lic.year>2011</lic.year>
                         <lic.email>michael@mosmann.de</lic.email>
                         <lic.username>Michael Mosmann</lic.username>
-                        <lic.email2>m.joehren@googlemail.com</lic.email2>
-                        <lic.username2>Martin Jöhren</lic.username2>
-                        <lic.developers>konstantin-ba@github,Archimedes Trajano (trajano@github)</lic.developers>
+                        <lic.email2></lic.email2>
+                        <lic.username2></lic.username2>
+                        <lic.developers></lic.developers>
                     </properties>
                     <encoding>UTF-8</encoding>
                     <!--
