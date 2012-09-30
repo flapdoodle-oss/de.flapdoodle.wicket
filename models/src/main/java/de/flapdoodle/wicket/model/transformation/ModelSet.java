@@ -28,7 +28,7 @@ import de.flapdoodle.functions.Function3;
 
 public abstract class ModelSet
 {
-	public static class Set1<M1>
+	public static final class Set1<M1>
 	{
 		IModel<M1> _m1;
 		
@@ -43,7 +43,7 @@ public abstract class ModelSet
 		}
 	}
 	
-	public static class Set2<M1,M2>
+	public static final class Set2<M1,M2>
 	{
 		IModel<M1> _m1;
 		IModel<M2> _m2;
@@ -60,7 +60,7 @@ public abstract class ModelSet
 		}
 	}
 
-	public static class Set3<M1,M2,M3>
+	public static final class Set3<M1,M2,M3>
 	{
 		IModel<M1> _m1;
 		IModel<M2> _m2;

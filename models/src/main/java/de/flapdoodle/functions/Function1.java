@@ -22,7 +22,7 @@ package de.flapdoodle.functions;
 
 import java.io.Serializable;
 
-public interface Function1<R,T> extends Serializable
+public interface Function1<R,T> extends Function, Serializable
 {
 	R apply(T value);
 }

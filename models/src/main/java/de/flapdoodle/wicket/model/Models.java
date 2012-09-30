@@ -20,26 +20,32 @@
  */
 package de.flapdoodle.wicket.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.wicket.Component;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
-import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.model.util.ListModel;
 
+import de.flapdoodle.annotations.Usage;
+import de.flapdoodle.usage.model.UseModels;
 import de.flapdoodle.wicket.model.transformation.ModelSet;
 
+/**
+ * @see UseModels
+ * @author mosmann
+ *
+ */
 public abstract class Models
 {
+	private Models() {
+		// no instance
+	}
+	
 	@SuppressWarnings("unchecked")
 	private static final IModel<?> EMPTY_MODEL=new EmptyModel();
 
@@ -58,23 +64,23 @@ public abstract class Models
 		return new ModelSet.Set3<M1, M2, M3>(model, model2, model3);
 	}
 
-	public static <T> IModel<List<T>> ofList(Collection<T> list) {
-		return ofList(new ArrayList<T>(list));
+	public static <T> IModel<List<T>> copyOfList(Collection<T> list) {
+		return copyOfList(new ArrayList<T>(list));
 	}
 
-	public static <T> IModel<List<T>> ofList(List<T> list)
+	public static <T> IModel<List<T>> copyOfList(List<T> list)
 	{
 		return new ListModel<T>(new ArrayList<T>(list));
 	}
 
 	public static <T extends Enum<T>> IModel<List<T>> listOf(T... list)
 	{
-		return ofList(Arrays.asList(list));
+		return new ListModel<T>(Arrays.asList(list));
 	}
 
 	public static IModel<List<String>> listOfStrings(String... list)
 	{
-		return ofList(Arrays.asList(list));
+		return new ListModel<String>(Arrays.asList(list));
 	}
 
 	public static <T extends Enum<T>> IModel<List<T>> listAllOf(Class<T> enumType)
@@ -114,31 +120,5 @@ public abstract class Models
 		{
 			return null;
 		}
-	}
-
-	private static final class NotModel implements IModel<Boolean> {
-
-		private final IModel<Boolean> _model;
-
-		NotModel(IModel<Boolean> model)
-		{
-			_model=model;
-		}
-
-		public Boolean getObject()
-		{
-			return !_model.getObject();
-		}
-
-		public void setObject(Boolean object)
-		{
-			_model.setObject(! object);
-		}
-
-		public void detach()
-		{
-			_model.detach();
-		}
-
 	}
 }

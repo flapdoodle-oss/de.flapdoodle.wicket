@@ -23,17 +23,20 @@ package de.flapdoodle.wicket.model.transformation;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 
+import de.flapdoodle.functions.Function;
 import de.flapdoodle.functions.Function1;
 import de.flapdoodle.functions.Function2;
 import de.flapdoodle.functions.Function3;
 
 public abstract class Transformator<T> extends LoadableDetachableModel<T>
 {
-	IModel<?>[] _subModels;
+	private final IModel<?>[] _subModels;
+	private final Function _function;
 	
-	protected Transformator(IModel<?> ... subModels)
+	protected Transformator(Function function, IModel<?> ... subModels)
   {
 		_subModels=subModels;
+		_function=function;
   }
 	
 	@Override
@@ -45,14 +48,20 @@ public abstract class Transformator<T> extends LoadableDetachableModel<T>
 		}
 	}
 	
-	public static class Model1<T,M1> extends Transformator<T>
+	@Override
+	public void setObject(T object) {
+		throw new UnsupportedOperationException("Model " + getClass() + " with " + _function +
+				" does not support setObject(Object)");
+	};
+	
+	public final static class Model1<T,M1> extends Transformator<T>
 	{
 		IModel<M1> _m1;
 		Function1<T, M1> _function;
 		
 		public Model1(IModel<M1> m1, Function1<T, M1> function)
     {
-	    super(m1);
+	    super(function, m1);
 	    
 	    _m1=m1;
 	    _function=function;
@@ -65,7 +74,7 @@ public abstract class Transformator<T> extends LoadableDetachableModel<T>
 		}
 	}
 	
-	public static class Model2<T,M1,M2> extends Transformator<T>
+	public final static class Model2<T,M1,M2> extends Transformator<T>
 	{
 		IModel<M1> _m1;
 		IModel<M2> _m2;
@@ -73,7 +82,7 @@ public abstract class Transformator<T> extends LoadableDetachableModel<T>
 		
 		public Model2(IModel<M1> m1, IModel<M2> m2, Function2<T, M1, M2> function)
     {
-	    super(m1,m2);
+	    super(function, m1,m2);
 	    
 	    _m1=m1;
 	    _m2=m2;
@@ -87,7 +96,7 @@ public abstract class Transformator<T> extends LoadableDetachableModel<T>
 		}
 	}
 
-	public static class Model3<T,M1,M2,M3> extends Transformator<T>
+	public final static class Model3<T,M1,M2,M3> extends Transformator<T>
 	{
 		IModel<M1> _m1;
 		IModel<M2> _m2;
@@ -96,7 +105,7 @@ public abstract class Transformator<T> extends LoadableDetachableModel<T>
 		
 		public Model3(IModel<M1> m1, IModel<M2> m2, IModel<M3> m3, Function3<T, M1, M2, M3> function)
     {
-	    super(m1,m2,m3);
+	    super(function, m1,m2,m3);
 	    
 	    _m1=m1;
 	    _m2=m2;
