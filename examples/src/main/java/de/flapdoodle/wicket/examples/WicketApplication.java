@@ -23,6 +23,7 @@ package de.flapdoodle.wicket.examples;
 import org.apache.wicket.Page;
 import org.apache.wicket.protocol.http.WebApplication;
 
+import de.flapdoodle.wicket.detach.FieldInspectingDetachListener;
 import de.flapdoodle.wicket.examples.debug.DoNotSerializeMe;
 import de.flapdoodle.wicket.examples.pages.StartPage;
 import de.flapdoodle.wicket.serialize.java.CheckingJavaSerializer;
@@ -41,6 +42,8 @@ public class WicketApplication extends WebApplication {
 		ISerializableCheck checks=new SerializableChecks(new AttachedLoadableModelCheck(),new SerializingNotAllowedForTypesCheck(forbiddenTypes));
 		getFrameworkSettings().setSerializer(new CheckingJavaSerializer(getApplicationKey(), checks));
 		getStoreSettings().setInmemoryCacheSize(1);
+		
+		// getFrameworkSettings().setDetachListener(new FieldInspectingDetachListener());
 	}
 	
 	@Override
