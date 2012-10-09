@@ -318,6 +318,7 @@
 
 	<modules>
 		<module>models</module>
+		<module>debug</module>
 		<module>examples</module>
 	</modules>
 
