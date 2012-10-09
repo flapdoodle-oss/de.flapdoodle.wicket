@@ -4,6 +4,6 @@ import org.apache.wicket.WicketRuntimeException;
 
 public interface ISerializableCheck {
 
-	void inspect(Object obj, IStackTracePrinter stackTracePrinter) throws WicketRuntimeException;
+	void inspect(Object obj, IStackTracePrinter printer) throws WicketRuntimeException;
 
 }

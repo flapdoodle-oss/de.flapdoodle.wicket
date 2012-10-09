@@ -55,6 +55,7 @@ Initial Version starts with 1.5.0
 
 #### 1.5.1 (SNAPSHOT)
 
+- serializable checks support for undetached models, domain types
 
 #### 1.5.0
 
