@@ -23,10 +23,26 @@ package de.flapdoodle.wicket.examples;
 import org.apache.wicket.Page;
 import org.apache.wicket.protocol.http.WebApplication;
 
+import de.flapdoodle.wicket.examples.debug.DoNotSerializeMe;
 import de.flapdoodle.wicket.examples.pages.StartPage;
+import de.flapdoodle.wicket.serialize.java.CheckingJavaSerializer;
+import de.flapdoodle.wicket.serialize.java.ISerializableCheck;
+import de.flapdoodle.wicket.serialize.java.checks.AttachedLoadableModelCheck;
+import de.flapdoodle.wicket.serialize.java.checks.SerializableChecks;
+import de.flapdoodle.wicket.serialize.java.checks.SerializingNotAllowedForTypesCheck;
 
 public class WicketApplication extends WebApplication {
 
+	@Override
+	protected void init() {
+		super.init();
+		
+		Class<?>[] forbiddenTypes={DoNotSerializeMe.class};
+		ISerializableCheck checks=new SerializableChecks(new AttachedLoadableModelCheck(),new SerializingNotAllowedForTypesCheck(forbiddenTypes));
+		getFrameworkSettings().setSerializer(new CheckingJavaSerializer(getApplicationKey(), checks));
+		getStoreSettings().setInmemoryCacheSize(1);
+	}
+	
 	@Override
 	public Class<? extends Page> getHomePage() {
 		return StartPage.class;

@@ -26,6 +26,9 @@ import org.apache.wicket.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.flapdoodle.wicket.serialize.java.printer.AbstractPrettyStacktracePrinter;
+import de.flapdoodle.wicket.serialize.java.printer.TraceSlot;
+
 
 /**
  * Utility class that analyzes objects for non-serializable nodes. Construct, then call
@@ -154,27 +157,6 @@ public final class PreSerializeChecker extends ObjectOutputStream
 		}
 	}
 
-	/** Holds information about the field and the resulting object being traced. */
-	private static final class TraceSlot
-	{
-		private final String fieldDescription;
-
-		private final Object object;
-
-		TraceSlot(Object object, String fieldDescription)
-		{
-			super();
-			this.object = object;
-			this.fieldDescription = fieldDescription;
-		}
-
-		@Override
-		public String toString()
-		{
-			return object.getClass() + " - " + fieldDescription;
-		}
-	}
-
 	private static final NoopOutputStream DUMMY_OUTPUT_STREAM = new NoopOutputStream();
 
 	/** Whether we can execute the tests. If false, check will just return. */
@@ -278,7 +260,7 @@ public final class PreSerializeChecker extends ObjectOutputStream
 
 	private final ISerializableCheck serializableCheck;
 
-	private final PrettyStackTracePrinter stackTracePrinter;
+	private final IStackTracePrinter stackTracePrinter;
 
 	/**
 	 * Construct.
@@ -685,37 +667,11 @@ public final class PreSerializeChecker extends ObjectOutputStream
 		check(root);
 	}
 	
-	class PrettyStackTracePrinter implements IStackTracePrinter {
+	class PrettyStackTracePrinter extends AbstractPrettyStacktracePrinter {
 
 		@Override
 		public String printStack(Class<?> type,String message) {
 			return toPrettyPrintedStack(traceStack, type.getName(),message);
-		}
-		
-		private String toPrettyPrintedStack(LinkedList<TraceSlot> localTraceStack, String type,String message) {
-			StringBuilder result = new StringBuilder();
-			StringBuilder spaces = new StringBuilder();
-			result.append("Unable to serialize class: ");
-			result.append(type);
-			result.append("\nField hierarchy is:");
-			for (Iterator<TraceSlot> i = localTraceStack.listIterator(); i.hasNext();)
-			{
-				spaces.append("  ");
-				TraceSlot slot = i.next();
-				result.append("\n").append(spaces).append(slot.fieldDescription);
-				result.append(" [class=").append(slot.object.getClass().getName());
-				if (slot.object.getClass().isAnonymousClass()) {
-					result.append(", superclass=").append(slot.object.getClass().getSuperclass().getName());
-				}
-				if (slot.object instanceof Component)
-				{
-					Component component = (Component)slot.object;
-					result.append(", path=").append(component.getPath());
-				}
-				result.append("]");
-			}
-			result.append(" <----- "+message);
-			return result.toString();
 		}
 	}
 }

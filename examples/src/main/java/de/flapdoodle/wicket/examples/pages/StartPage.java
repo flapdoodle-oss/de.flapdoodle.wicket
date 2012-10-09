@@ -23,6 +23,7 @@ package de.flapdoodle.wicket.examples.pages;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 
+import de.flapdoodle.wicket.examples.debug.ModelNotDetachedPage;
 import de.flapdoodle.wicket.examples.model.UseModelsPage;
 
 public class StartPage extends WebPage {
@@ -30,5 +31,6 @@ public class StartPage extends WebPage {
 	
 	public StartPage() {
 		add(new BookmarkablePageLink<UseModelsPage>("models", UseModelsPage.class));
+		add(new BookmarkablePageLink<ModelNotDetachedPage>("modelNotDetached", ModelNotDetachedPage.class));
 	}
 }
