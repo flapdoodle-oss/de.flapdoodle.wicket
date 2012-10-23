@@ -15,12 +15,12 @@ custom wicket extensions which might be useful
 
 ### Maven
 
-Stable (Maven Central Repository, Released: 30.09.2012 - wait 24hrs for maven central)
+Stable (Maven Central Repository, Released: 23.10.2012 - wait 24hrs for maven central)
 
 	<dependency>
 		<groupId>de.flapdoodle.wicket</groupId>
 		<artifactId>de.flapdoodle.wicket</artifactId>
-		<version>1.5.0</version>
+		<version>6.0.0</version>
 	</dependency>
 
 Snapshots (Repository http://oss.sonatype.org/content/repositories/snapshots)
@@ -28,7 +28,7 @@ Snapshots (Repository http://oss.sonatype.org/content/repositories/snapshots)
 	<dependency>
 		<groupId>de.flapdoodle.wicket</groupId>
 		<artifactId>de.flapdoodle.wicket</artifactId>
-		<version>1.5.1-SNAPSHOT</version>
+		<version>6.0.1-SNAPSHOT</version>
 	</dependency>
 
 ### Whats in it?
@@ -38,28 +38,26 @@ library at whole. Use can use only parts. You can use the model stuff with this 
 __/\*moduleIdGoesHere\*/__ with __models__ and the right version (i think you get the pattern):
 
 	<dependency>
-		<groupId>de.flapdoodle.wicket</groupId>
+		<groupId>de.flapdoodle.wicket6</groupId>
 		<artifactId>de.flapdoodle.wicket--/*moduleIdGoesHere*/</artifactId>
 		<version>/*see above for the right one here*/</version>
 	</dependency>
 
 	<dependency>
-		<groupId>de.flapdoodle.wicket</groupId>
+		<groupId>de.flapdoodle.wicket6</groupId>
 		<artifactId>de.flapdoodle.wicket--models</artifactId>
 		<version>/*see above for the right one here*/</version>
 	</dependency>
 
 ### Changelog
 
-Initial Version starts with 1.5.0
+Initial Version starts with 6.0.0
 
-#### 1.5.1 (SNAPSHOT)
+#### 6.0.1 (SNAPSHOT)
 
-- serializable checks support for undetached models, domain types
+#### 6.0.0
 
-#### 1.5.0
-
-- init release
+- branch from 1.5.1 - master branch
 
 
 ### Usage
