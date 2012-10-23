@@ -18,7 +18,7 @@ custom wicket extensions which might be useful
 Stable (Maven Central Repository, Released: 23.10.2012 - wait 24hrs for maven central)
 
 	<dependency>
-		<groupId>de.flapdoodle.wicket</groupId>
+		<groupId>de.flapdoodle.wicket6</groupId>
 		<artifactId>de.flapdoodle.wicket</artifactId>
 		<version>6.0.0</version>
 	</dependency>
@@ -26,7 +26,7 @@ Stable (Maven Central Repository, Released: 23.10.2012 - wait 24hrs for maven ce
 Snapshots (Repository http://oss.sonatype.org/content/repositories/snapshots)
 
 	<dependency>
-		<groupId>de.flapdoodle.wicket</groupId>
+		<groupId>de.flapdoodle.wicket6</groupId>
 		<artifactId>de.flapdoodle.wicket</artifactId>
 		<version>6.0.1-SNAPSHOT</version>
 	</dependency>
