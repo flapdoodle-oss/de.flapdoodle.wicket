@@ -27,18 +27,22 @@ import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.http.handler.RedirectRequestHandler;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-import de.flapdoodle.wicket.request.cycle.exceptionlistener.IExceptionAwarePage;
+import de.flapdoodle.wicket.request.cycle.exception.Exceptions;
+import de.flapdoodle.wicket.request.cycle.exception.listener.IExceptionAwarePage;
 
 public class UseExceptionAwarePage extends WebPage implements IExceptionAwarePage {
 
 	public UseExceptionAwarePage() {
 		add(new BadPanel("bad"));
-		
-		throw new BadThingHappenException("constructor");
 	}
 
 	@Override
 	public IRequestHandler onException(RequestCycle cycle, Exception ex) {
-		return new RedirectRequestHandler(urlFor(Application.get().getHomePage(),new PageParameters().add("cause",ex.getMessage())).toString());
+		Throwable rootCause = Exceptions.rootCause(ex);
+		
+		if (rootCause instanceof BadThingHappenException) {
+			return new RedirectRequestHandler(urlFor(Application.get().getHomePage(),new PageParameters().add("cause",rootCause.getMessage())).toString());
+		}
+		return null;
 	}
 }

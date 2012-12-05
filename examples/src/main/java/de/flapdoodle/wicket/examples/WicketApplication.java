@@ -27,9 +27,9 @@ import org.apache.wicket.request.cycle.IRequestCycleListener;
 import de.flapdoodle.wicket.detach.FieldInspectingDetachListener;
 import de.flapdoodle.wicket.examples.debug.DoNotSerializeMe;
 import de.flapdoodle.wicket.examples.pages.StartPage;
-import de.flapdoodle.wicket.request.cycle.RequestCycleExceptionListener;
-import de.flapdoodle.wicket.request.cycle.exceptionlistener.ApplicationHomePageFallbackListener;
-import de.flapdoodle.wicket.request.cycle.exceptionlistener.ExceptionAwarePageListener;
+import de.flapdoodle.wicket.request.cycle.RequestCyclePageExceptionListener;
+import de.flapdoodle.wicket.request.cycle.exception.listener.ApplicationHomePageFallbackListener;
+import de.flapdoodle.wicket.request.cycle.exception.listener.ExceptionAwarePageListener;
 import de.flapdoodle.wicket.serialize.java.CheckingJavaSerializer;
 import de.flapdoodle.wicket.serialize.java.ISerializableCheck;
 import de.flapdoodle.wicket.serialize.java.checks.AttachedLoadableModelCheck;
@@ -51,7 +51,7 @@ public class WicketApplication extends WebApplication {
 		// getFrameworkSettings().setDetachListener(new FieldInspectingDetachListener());
 
 		getRequestCycleListeners().add(
-				new RequestCycleExceptionListener(new ExceptionAwarePageListener(new ApplicationHomePageFallbackListener())));
+				new RequestCyclePageExceptionListener(new ExceptionAwarePageListener(new ApplicationHomePageFallbackListener())));
 	}
 
 	@Override

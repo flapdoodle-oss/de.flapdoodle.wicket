@@ -6,11 +6,11 @@ import org.apache.wicket.request.cycle.PageRequestHandlerTracker;
 import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.handler.IPageRequestHandler;
 
-public class RequestCycleExceptionListener extends PageRequestHandlerTracker {
+public class RequestCyclePageExceptionListener extends PageRequestHandlerTracker {
 
 	private final IPageExceptionListener _pageExceptionListener;
 
-	public RequestCycleExceptionListener(IPageExceptionListener pageExceptionListener) {
+	public RequestCyclePageExceptionListener(IPageExceptionListener pageExceptionListener) {
 		_pageExceptionListener = pageExceptionListener;
 	}
 
