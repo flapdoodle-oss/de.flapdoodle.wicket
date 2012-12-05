@@ -27,7 +27,7 @@ import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.http.handler.RedirectRequestHandler;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-import de.flapdoodle.wicket.request.cycle.IExceptionAwarePage;
+import de.flapdoodle.wicket.request.cycle.exceptionlistener.IExceptionAwarePage;
 
 public class UseExceptionAwarePage extends WebPage implements IExceptionAwarePage {
 

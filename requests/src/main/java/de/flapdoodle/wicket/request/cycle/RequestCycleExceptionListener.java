@@ -6,21 +6,25 @@ import org.apache.wicket.request.cycle.PageRequestHandlerTracker;
 import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.handler.IPageRequestHandler;
 
+public class RequestCycleExceptionListener extends PageRequestHandlerTracker {
 
-public class ExceptionAwarePageRequestCycleListener extends PageRequestHandlerTracker {
+	private final IPageExceptionListener _pageExceptionListener;
+
+	public RequestCycleExceptionListener(IPageExceptionListener pageExceptionListener) {
+		_pageExceptionListener = pageExceptionListener;
+	}
 
 	@Override
 	public IRequestHandler onException(RequestCycle cycle, Exception ex) {
 		IPageRequestHandler latestPageRequestHandler = getLastHandler(cycle);
-		if (latestPageRequestHandler!=null) {
+		if (latestPageRequestHandler != null) {
 			if (latestPageRequestHandler.isPageInstanceCreated()) {
-				IRequestablePage page = latestPageRequestHandler.getPage();
-				if (page instanceof IExceptionAwarePage) {
-					return ((IExceptionAwarePage) page).onException(cycle, ex);
-				}
+				return _pageExceptionListener.onException(cycle, ex, latestPageRequestHandler.getPage());
+			} else {
+				return _pageExceptionListener.onException(cycle, ex, latestPageRequestHandler.getPageClass());
 			}
 		}
-		
+
 		return super.onException(cycle, ex);
 	}
 }
