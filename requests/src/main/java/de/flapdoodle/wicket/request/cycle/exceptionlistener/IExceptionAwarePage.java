@@ -1,4 +1,4 @@
-package de.flapdoodle.wicket.request.cycle;
+package de.flapdoodle.wicket.request.cycle.exceptionlistener;
 
 import org.apache.wicket.request.IRequestHandler;
 import org.apache.wicket.request.cycle.RequestCycle;
