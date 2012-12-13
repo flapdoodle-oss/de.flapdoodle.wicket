@@ -320,6 +320,7 @@
  
 	<modules>
 		<module>models</module>
+		<module>components</module>
 		<module>requests</module>
 		<module>debug</module>
 		<module>examples</module>
