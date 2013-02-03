@@ -9,8 +9,8 @@
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>de.flapdoodle.wicket--requests</artifactId>
-  <name>${project.name} - Requests</name>
+	<artifactId>de.flapdoodle.wicket--incubator</artifactId>
+  <name>${project.name} - Debug Support</name>
   
   <build>
   	<plugins>
@@ -31,6 +31,12 @@
 			<artifactId>junit</artifactId>
 		</dependency>
 	
+		<!--  JETTY DEPENDENCIES FOR TESTING  -->
+		<dependency>
+			<groupId>org.eclipse.jetty.aggregate</groupId>
+			<artifactId>jetty-all-server</artifactId>
+		</dependency>
+	
 		<!-- WICKET DEPENDENCIES -->
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
@@ -47,6 +53,4 @@
 			<artifactId>log4j</artifactId>
 		</dependency>
 	</dependencies>
-	
 </project>
-
