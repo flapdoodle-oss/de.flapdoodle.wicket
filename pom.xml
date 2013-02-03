@@ -323,6 +323,11 @@
 		<module>components</module>
 		<module>requests</module>
 		<module>debug</module>
+		
+		<!-- incubate new ideas -->
+		<module>incubator</module>
+		
+		<!-- examples -->
 		<module>examples</module>
 	</modules>
 

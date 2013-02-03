@@ -5,7 +5,7 @@
 		<groupId>de.flapdoodle.wicket6</groupId>
 		<artifactId>de.flapdoodle.wicket</artifactId>
     <version>6.0.1-SNAPSHOT</version>
-		<relativePath>../</relativePath>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>

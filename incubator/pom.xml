@@ -9,9 +9,8 @@
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>de.flapdoodle.wicket--examples</artifactId>
-	<packaging>war</packaging>
-  <name>${project.name} - Examples</name>
+	<artifactId>de.flapdoodle.wicket--incubator</artifactId>
+  <name>${project.name} - Debug Support</name>
   
   <build>
   	<plugins>
@@ -24,35 +23,8 @@
 			</plugin>
   	</plugins>
   </build>
-  
-	<dependencies>
-		<dependency>
-			<groupId>de.flapdoodle.wicket6</groupId>
-			<artifactId>de.flapdoodle.wicket--models</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>de.flapdoodle.wicket6</groupId>
-			<artifactId>de.flapdoodle.wicket--requests</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>de.flapdoodle.wicket6</groupId>
-			<artifactId>de.flapdoodle.wicket--components</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>de.flapdoodle.wicket6</groupId>
-			<artifactId>de.flapdoodle.wicket--debug</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 
-		<dependency>
-			<groupId>de.flapdoodle.wicket6</groupId>
-			<artifactId>de.flapdoodle.wicket--incubator</artifactId>
-			<version>${project.version}</version>
-		</dependency>
+ 	<dependencies>
 		<!--  JUNIT DEPENDENCY FOR TESTING -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -81,5 +53,4 @@
 			<artifactId>log4j</artifactId>
 		</dependency>
 	</dependencies>
-  
 </project>
