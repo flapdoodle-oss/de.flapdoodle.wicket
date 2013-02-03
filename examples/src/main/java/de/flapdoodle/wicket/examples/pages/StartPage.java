@@ -23,6 +23,7 @@ package de.flapdoodle.wicket.examples.pages;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 
+import de.flapdoodle.wicket.examples.components.visibility.UseVisibilityBehaviorPage;
 import de.flapdoodle.wicket.examples.debug.ModelNotDetachedPage;
 import de.flapdoodle.wicket.examples.model.UseModelsPage;
 import de.flapdoodle.wicket.examples.requests.UseExceptionAwarePage;
@@ -34,5 +35,6 @@ public class StartPage extends WebPage {
 		add(new BookmarkablePageLink<UseModelsPage>("models", UseModelsPage.class));
 		add(new BookmarkablePageLink<ModelNotDetachedPage>("modelNotDetached", ModelNotDetachedPage.class));
 		add(new BookmarkablePageLink<UseExceptionAwarePage>("exceptions", UseExceptionAwarePage.class));
+		add(new BookmarkablePageLink<UseVisibilityBehaviorPage>("visibility", UseVisibilityBehaviorPage.class));
 	}
 }
