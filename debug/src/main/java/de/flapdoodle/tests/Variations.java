@@ -14,7 +14,7 @@ public class Variations {
 	private Variations() {
 		// no instance
 	}
-	
+		
 	public static <T> IGenerator<T,ISample<T>> of(IVariation<T> variation) {
 		return new First<T>(variation);
 	}
