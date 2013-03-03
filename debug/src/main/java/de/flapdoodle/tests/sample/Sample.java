@@ -44,5 +44,9 @@ public class Sample<A, B, S extends ISample<B>> extends Simple<A> implements IJo
 		return true;
 	}
 	
+	@Override
+	public String toString() {
+		return super.toString()+"-"+_next.toString();
+	}
 	
 }
