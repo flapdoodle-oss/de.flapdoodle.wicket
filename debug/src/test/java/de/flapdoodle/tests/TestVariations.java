@@ -3,6 +3,7 @@ package de.flapdoodle.tests;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.wicket.util.lang.Objects;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -76,8 +77,40 @@ public class TestVariations {
 		Assert.assertNotNull(values.remove("C3"));
 	}
 
+	@Test
+	public void usage() {
+		Set<IJoinedSample<Integer, Boolean, ISample<Boolean>>> notEquals=new HashSet<IJoinedSample<Integer,Boolean,ISample<Boolean>>>();
+		
+		IGenerator<Integer, IJoinedSample<Integer, Boolean, ISample<Boolean>>> variations = Variations.of(Variation.of(1,2,3,4,5,6,7),Variations.of(Variation.bool()));
+		
+		while (variations.hasNext()) {
+			IJoinedSample<Integer, Boolean, ISample<Boolean>> sample = variations.get();
+			int number=sample.get();
+			boolean flag=sample.next().get();
+			
+			if (!Objects.equal(one(number,flag), two(number,flag))) {
+				notEquals.add(sample);
+			}
+		}
+		
+		Assert.assertEquals(""+notEquals, 2,notEquals.size());
+	}
+	
+	private int one(int number, boolean flag) {
+		if (flag) {
+			if (number==(2*(number/2))) return number;
+		}
+		return -1;
+	}
+	
+	private int two(int number, boolean flag) {
+		if (number==3) return 5;
+		
+		if (number==(2*(number/2))) return flag ? number : -1;
+		return -1;
+	}
+	
 	private String asString(IJoinedSample<String, Integer, ISample<Integer>> sample) {
 		return sample.get()+""+sample.next().get();
 	}
-	
 }

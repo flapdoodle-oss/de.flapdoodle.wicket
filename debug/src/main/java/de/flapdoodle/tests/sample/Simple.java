@@ -43,5 +43,9 @@ public class Simple<T> implements ISample<T> {
 		return true;
 	}
 	
+	@Override
+	public String toString() {
+		return ""+_value;
+	}
 	
 }
