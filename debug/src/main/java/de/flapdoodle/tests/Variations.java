@@ -28,6 +28,7 @@ public class Variations {
 		private final IVariation<A> _variation;
 		private final N _next;
 		private Iterator<A> _iterator;
+		private S _nextValue;
 
 		public Join(IVariation<A> variation, N next) {
 			_variation = variation;
@@ -42,10 +43,15 @@ public class Variations {
 		}
 		
 		public IJoinedSample<A, B, S> get() {
+			if (_nextValue==null) _nextValue=_next.get();
+			IJoinedSample<A, B, S> ret = Sample.of(_iterator.next(), _nextValue);
 			if (!_iterator.hasNext()) {
-				if (_next.hasNext()) _iterator=_variation.iterator();
+				if (_next.hasNext()) {
+					_iterator=_variation.iterator();
+					_nextValue=null;
+				}
 			}
-			return Sample.of(_iterator.next(), _next.get());
+			return ret;
 		}
 	}
 	
