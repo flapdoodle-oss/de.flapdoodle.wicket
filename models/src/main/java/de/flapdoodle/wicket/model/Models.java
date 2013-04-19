@@ -168,7 +168,7 @@ public abstract class Models
 	 * @param function transforming function
 	 * @return a function reference
 	 */
-	public static <R,T> Functions.LazyReference1<R,T> apply(Function1<R, Lazy<T>> function) {
+	public static <R,T> Functions.LazyReference1<R,T> applyLazy(Function1<R, Lazy<T>> function) {
 		return new Functions.LazyReference1<R,T>(function);
 	}
 	
@@ -186,7 +186,7 @@ public abstract class Models
 	 * @param function transforming function
 	 * @return a function reference
 	 */
-	public static <R,T1,T2> Functions.LazyReference2<R,T1,T2> apply(Function2<R, Lazy<T1>, Lazy<T2>> function) {
+	public static <R,T1,T2> Functions.LazyReference2<R,T1,T2> applyLazy(Function2<R, Lazy<T1>, Lazy<T2>> function) {
 		return new Functions.LazyReference2<R,T1,T2>(function);
 	}
 	
