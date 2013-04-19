@@ -123,4 +123,90 @@ abstract class Transformator<T> extends LoadableDetachableModel<T>
 		  return _function.apply(_m1.getObject(),_m2.getObject(),_m3.getObject());
 		}
 	}
+
+
+	final static class LazyModel1<T,M1> extends Transformator<T>
+	{
+		IModel<M1> _m1;
+		Function1<T, Lazy<M1>> _function;
+		
+		public LazyModel1(IModel<M1> m1, Function1<T, Lazy<M1>> function)
+    {
+	    super(function, m1);
+	    
+	    _m1=m1;
+	    _function=function;
+    }
+		
+		@Override
+		protected T load()
+		{
+		  return _function.apply(lazy(_m1));
+		}
+	}
+	
+	final static class LazyModel2<T,M1,M2> extends Transformator<T>
+	{
+		IModel<M1> _m1;
+		IModel<M2> _m2;
+		Function2<T, Lazy<M1>, Lazy<M2>> _function;
+		
+		public LazyModel2(IModel<M1> m1, IModel<M2> m2, Function2<T, Lazy<M1>, Lazy<M2>> function)
+    {
+	    super(function, m1,m2);
+	    
+	    _m1=m1;
+	    _m2=m2;
+	    _function=function;
+    }
+		
+		@Override
+		protected T load()
+		{
+		  return _function.apply(lazy(_m1),lazy(_m2));
+		}
+	}
+
+	final static class LazyModel3<T,M1,M2,M3> extends Transformator<T>
+	{
+		IModel<M1> _m1;
+		IModel<M2> _m2;
+		IModel<M3> _m3;
+		Function3<T, Lazy<M1>, Lazy<M2>, Lazy<M3>> _function;
+		
+		public LazyModel3(IModel<M1> m1, IModel<M2> m2, IModel<M3> m3, Function3<T, Lazy<M1>, Lazy<M2>, Lazy<M3>> function)
+    {
+	    super(function, m1,m2,m3);
+	    
+	    _m1=m1;
+	    _m2=m2;
+	    _m3=m3;
+	    _function=function;
+    }
+		
+		@Override
+		protected T load()
+		{
+		  return _function.apply(lazy(_m1),lazy(_m2),lazy(_m3));
+		}
+	}
+	
+	private static <T> Lazy<T> lazy(IModel<T> model) {
+		return new LazyModelAdapter<T>(model);
+	}
+
+	final static class LazyModelAdapter<T> implements Lazy<T> {
+		
+		private final IModel<T> _model;
+
+		public LazyModelAdapter(IModel<T> model) {
+			_model = model;
+		}
+
+		@Override
+		public T get() {
+			return _model.getObject();
+		}
+		
+	}
 }

@@ -64,7 +64,7 @@ public class TestModelTransformations {
 		checkModelModifications(a, b, model);
 		checkExceptionOnSetObject(model,100);
 	}
-
+	
 	@Test
 	public void functionAndTwoModels() {
 		Model<Integer> a = Model.of(1);

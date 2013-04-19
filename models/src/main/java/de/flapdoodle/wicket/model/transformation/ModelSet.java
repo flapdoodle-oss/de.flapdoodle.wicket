@@ -58,6 +58,20 @@ public abstract class ModelSet
 		{
 			return new Transformator.Model1<R, T1>(_m1,function);
 		}
+		
+		/**
+		 * create a model with a transforming function with model value access indirection
+		 * @see Models#on(IModel)
+		 * @see Lazy
+		 * @param <R> result model type
+		 * @param <T1> first model type from set 
+		 * @param function transforming function
+		 * @return model
+		 */
+		public <R> IModel<R> applyLazy(Function1<R, Lazy<T1>> function)
+		{
+			return new Transformator.LazyModel1<R, T1>(_m1,function);
+		}
 	}
 	
 	/**
@@ -89,6 +103,20 @@ public abstract class ModelSet
 		public <T> IModel<T> apply(Function2<T, T1, T2> function)
 		{
 			return new Transformator.Model2<T, T1, T2>(_m1,_m2,function);
+		}
+		
+		/**
+		 * create a model with a transforming function with model value access indirection
+		 * @see Models#on(IModel,IModel)
+		 * @param <R> result model type
+		 * @param <T1> first model type from set 
+		 * @param <T2> first model type from set 
+		 * @param function transforming function
+		 * @return model
+		 */
+		public <T> IModel<T> applyLazy(Function2<T, Lazy<T1>, Lazy<T2>> function)
+		{
+			return new Transformator.LazyModel2<T, T1, T2>(_m1,_m2,function);
 		}
 	}
 
@@ -124,6 +152,20 @@ public abstract class ModelSet
 		public <T> IModel<T> apply(Function3<T, T1, T2, T3> function)
 		{
 			return new Transformator.Model3<T, T1, T2, T3>(_m1,_m2,_m3, function);
+		}
+		
+		/**
+		 * create a model with a transforming function with model value access indirection
+		 * @see Models#on(IModel,IModel,IModel)
+		 * @param <R> result model type
+		 * @param <T1> first model type from set 
+		 * @param <T2> first model type from set 
+		 * @param function transforming function
+		 * @return model
+		 */
+		public <T> IModel<T> applyLazy(Function3<T, Lazy<T1>, Lazy<T2>, Lazy<T3>> function)
+		{
+			return new Transformator.LazyModel3<T, T1, T2, T3>(_m1,_m2,_m3, function);
 		}
 	}
 }

@@ -31,6 +31,7 @@ import de.flapdoodle.functions.Function1;
 import de.flapdoodle.functions.Function2;
 import de.flapdoodle.functions.Function3;
 import de.flapdoodle.wicket.model.transformation.Functions;
+import de.flapdoodle.wicket.model.transformation.Lazy;
 import de.flapdoodle.wicket.model.transformation.ModelSet;
 
 /**
@@ -141,7 +142,7 @@ public abstract class Models
 	 * 	<li>step 1: provide a function</li>
 	 * 	<li>step 2: chose matching models</li>
 	 * </ul>
-	 * IModel<X> model=Models.apply(function).to(first,second);
+	 * IModel<X> model=Models.apply(function).to(first,second,third);
 	 * 
 	 * @param <R> resulting model type
 	 * @param <T1> first source model type
@@ -152,6 +153,60 @@ public abstract class Models
 	 */
 	public static <R,T1,T2,T3> Functions.Reference3<R,T1,T2,T3> apply(Function3<R, T1, T2, T3> function) {
 		return new Functions.Reference3<R,T1,T2,T3>(function);
+	}
+
+	/**
+	 * Creates a model based on a function and a set of models.
+	 * <ul>
+	 * 	<li>step 1: provide a function</li>
+	 * 	<li>step 2: chose matching models</li>
+	 * </ul>
+	 * IModel<X> model=Models.applyLazy(function).to(source);
+	 *
+	 * @param <R> resulting model type
+	 * @param <T> source model type
+	 * @param function transforming function
+	 * @return a function reference
+	 */
+	public static <R,T> Functions.LazyReference1<R,T> apply(Function1<R, Lazy<T>> function) {
+		return new Functions.LazyReference1<R,T>(function);
+	}
+	
+	/**
+	 * Creates a model based on a function and a set of models.
+	 * <ul>
+	 * 	<li>step 1: provide a function</li>
+	 * 	<li>step 2: chose matching models</li>
+	 * </ul>
+	 * IModel<X> model=Models.applyLazy(function).to(first,second);
+	 * 
+	 * @param <R> resulting model type
+	 * @param <T1> first source model type
+	 * @param <T2> second source model type
+	 * @param function transforming function
+	 * @return a function reference
+	 */
+	public static <R,T1,T2> Functions.LazyReference2<R,T1,T2> apply(Function2<R, Lazy<T1>, Lazy<T2>> function) {
+		return new Functions.LazyReference2<R,T1,T2>(function);
+	}
+	
+	/**
+	 * Creates a model based on a function and a set of models.
+	 * <ul>
+	 * 	<li>step 1: provide a function</li>
+	 * 	<li>step 2: chose matching models</li>
+	 * </ul>
+	 * IModel<X> model=Models.applyLazy(function).to(first,second,third);
+	 * 
+	 * @param <R> resulting model type
+	 * @param <T1> first source model type
+	 * @param <T2> second source model type
+	 * @param <T3> third source model type
+	 * @param function transforming function
+	 * @return a function reference
+	 */
+	public static <R,T1,T2,T3> Functions.LazyReference3<R,T1,T2,T3> applyLazy(Function3<R, Lazy<T1>, Lazy<T2>, Lazy<T3>> function) {
+		return new Functions.LazyReference3<R,T1,T2,T3>(function);
 	}
 
 	/**
