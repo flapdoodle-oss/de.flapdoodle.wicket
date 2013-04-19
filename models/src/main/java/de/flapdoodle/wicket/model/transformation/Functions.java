@@ -34,6 +34,10 @@ import de.flapdoodle.wicket.model.Models;
  */
 public abstract class Functions implements Serializable {
 	
+	private Functions() {
+		// no instance
+	}
+	
 	/**
 	 * a function reference for model transformation
 	 * @see Models#on(IModel)
@@ -127,6 +131,102 @@ public abstract class Functions implements Serializable {
 		 */
 		public IModel<R> to(IModel<T1> first, IModel<T2> second, IModel<T3> third) {
 			return new Transformator.Model3<R, T1, T2, T3>(first,second,third, _function);
+		}
+	}
+
+	/**
+	 * a function reference for model transformation
+	 * @see Models#on(IModel)
+	 *
+	 * @param <R> result model type
+	 * @param <T> source model type
+	 */
+	public static final class LazyReference1<R,T>
+	{
+		private final Function1<R, Lazy<T>> _function;
+
+		public LazyReference1(Function1<R, Lazy<T>> function) {
+			_function = function;
+		}
+
+		/**
+		 * create a model from a function and a model
+		 * @see Models#on(IModel)
+		 * 
+		 * @param <R> result model type
+		 * @param <T> source model type
+		 * @param source source model
+		 * @return model
+		 */
+		public IModel<R> to(IModel<T> source) {
+			return new Transformator.LazyModel1<R, T>(source, _function);
+		}
+	}
+	
+	/**
+	 * a function reference for model transformation
+	 * @see Models#on(IModel, IModel)
+	 *
+	 * @param <R> result model type
+	 * @param <T1> first model type
+	 * @param <T2> second model type
+	 */
+	public static final class LazyReference2<R,T1,T2>
+	{
+		private final Function2<R, Lazy<T1>, Lazy<T2>> _function;
+
+		public LazyReference2(Function2<R, Lazy<T1>, Lazy<T2>> function) {
+			_function = function;
+		}
+		
+		/**
+		 * create a model from a function and a model
+		 * @see Models#on(IModel)
+		 * 
+		 * @param <R> result model type
+		 * @param <T1> first model type
+		 * @param <T2> second model type
+		 * @param first first model
+		 * @param second second model
+		 * @return model
+		 */
+		public IModel<R> to(IModel<T1> first, IModel<T2> second) {
+			return new Transformator.LazyModel2<R, T1, T2>(first,second, _function);
+		}
+	}
+	
+	/**
+	 * a function reference for model transformation
+	 * @see Models#on(IModel, IModel, IModel)
+	 *
+	 * @param <R> result model type
+	 * @param <T1> first model type
+	 * @param <T2> second model type
+	 * @param <T3> third model type
+	 */
+	public static final class LazyReference3<R,T1,T2,T3>
+	{
+		private final Function3<R, Lazy<T1>, Lazy<T2>, Lazy<T3>> _function;
+
+		public LazyReference3(Function3<R, Lazy<T1>, Lazy<T2>, Lazy<T3>> function) {
+			_function = function;
+		}
+		
+		/**
+		 * create a model from a function and a model
+		 * @see Models#on(IModel)
+		 * 
+		 * @param <R> result model type
+		 * @param <T1> first model type
+		 * @param <T2> second model type
+		 * @param <T3> third model type
+		 * @param first first model
+		 * @param second second model
+		 * @param third second model
+		 * @return model
+		 */
+		public IModel<R> to(IModel<T1> first, IModel<T2> second, IModel<T3> third) {
+			return new Transformator.LazyModel3<R, T1, T2, T3>(first,second,third, _function);
 		}
 	}
 }
