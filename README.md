@@ -20,7 +20,7 @@ Stable (Maven Central Repository, Released: 24.04.2013 - wait 24hrs for maven ce
 	<dependency>
 		<groupId>de.flapdoodle.wicket</groupId>
 		<artifactId>de.flapdoodle.wicket</artifactId>
-		<version>1.5.0</version>
+		<version>6.7.0</version>
 	</dependency>
 
 Snapshots (Repository http://oss.sonatype.org/content/repositories/snapshots)
@@ -28,7 +28,7 @@ Snapshots (Repository http://oss.sonatype.org/content/repositories/snapshots)
 	<dependency>
 		<groupId>de.flapdoodle.wicket</groupId>
 		<artifactId>de.flapdoodle.wicket</artifactId>
-		<version>1.5.1-SNAPSHOT</version>
+		<version>6.7.1-SNAPSHOT</version>
 	</dependency>
 
 ### Whats in it?
