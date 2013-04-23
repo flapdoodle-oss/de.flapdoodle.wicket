@@ -18,7 +18,7 @@ custom wicket extensions which might be useful
 Stable (Maven Central Repository, Released: 24.04.2013 - wait 24hrs for maven central)
 
 	<dependency>
-		<groupId>de.flapdoodle.wicket</groupId>
+		<groupId>de.flapdoodle.wicket6</groupId>
 		<artifactId>de.flapdoodle.wicket</artifactId>
 		<version>6.7.0</version>
 	</dependency>
@@ -26,7 +26,7 @@ Stable (Maven Central Repository, Released: 24.04.2013 - wait 24hrs for maven ce
 Snapshots (Repository http://oss.sonatype.org/content/repositories/snapshots)
 
 	<dependency>
-		<groupId>de.flapdoodle.wicket</groupId>
+		<groupId>de.flapdoodle.wicket6</groupId>
 		<artifactId>de.flapdoodle.wicket</artifactId>
 		<version>6.7.1-SNAPSHOT</version>
 	</dependency>
@@ -38,13 +38,13 @@ library at whole. Use can use only parts. You can use the model stuff with this 
 __/\*moduleIdGoesHere\*/__ with __models__ and the right version (i think you get the pattern):
 
 	<dependency>
-		<groupId>de.flapdoodle.wicket</groupId>
+		<groupId>de.flapdoodle.wicket6</groupId>
 		<artifactId>de.flapdoodle.wicket--/*moduleIdGoesHere*/</artifactId>
 		<version>/*see above for the right one here*/</version>
 	</dependency>
 
 	<dependency>
-		<groupId>de.flapdoodle.wicket</groupId>
+		<groupId>de.flapdoodle.wicket6</groupId>
 		<artifactId>de.flapdoodle.wicket--models</artifactId>
 		<version>/*see above for the right one here*/</version>
 	</dependency>
