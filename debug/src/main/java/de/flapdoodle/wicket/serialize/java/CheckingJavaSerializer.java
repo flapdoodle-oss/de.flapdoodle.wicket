@@ -26,8 +26,8 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
 import org.apache.wicket.WicketRuntimeException;
+import org.apache.wicket.core.util.io.SerializableChecker;
 import org.apache.wicket.serialize.java.JavaSerializer;
-import org.apache.wicket.util.io.SerializableChecker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

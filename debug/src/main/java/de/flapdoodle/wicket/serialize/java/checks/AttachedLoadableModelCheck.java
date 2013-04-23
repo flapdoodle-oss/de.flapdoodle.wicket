@@ -22,9 +22,7 @@ package de.flapdoodle.wicket.serialize.java.checks;
 
 import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.util.io.WicketSerializeableException;
 
-import de.flapdoodle.wicket.serialize.java.ISerializableCheck;
 import de.flapdoodle.wicket.serialize.java.IStackTracePrinter;
 
 public class AttachedLoadableModelCheck extends AbstractSerializableCheck {

@@ -20,11 +20,10 @@
  */
 package de.flapdoodle.wicket.request.cycle;
 
+import org.apache.wicket.core.request.handler.IPageRequestHandler;
 import org.apache.wicket.request.IRequestHandler;
-import org.apache.wicket.request.component.IRequestablePage;
 import org.apache.wicket.request.cycle.PageRequestHandlerTracker;
 import org.apache.wicket.request.cycle.RequestCycle;
-import org.apache.wicket.request.handler.IPageRequestHandler;
 
 public class RequestCyclePageExceptionListener extends PageRequestHandlerTracker {
 
