@@ -20,7 +20,7 @@
 	<properties>
 		<project.name>Flapdoodle Wicket</project.name>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<wicket.version>1.5.9</wicket.version>
+		<wicket.version>1.5.10</wicket.version>
 		<jetty.version>7.6.3.v20120416</jetty.version>
 	</properties>
 
