@@ -15,7 +15,7 @@ custom wicket extensions which might be useful
 
 ### Maven
 
-Stable (Maven Central Repository, Released: 30.09.2012 - wait 24hrs for maven central)
+Stable (Maven Central Repository, Released: 24.04.2013 - wait 24hrs for maven central)
 
 	<dependency>
 		<groupId>de.flapdoodle.wicket</groupId>
