@@ -53,11 +53,14 @@ __/\*moduleIdGoesHere\*/__ with __models__ and the right version (i think you ge
 
 Initial Version starts with 1.5.0
 
-#### 1.5.1 (SNAPSHOT)
+#### 6.7.1 (SNAPSHOT)
+
+#### 6.7.0
 
 - serializable checks support for undetached models, domain types
+- lazy evaluation model support
 
-#### 1.5.0
+#### 6.0.0
 
 - init release
 
