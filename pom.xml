@@ -20,8 +20,10 @@
 	<properties>
 		<project.name>Flapdoodle Wicket6</project.name>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<wicket.version>6.7.0</wicket.version>
-		<jetty.version>7.6.3.v20120416</jetty.version>
+		<wicket.version>6.14.0</wicket.version>
+		<jetty.version>7.6.13.v20130916</jetty.version>
+		<!-- allowed values: R7, 1.0, 1.5, 2.0 or none -->
+		<wtp.version>none</wtp.version>
 	</properties>
 
 	<licenses>
@@ -131,9 +133,10 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-eclipse-plugin</artifactId>
-				<version>2.8</version>
+				<version>2.9</version>
 				<configuration>
 					<downloadSources>true</downloadSources>
+					<wtpversion>${wtp.version}</wtpversion>
 				</configuration>
 			</plugin>
 			
@@ -176,7 +179,7 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.6.2.201302030002</version>
+				<version>0.7.0.201403182114</version>
 				<executions>
 					<execution>
 						<id>prepare-agent</id>
