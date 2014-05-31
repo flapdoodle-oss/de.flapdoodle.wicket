@@ -62,7 +62,7 @@ public abstract class Functions implements Serializable {
 		 * @param source source model
 		 * @return model
 		 */
-		public IModel<R> to(IModel<T> source) {
+		public IModel<R> to(IModel<? extends T> source) {
 			return new Transformator.Model1<R, T>(source, _function);
 		}
 	}
@@ -94,7 +94,7 @@ public abstract class Functions implements Serializable {
 		 * @param second second model
 		 * @return model
 		 */
-		public IModel<R> to(IModel<T1> first, IModel<T2> second) {
+		public IModel<R> to(IModel<? extends T1> first, IModel<? extends T2> second) {
 			return new Transformator.Model2<R, T1, T2>(first,second, _function);
 		}
 	}
@@ -129,7 +129,7 @@ public abstract class Functions implements Serializable {
 		 * @param third second model
 		 * @return model
 		 */
-		public IModel<R> to(IModel<T1> first, IModel<T2> second, IModel<T3> third) {
+		public IModel<R> to(IModel<? extends T1> first, IModel<? extends T2> second, IModel<? extends T3> third) {
 			return new Transformator.Model3<R, T1, T2, T3>(first,second,third, _function);
 		}
 	}
@@ -143,9 +143,9 @@ public abstract class Functions implements Serializable {
 	 */
 	public static final class LazyReference1<R,T>
 	{
-		private final Function1<R, Lazy<T>> _function;
+		private final Function1<R, ? super Lazy<? extends T>> _function;
 
-		public LazyReference1(Function1<R, Lazy<T>> function) {
+		public LazyReference1(Function1<R, ? super Lazy<? extends T>> function) {
 			_function = function;
 		}
 
@@ -158,7 +158,7 @@ public abstract class Functions implements Serializable {
 		 * @param source source model
 		 * @return model
 		 */
-		public IModel<R> to(IModel<T> source) {
+		public IModel<? extends R> to(IModel<? extends T> source) {
 			return new Transformator.LazyModel1<R, T>(source, _function);
 		}
 	}
@@ -173,9 +173,9 @@ public abstract class Functions implements Serializable {
 	 */
 	public static final class LazyReference2<R,T1,T2>
 	{
-		private final Function2<R, Lazy<T1>, Lazy<T2>> _function;
+		private final Function2<R, ? super Lazy<? extends T1>, ? super Lazy<? extends T2>> _function;
 
-		public LazyReference2(Function2<R, Lazy<T1>, Lazy<T2>> function) {
+		public LazyReference2(Function2<R, ? super Lazy<? extends T1>, ? super Lazy<? extends T2>> function) {
 			_function = function;
 		}
 		
@@ -190,7 +190,7 @@ public abstract class Functions implements Serializable {
 		 * @param second second model
 		 * @return model
 		 */
-		public IModel<R> to(IModel<T1> first, IModel<T2> second) {
+		public IModel<? extends R> to(IModel<? extends T1> first, IModel<? extends T2> second) {
 			return new Transformator.LazyModel2<R, T1, T2>(first,second, _function);
 		}
 	}
@@ -206,9 +206,9 @@ public abstract class Functions implements Serializable {
 	 */
 	public static final class LazyReference3<R,T1,T2,T3>
 	{
-		private final Function3<R, Lazy<T1>, Lazy<T2>, Lazy<T3>> _function;
+		private final Function3<R, ? super Lazy<? extends T1>, ? super Lazy<? extends T2>, ? super Lazy<? extends T3>> _function;
 
-		public LazyReference3(Function3<R, Lazy<T1>, Lazy<T2>, Lazy<T3>> function) {
+		public LazyReference3(Function3<R, ? super Lazy<? extends T1>, ? super Lazy<? extends T2>, ? super Lazy<? extends T3>> function) {
 			_function = function;
 		}
 		
@@ -225,7 +225,7 @@ public abstract class Functions implements Serializable {
 		 * @param third second model
 		 * @return model
 		 */
-		public IModel<R> to(IModel<T1> first, IModel<T2> second, IModel<T3> third) {
+		public IModel<? extends R> to(IModel<? extends T1> first, IModel<? extends T2> second, IModel<? extends T3> third) {
 			return new Transformator.LazyModel3<R, T1, T2, T3>(first,second,third, _function);
 		}
 	}
