@@ -39,7 +39,7 @@ public class Functions {
 	 *          the first applied function
 	 * @return a new function
 	 */
-	public static <R, X, T> Function1<R, T> join(Function1<R, X> outer, Function1<X, T> inner) {
+	public static <R, X, T> Function1<R, T> join(Function1<R, ? super X> outer, Function1<X, ? super T> inner) {
 		return new JoinedFunction1<R, X, T>(outer, inner);
 	}
 
@@ -52,7 +52,7 @@ public class Functions {
 	 *          the first applied function
 	 * @return a new function
 	 */
-	public static <R, T1, T2, X> Function2<R, T1, T2> join(Function2<R, T1, X> outer, Function1<X, T2> inner) {
+	public static <R, T1, T2, X> Function2<R, T1, T2> join(Function2<R, ? super T1, ? super X> outer, Function1<X, ? super T2> inner) {
 		return new JoinedFunction2<R, T1, T2, X>(outer, inner);
 	}
 
@@ -65,7 +65,7 @@ public class Functions {
 	 *          the first applied function
 	 * @return a new function
 	 */
-	public static <R, T1, T2, T3, X> Function3<R, T1, T2, T3> join(Function2<R, T1, X> outer, Function2<X, T2, T3> inner) {
+	public static <R, T1, T2, T3, X> Function3<R, T1, T2, T3> join(Function2<R, ? super T1, ? super X> outer, Function2<X, ? super T2, ? super T3> inner) {
 		return new JoinedFunction3<R, T1, T2, T3, X>(outer, inner);
 	}
 	
@@ -78,7 +78,7 @@ public class Functions {
 	 *          the first applied function
 	 * @return a new function
 	 */
-	public static <R, T1, T2, T3, A, B> Function3<R, T1, T2, T3> join(Function2<R, A, B> outer, Function2<A, T1, T2> left, Function2<B, T2, T3> right) {
+	public static <R, T1, T2, T3, A, B> Function3<R, T1, T2, T3> join(Function2<R, ? super A, ? super B> outer, Function2<A, ? super T1, ? super T2> left, Function2<B, ? super T2, ? super T3> right) {
 		return new JoinedFunction33<R, T1, T2, T3, A, B>(outer, left, right);
 	}
 	
@@ -89,16 +89,16 @@ public class Functions {
 	 *          source function
 	 * @return function adapter with flipped types
 	 */
-	public static <R, T1, T2> Function2<R, T1, T2> swap(Function2<R, T2, T1> source) {
+	public static <R, T1, T2> Function2<R, T1, T2> swap(Function2<R, ? super T2, ? super T1> source) {
 		return new SwappedTypeFunction<R, T1, T2>(source);
 	}
 	
 	static class JoinedFunction1<R, X, T> implements Function1<R, T> {
 
-		private final Function1<R, X> _outer;
-		private final Function1<X, T> _inner;
+		private final Function1<R, ? super X> _outer;
+		private final Function1<X, ? super T> _inner;
 
-		public JoinedFunction1(Function1<R, X> a, Function1<X, T> b) {
+		public JoinedFunction1(Function1<R, ? super X> a, Function1<X, ? super T> b) {
 			_outer = a;
 			_inner = b;
 		}
@@ -112,10 +112,10 @@ public class Functions {
 
 	static class JoinedFunction2<R, T1, T2, X> implements Function2<R, T1, T2> {
 
-		private final Function2<R, T1, X> _outer;
-		private final Function1<X, T2> _inner;
+		private final Function2<R, ? super T1, ? super X> _outer;
+		private final Function1<X, ? super T2> _inner;
 
-		public JoinedFunction2(Function2<R, T1, X> outer, Function1<X, T2> inner) {
+		public JoinedFunction2(Function2<R, ? super T1, ? super X> outer, Function1<X, ? super T2> inner) {
 			_outer = outer;
 			_inner = inner;
 		}
@@ -129,10 +129,10 @@ public class Functions {
 	
 	static class JoinedFunction3<R, T1, T2, T3, X> implements Function3<R, T1, T2, T3> {
 
-		private final Function2<R, T1, X> _outer;
-		private final Function2<X, T2, T3> _inner;
+		private final Function2<R, ? super T1, ? super X> _outer;
+		private final Function2<X, ? super T2, ? super T3> _inner;
 
-		public JoinedFunction3(Function2<R, T1, X> outer, Function2<X, T2, T3> inner) {
+		public JoinedFunction3(Function2<R, ? super T1, ? super X> outer, Function2<X, ? super T2, ? super T3> inner) {
 			_outer = outer;
 			_inner = inner;
 		}
@@ -146,11 +146,11 @@ public class Functions {
 
 	static class JoinedFunction33<R, T1, T2, T3, A, B> implements Function3<R, T1, T2, T3> {
 
-		private final Function2<R, A, B> _outer;
-		private final Function2<A, T1, T2> _left;
-		private final Function2<B, T2, T3> _right;
+		private final Function2<R, ? super A, ? super B> _outer;
+		private final Function2<A, ? super T1, ? super T2> _left;
+		private final Function2<B, ? super T2, ? super T3> _right;
 
-		public JoinedFunction33(Function2<R, A, B> outer, Function2<A, T1, T2> left, Function2<B, T2, T3> right) {
+		public JoinedFunction33(Function2<R, ? super A, ? super B> outer, Function2<A, ? super T1, ? super T2> left, Function2<B, ? super T2, ? super T3> right) {
 			_outer = outer;
 			_left = left;
 			_right = right;
@@ -165,9 +165,9 @@ public class Functions {
 	
 	static class SwappedTypeFunction<R, T1, T2> implements Function2<R, T1, T2> {
 
-		private final Function2<R, T2, T1> _source;
+		private final Function2<R, ? super T2, ? super T1> _source;
 
-		public SwappedTypeFunction(Function2<R, T2, T1> source) {
+		public SwappedTypeFunction(Function2<R, ? super T2, ? super T1> source) {
 			_source = source;
 		}
 
