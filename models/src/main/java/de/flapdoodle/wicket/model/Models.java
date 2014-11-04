@@ -168,7 +168,7 @@ public abstract class Models
 	 * @param function transforming function
 	 * @return a function reference
 	 */
-	public static <R,T> Functions.LazyReference1<R,T> applyLazy(Function1<R, Lazy<T>> function) {
+	public static <R,T> Functions.LazyReference1<R,T> applyLazy(Function1<R, ? super Lazy<? extends T>> function) {
 		return new Functions.LazyReference1<R,T>(function);
 	}
 	
@@ -186,7 +186,7 @@ public abstract class Models
 	 * @param function transforming function
 	 * @return a function reference
 	 */
-	public static <R,T1,T2> Functions.LazyReference2<R,T1,T2> applyLazy(Function2<R, Lazy<T1>, Lazy<T2>> function) {
+	public static <R,T1,T2> Functions.LazyReference2<R,T1,T2> applyLazy(Function2<R, ? super Lazy<? extends T1>, ? super Lazy<? extends T2>> function) {
 		return new Functions.LazyReference2<R,T1,T2>(function);
 	}
 	
@@ -205,7 +205,7 @@ public abstract class Models
 	 * @param function transforming function
 	 * @return a function reference
 	 */
-	public static <R,T1,T2,T3> Functions.LazyReference3<R,T1,T2,T3> applyLazy(Function3<R, Lazy<T1>, Lazy<T2>, Lazy<T3>> function) {
+	public static <R,T1,T2,T3> Functions.LazyReference3<R,T1,T2,T3> applyLazy(Function3<R, ? super Lazy<? extends T1>, ? super Lazy<? extends T2>, ? super Lazy<? extends T3>> function) {
 		return new Functions.LazyReference3<R,T1,T2,T3>(function);
 	}
 

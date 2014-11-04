@@ -60,10 +60,10 @@ abstract class Transformator<T> extends LoadableDetachableModel<T>
 	
 	final static class Model1<T,M1> extends Transformator<T>
 	{
-		IModel<M1> _m1;
-		Function1<T, M1> _function;
+		IModel<? extends M1> _m1;
+		Function1<T, ? super M1> _function;
 		
-		public Model1(IModel<M1> m1, Function1<T, M1> function)
+		public Model1(IModel<? extends M1> m1, Function1<T, ? super M1> function)
     {
 	    super(function, m1);
 	    
@@ -80,11 +80,11 @@ abstract class Transformator<T> extends LoadableDetachableModel<T>
 	
 	final static class Model2<T,M1,M2> extends Transformator<T>
 	{
-		IModel<M1> _m1;
-		IModel<M2> _m2;
-		Function2<T, M1, M2> _function;
+		IModel<? extends M1> _m1;
+		IModel<? extends M2> _m2;
+		Function2<T, ? super M1, ? super M2> _function;
 		
-		public Model2(IModel<M1> m1, IModel<M2> m2, Function2<T, M1, M2> function)
+		public Model2(IModel<? extends M1> m1, IModel<? extends M2> m2, Function2<T, ? super M1, ? super M2> function)
     {
 	    super(function, m1,m2);
 	    
@@ -102,12 +102,12 @@ abstract class Transformator<T> extends LoadableDetachableModel<T>
 
 	final static class Model3<T,M1,M2,M3> extends Transformator<T>
 	{
-		IModel<M1> _m1;
-		IModel<M2> _m2;
-		IModel<M3> _m3;
-		Function3<T, M1, M2, M3> _function;
+		IModel<? extends M1> _m1;
+		IModel<? extends M2> _m2;
+		IModel<? extends M3> _m3;
+		Function3<T, ? super M1, ? super M2, ? super M3> _function;
 		
-		public Model3(IModel<M1> m1, IModel<M2> m2, IModel<M3> m3, Function3<T, M1, M2, M3> function)
+		public Model3(IModel<? extends M1> m1, IModel<? extends M2> m2, IModel<? extends M3> m3, Function3<T, ? super M1, ? super M2, ? super M3> function)
     {
 	    super(function, m1,m2,m3);
 	    
@@ -127,10 +127,10 @@ abstract class Transformator<T> extends LoadableDetachableModel<T>
 
 	final static class LazyModel1<T,M1> extends Transformator<T>
 	{
-		IModel<M1> _m1;
-		Function1<T, Lazy<M1>> _function;
+		IModel<? extends M1> _m1;
+		Function1<T, ? super Lazy<? extends M1>> _function;
 		
-		public LazyModel1(IModel<M1> m1, Function1<T, Lazy<M1>> function)
+		public LazyModel1(IModel<? extends M1> m1, Function1<T, ? super Lazy<? extends M1>> function)
     {
 	    super(function, m1);
 	    
@@ -147,11 +147,11 @@ abstract class Transformator<T> extends LoadableDetachableModel<T>
 	
 	final static class LazyModel2<T,M1,M2> extends Transformator<T>
 	{
-		IModel<M1> _m1;
-		IModel<M2> _m2;
-		Function2<T, Lazy<M1>, Lazy<M2>> _function;
+		IModel<? extends M1> _m1;
+		IModel<? extends M2> _m2;
+		Function2<T, ? super Lazy<? extends M1>, ? super Lazy<? extends M2>> _function;
 		
-		public LazyModel2(IModel<M1> m1, IModel<M2> m2, Function2<T, Lazy<M1>, Lazy<M2>> function)
+		public LazyModel2(IModel<? extends M1> m1, IModel<? extends M2> m2, Function2<T, ? super Lazy<? extends M1>, ? super Lazy<? extends M2>> function)
     {
 	    super(function, m1,m2);
 	    
@@ -169,12 +169,12 @@ abstract class Transformator<T> extends LoadableDetachableModel<T>
 
 	final static class LazyModel3<T,M1,M2,M3> extends Transformator<T>
 	{
-		IModel<M1> _m1;
-		IModel<M2> _m2;
-		IModel<M3> _m3;
-		Function3<T, Lazy<M1>, Lazy<M2>, Lazy<M3>> _function;
+		IModel<? extends M1> _m1;
+		IModel<? extends M2> _m2;
+		IModel<? extends M3> _m3;
+		Function3<T, ? super Lazy<? extends M1>, ? super Lazy<? extends M2>, ? super Lazy<? extends M3>> _function;
 		
-		public LazyModel3(IModel<M1> m1, IModel<M2> m2, IModel<M3> m3, Function3<T, Lazy<M1>, Lazy<M2>, Lazy<M3>> function)
+		public LazyModel3(IModel<? extends M1> m1, IModel<? extends M2> m2, IModel<? extends M3> m3, Function3<T, ? super Lazy<? extends M1>, ? super Lazy<? extends M2>, ? super Lazy<? extends M3>> function)
     {
 	    super(function, m1,m2,m3);
 	    

@@ -46,6 +46,11 @@ public class TestFunctions {
 		assertEquals(Integer.valueOf(4), ba.apply(1));
 
 		assertEquals(Integer.valueOf(7), abba.apply(1));
+		
+		Function1<? extends Integer, ? super Integer> genericSuperA=a;
+		Function1<? extends Integer, ? super Integer> genericSuperB=b;
+		Function1<? extends Integer, Integer> res = Functions.join(genericSuperA, genericSuperB);
+		assertEquals(Integer.valueOf(4), res.apply(1));
 	}
 
 	@Test

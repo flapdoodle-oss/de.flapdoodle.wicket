@@ -54,7 +54,7 @@ public abstract class ModelSet
 		 * @param function transforming function
 		 * @return model
 		 */
-		public <R> IModel<R> apply(Function1<R, T1> function)
+		public <R> IModel<R> apply(Function1<R, ? super T1> function)
 		{
 			return new Transformator.Model1<R, T1>(_m1,function);
 		}
@@ -68,7 +68,7 @@ public abstract class ModelSet
 		 * @param function transforming function
 		 * @return model
 		 */
-		public <R> IModel<R> applyLazy(Function1<R, Lazy<T1>> function)
+		public <R> IModel<R> applyLazy(Function1<R, ? super Lazy<? extends T1>> function)
 		{
 			return new Transformator.LazyModel1<R, T1>(_m1,function);
 		}
@@ -100,7 +100,7 @@ public abstract class ModelSet
 		 * @param function transforming function
 		 * @return model
 		 */
-		public <T> IModel<T> apply(Function2<T, T1, T2> function)
+		public <T> IModel<T> apply(Function2<T, ? super T1, ? super T2> function)
 		{
 			return new Transformator.Model2<T, T1, T2>(_m1,_m2,function);
 		}
@@ -114,7 +114,7 @@ public abstract class ModelSet
 		 * @param function transforming function
 		 * @return model
 		 */
-		public <T> IModel<T> applyLazy(Function2<T, Lazy<T1>, Lazy<T2>> function)
+		public <T> IModel<T> applyLazy(Function2<T, ? super Lazy<? extends T1>, ? super Lazy<? extends T2>> function)
 		{
 			return new Transformator.LazyModel2<T, T1, T2>(_m1,_m2,function);
 		}
@@ -149,7 +149,7 @@ public abstract class ModelSet
 		 * @param function transforming function
 		 * @return model
 		 */
-		public <T> IModel<T> apply(Function3<T, T1, T2, T3> function)
+		public <T> IModel<T> apply(Function3<T, ? super T1, ? super T2, ? super T3> function)
 		{
 			return new Transformator.Model3<T, T1, T2, T3>(_m1,_m2,_m3, function);
 		}
@@ -163,7 +163,7 @@ public abstract class ModelSet
 		 * @param function transforming function
 		 * @return model
 		 */
-		public <T> IModel<T> applyLazy(Function3<T, Lazy<T1>, Lazy<T2>, Lazy<T3>> function)
+		public <T> IModel<T> applyLazy(Function3<T, ? super Lazy<? extends T1>, ? super Lazy<? extends T2>, ? super Lazy<? extends T3>> function)
 		{
 			return new Transformator.LazyModel3<T, T1, T2, T3>(_m1,_m2,_m3, function);
 		}
