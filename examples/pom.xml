@@ -2,9 +2,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<parent>
-		<groupId>de.flapdoodle.wicket6</groupId>
+		<groupId>de.flapdoodle.wicket7</groupId>
 		<artifactId>de.flapdoodle.wicket</artifactId>
-    <version>6.14.3-SNAPSHOT</version>
+    <version>7.0.0-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -27,29 +27,29 @@
   
 	<dependencies>
 		<dependency>
-			<groupId>de.flapdoodle.wicket6</groupId>
+			<groupId>de.flapdoodle.wicket7</groupId>
 			<artifactId>de.flapdoodle.wicket--models</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>de.flapdoodle.wicket6</groupId>
+			<groupId>de.flapdoodle.wicket7</groupId>
 			<artifactId>de.flapdoodle.wicket--requests</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>de.flapdoodle.wicket6</groupId>
+			<groupId>de.flapdoodle.wicket7</groupId>
 			<artifactId>de.flapdoodle.wicket--components</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		
 		<dependency>
-			<groupId>de.flapdoodle.wicket6</groupId>
+			<groupId>de.flapdoodle.wicket7</groupId>
 			<artifactId>de.flapdoodle.wicket--debug</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>
-			<groupId>de.flapdoodle.wicket6</groupId>
+			<groupId>de.flapdoodle.wicket7</groupId>
 			<artifactId>de.flapdoodle.wicket--incubator</artifactId>
 			<version>${project.version}</version>
 		</dependency>

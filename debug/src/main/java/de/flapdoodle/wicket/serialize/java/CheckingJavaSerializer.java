@@ -26,8 +26,10 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
 import org.apache.wicket.WicketRuntimeException;
-import org.apache.wicket.core.util.io.SerializableChecker;
+import org.apache.wicket.core.util.objects.checker.CheckingObjectOutputStream;
+import org.apache.wicket.core.util.objects.checker.ObjectSerializationChecker;
 import org.apache.wicket.serialize.java.JavaSerializer;
+import org.apache.wicket.util.io.ByteArrayOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -71,11 +73,11 @@ public class CheckingJavaSerializer extends JavaSerializer {
 			}
 			catch (NotSerializableException nsx)
 			{
-				if (SerializableChecker.isAvailable())
+				if (CheckingObjectOutputStream.isAvailable())
 				{
 					// trigger serialization again, but this time gather
 					// some more info
-					new SerializableChecker(nsx).writeObject(obj);
+					new CheckingObjectOutputStream(new ByteArrayOutputStream(), new ObjectSerializationChecker(nsx)).writeObject(obj);
 					// if we get here, we didn't fail, while we
 					// should;
 					throw nsx;
