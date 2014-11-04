@@ -15,20 +15,20 @@ custom wicket extensions which might be useful
 
 ### Maven
 
-Stable (Maven Central Repository, Released: 12.08.2014 - wait 24hrs for maven central)
+Stable (Maven Central Repository, Released: 04.11.2014 - wait 24hrs for maven central)
 
 	<dependency>
-		<groupId>de.flapdoodle.wicket6</groupId>
+		<groupId>de.flapdoodle.wicket7</groupId>
 		<artifactId>de.flapdoodle.wicket</artifactId>
-		<version>6.14.2</version>
+		<version>7.0.0</version>
 	</dependency>
 
 Snapshots (Repository http://oss.sonatype.org/content/repositories/snapshots)
 
 	<dependency>
-		<groupId>de.flapdoodle.wicket6</groupId>
+		<groupId>de.flapdoodle.wicket7</groupId>
 		<artifactId>de.flapdoodle.wicket</artifactId>
-		<version>6.14.3-SNAPSHOT</version>
+		<version>7.0.1-SNAPSHOT</version>
 	</dependency>
 
 ### Whats in it?
@@ -51,26 +51,9 @@ __/\*moduleIdGoesHere\*/__ with __models__ and the right version (i think you ge
 
 ### Changelog
 
-Initial Version starts with 1.5.0
+#### 7.0.0 (SNAPSHOT)
 
-#### 6.14.3 (SNAPSHOT)
-
-#### 6.14.2
-
-- function generic fixes
-
-#### 6.14.1
-
-- model generic fixes
-
-#### 6.7.0
-
-- serializable checks support for undetached models, domain types
-- lazy evaluation model support
-
-#### 6.0.0
-
-- init release
+- init release based on 6.13.3
 
 
 ### Usage
