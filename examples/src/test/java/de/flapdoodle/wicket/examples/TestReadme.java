@@ -81,9 +81,9 @@ are some functions to prevent this.
 	List<Integer> source=new ArrayList<Integer>(Arrays.asList(1,2,3));
 	IModel<List<Integer>> unmodifiableListModel = Models.unmodifiable(source);
 	
-	IModel<List<? extends Integer>> modifiableListModel = Model.ofList(Arrays.asList(1,2,3));
+	IModel<List<Integer>> modifiableListModel = Model.ofList(Arrays.asList(1,2,3));
 	IModel<List<Integer>> asUnmodifiableListModel = Models.unmodifiable(modifiableListModel);
-	IModel<List<? extends Integer>> readOnlyListModel = Models.readOnly(modifiableListModel);
+	IModel<List<Integer>> readOnlyListModel = Models.readOnly(modifiableListModel);
 	
 	}
 }

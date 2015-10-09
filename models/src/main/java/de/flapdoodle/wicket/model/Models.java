@@ -215,7 +215,7 @@ public abstract class Models
 	 * @param source source model
 	 * @return resulting model
 	 */
-	public static <T> IModel<List<T>> unmodifiable(IModel<List<? extends T>> source) {
+	public static <T> IModel<List<T>> unmodifiable(IModel<? extends List<? extends T>> source) {
 		return Models.on(source).apply(new UnmodifiableIfNotNull<T>());
 	}
 	

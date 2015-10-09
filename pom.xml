@@ -20,7 +20,7 @@
 	<properties>
 		<project.name>Flapdoodle Wicket7</project.name>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<wicket.version>7.0.0-M3</wicket.version>
+		<wicket.version>7.0.0</wicket.version>
 		<jetty.version>7.6.13.v20130916</jetty.version>
 		<!-- allowed values: R7, 1.0, 1.5, 2.0 or none -->
 		<wtp.version>none</wtp.version>
