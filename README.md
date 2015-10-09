@@ -15,12 +15,12 @@ custom wicket extensions which might be useful
 
 ### Maven
 
-Stable (Maven Central Repository, Released: 04.11.2014 - wait 24hrs for maven central)
+Stable (Maven Central Repository, Released: 09.10.2015 - wait 24hrs for maven central)
 
 	<dependency>
 		<groupId>de.flapdoodle.wicket7</groupId>
 		<artifactId>de.flapdoodle.wicket</artifactId>
-		<version>7.0.0</version>
+		<version>7.0.1</version>
 	</dependency>
 
 Snapshots (Repository http://oss.sonatype.org/content/repositories/snapshots)
@@ -28,7 +28,7 @@ Snapshots (Repository http://oss.sonatype.org/content/repositories/snapshots)
 	<dependency>
 		<groupId>de.flapdoodle.wicket7</groupId>
 		<artifactId>de.flapdoodle.wicket</artifactId>
-		<version>7.0.1-SNAPSHOT</version>
+		<version>7.0.2-SNAPSHOT</version>
 	</dependency>
 
 ### Whats in it?
@@ -51,9 +51,14 @@ __/\*moduleIdGoesHere\*/__ with __models__ and the right version (i think you ge
 
 ### Changelog
 
-#### 7.0.0 (SNAPSHOT)
+#### 7.0.1 (SNAPSHOT)
+
+- 
+
+#### 7.0.0
 
 - init release based on 6.13.3
+- works with wicket 7.0.0
 
 
 ### Usage
