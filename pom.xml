@@ -1,390 +1,458 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-	<parent>
-		<groupId>org.sonatype.oss</groupId>
-		<artifactId>oss-parent</artifactId>
-		<version>7</version>
-	</parent>
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
 
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>de.flapdoodle.wicket7</groupId>
-	<artifactId>de.flapdoodle.wicket</artifactId>
-	<name>${project.name}</name>
-	<version>7.0.2-SNAPSHOT</version>
-	<packaging>pom</packaging>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>de.flapdoodle.wicket7</groupId>
+    <artifactId>de.flapdoodle.wicket</artifactId>
+    <name>${project.name}</name>
+    <version>7.0.2-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
-	<description>custom wicket extensions which might be useful</description>
-	<url>http://github.com/flapdoodle-oss/de.flapdoodle.wicket</url>
+    <description>custom wicket extensions which might be useful</description>
+    <url>http://github.com/flapdoodle-oss/de.flapdoodle.wicket</url>
 
-	<properties>
-		<project.name>Flapdoodle Wicket7</project.name>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<wicket.version>7.0.0</wicket.version>
-		<jetty.version>7.6.13.v20130916</jetty.version>
-		<!-- allowed values: R7, 1.0, 1.5, 2.0 or none -->
-		<wtp.version>none</wtp.version>
-	</properties>
+    <properties>
+        <project.name>Flapdoodle Wicket7/Java8</project.name>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <wicket.version>7.0.0</wicket.version>
+        <jetty.version>7.6.13.v20130916</jetty.version>
+        <!-- allowed values: R7, 1.0, 1.5, 2.0 or none -->
+        <wtp.version>none</wtp.version>
+    </properties>
 
-	<licenses>
-		<license>
-			<name>The Apache Software License, Version 2.0</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
 
-	<scm>
-		<connection>scm:git:git@github.com:flapdoodle-oss/de.flapdoodle.wicket.git</connection>
-		<developerConnection>scm:git:git@github.com:flapdoodle-oss/de.flapdoodle.wicket.git</developerConnection>
-		<url>git@github.com:flapdoodle-oss/de.flapdoodle.wicket.git</url>
-	</scm>
+    <scm>
+        <connection>scm:git:git@github.com:flapdoodle-oss/de.flapdoodle.wicket.git</connection>
+        <developerConnection>scm:git:git@github.com:flapdoodle-oss/de.flapdoodle.wicket.git</developerConnection>
+        <url>git@github.com:flapdoodle-oss/de.flapdoodle.wicket.git</url>
+    </scm>
 
-	<!--
-	https://docs.sonatype.org/display/Repository/Central+Sync+Requirements
-	https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide
-	https://docs.sonatype.org/display/Repository/How+To+Generate+PGP+Signatures+With+Maven
-	-->
-	<build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>com.mycila.maven-license-plugin</groupId>
-					<artifactId>maven-license-plugin</artifactId>
-					<version>1.9.0</version>
-					<configuration>
-						<!--
-						<basedir>${basedir}</basedir>
-						-->
-						<header>${project.basedir}/src/etc/header.txt</header>
-						<!--
-						<validHeaders>
-							<validHeader>/otherSupportedHeader.txt</validHeader>
-							<validHeader>http://www.company.com/yetAnotherSupportedHeader.txt</validHeader>
-						</validHeaders>
-						-->
-						<quiet>false</quiet>
-						<failIfMissing>true</failIfMissing>
-						<strictCheck>true</strictCheck>
-						<aggregate>false</aggregate>
-						<includes>
-							<include>src/**</include>
-							<include>**/test/**</include>
-						</includes>
-						<!--
-						<excludes> <exclude>target/**</exclude>
-						<exclude>.clover/**</exclude> </excludes>
-						<useDefaultExcludes>true</useDefaultExcludes>
-						-->
-						<!--
-						<mapping> <jwc>XML_STYLE</jwc>
-						<application>XML_STYLE</application>
-						<myFileExtension>JAVADOC_STYLE</myFileExtension> </mapping>
-						<useDefaultMapping>true</useDefaultMapping>
-						-->
-						<properties>
-							<lic.year>2011</lic.year>
-							<lic.email>michael@mosmann.de</lic.email>
-							<lic.username>Michael Mosmann</lic.username>
-              <lic.email2>unknown@email.de</lic.email2>
-              <lic.username2>Jan Bernitt</lic.username2>
-              <lic.developers>nobody yet</lic.developers>
-						</properties>
-						<encoding>UTF-8</encoding>
-						<!--
-						<headerDefinitions> <headerDefinition>def1.xml</headerDefinition>
-						<headerDefinition>def2.xml</headerDefinition> </headerDefinitions>
-						-->
-					</configuration>
-					<executions>
-						<execution>
-							<goals>
-								<goal>check</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-			</plugins>
-		</pluginManagement>
+    <!--
+    https://docs.sonatype.org/display/Repository/Central+Sync+Requirements
+    https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide
+    https://docs.sonatype.org/display/Repository/How+To+Generate+PGP+Signatures+With+Maven
+    -->
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>com.mycila.maven-license-plugin</groupId>
+                    <artifactId>maven-license-plugin</artifactId>
+                    <version>1.9.0</version>
+                    <configuration>
+                        <!--
+                        <basedir>${basedir}</basedir>
+                        -->
+                        <header>${project.basedir}/src/etc/header.txt</header>
+                        <!--
+                        <validHeaders>
+                                <validHeader>/otherSupportedHeader.txt</validHeader>
+                                <validHeader>http://www.company.com/yetAnotherSupportedHeader.txt</validHeader>
+                        </validHeaders>
+                        -->
+                        <quiet>false</quiet>
+                        <failIfMissing>true</failIfMissing>
+                        <strictCheck>true</strictCheck>
+                        <aggregate>false</aggregate>
+                        <includes>
+                            <include>src/**</include>
+                            <include>**/test/**</include>
+                        </includes>
+                        <!--
+                        <excludes> <exclude>target/**</exclude>
+                        <exclude>.clover/**</exclude> </excludes>
+                        <useDefaultExcludes>true</useDefaultExcludes>
+                        -->
+                        <!--
+                        <mapping> <jwc>XML_STYLE</jwc>
+                        <application>XML_STYLE</application>
+                        <myFileExtension>JAVADOC_STYLE</myFileExtension> </mapping>
+                        <useDefaultMapping>true</useDefaultMapping>
+                        -->
+                        <properties>
+                            <lic.year>2011</lic.year>
+                            <lic.email>michael@mosmann.de</lic.email>
+                            <lic.username>Michael Mosmann</lic.username>
+                            <lic.email2>unknown@email.de</lic.email2>
+                            <lic.username2>Jan Bernitt</lic.username2>
+                            <lic.developers>nobody yet</lic.developers>
+                        </properties>
+                        <encoding>UTF-8</encoding>
+                        <!--
+                        <headerDefinitions> <headerDefinition>def1.xml</headerDefinition>
+                        <headerDefinition>def2.xml</headerDefinition> </headerDefinitions>
+                        -->
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
 
-		<plugins>
-			<plugin>
-				<groupId>com.mycila.maven-license-plugin</groupId>
-				<artifactId>maven-license-plugin</artifactId>
-				<configuration>
-					<header>${project.basedir}/src/etc/header.txt</header>
-				</configuration>
-			</plugin>
+        <plugins>
+            <plugin>
+                <groupId>com.mycila.maven-license-plugin</groupId>
+                <artifactId>maven-license-plugin</artifactId>
+                <configuration>
+                    <header>${project.basedir}/src/etc/header.txt</header>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>1.4</version>
+                <executions>
+                    <execution>
+                        <id>enforce-versions</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <!--
+                                <bannedPlugins>
+                                    < ! - - will only display a warning but does not fail the build. - - >
+                                    <level>WARN</level>
+                                    <excludes>
+                                        <exclude>org.apache.maven.plugins:maven-verifier-plugin</exclude>
+                                    </excludes>
+                                    <message>Please consider using the maven-invoker-plugin (http://maven.apache.org/plugins/maven-invoker-plugin/)!</message>
+                                </bannedPlugins>
+                                -->
+                                <requireMavenVersion>
+                                    <version>3.2.0</version>
+                                </requireMavenVersion>
+                                <!--
+                                <requireJavaVersion>
+                                    <version>1.8</version>
+                                </requireJavaVersion>
+                                -->
+                                <!--
+                                <requireOS>
+                                    <family>unix</family>
+                                </requireOS>
+                                -->
+                                <dependencyConvergence/>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.5.1</version>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-					<encoding>UTF-8</encoding>
-					<optimize>true</optimize>
-					<debug>true</debug>
-				</configuration>
-			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-toolchains-plugin</artifactId>
+                <version>1.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>toolchain</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <toolchains>
+                        <jdk>
+                            <version>[1.8,)</version>
+                        </jdk>
+                    </toolchains>
+                </configuration>
+            </plugin>    
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                    <optimize>true</optimize>
+                    <debug>true</debug>
+                </configuration>
+            </plugin>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-eclipse-plugin</artifactId>
-				<version>2.9</version>
-				<configuration>
-					<downloadSources>true</downloadSources>
-					<wtpversion>${wtp.version}</wtpversion>
-				</configuration>
-			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-eclipse-plugin</artifactId>
+                <version>2.10</version>
+                <configuration>
+                    <downloadSources>true</downloadSources>
+                    <wtpversion>${wtp.version}</wtpversion>
+                </configuration>
+            </plugin>
 			
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.5</version>
-				<configuration>
-					<encoding>UTF-8</encoding>
-				</configuration>
-			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<version>2.1.2</version>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.4</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.11</version>
-				<configuration>
-					<excludes>
-						<exclude>**/live/**</exclude>
-						<exclude>**/examples/**</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.18.1</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/live/**</exclude>
+                        <exclude>**/examples/**</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
     
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.7.0.201403182114</version>
-				<executions>
-					<execution>
-						<id>prepare-agent</id>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>report</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-					</execution>
-					<!-- <execution> <id>check</id> <goals> <goal>check</goal> </goals> 
-						<configuration> <check> <classRatio>100</classRatio> <instructionRatio>90</instructionRatio> 
-						<methodRatio>95</methodRatio> <branchRatio>85</branchRatio> <complexityRatio>85</complexityRatio> 
-						<lineRatio>90</lineRatio> </check> </configuration> </execution> -->
-				</executions>
-			</plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.7.5.201505241946</version>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                    <!-- <execution> <id>check</id> <goals> <goal>check</goal> </goals> 
+                    <configuration> <check> <classRatio>100</classRatio> <instructionRatio>90</instructionRatio> 
+                    <methodRatio>95</methodRatio> <branchRatio>85</branchRatio> <complexityRatio>85</complexityRatio> 
+                    <lineRatio>90</lineRatio> </check> </configuration> </execution> -->
+                </executions>
+            </plugin>
 			
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>2.9.1</version>
-				<configuration>
-					<configLocation>config/checkstyle.xml</configLocation>
-					<excludes>${basedir}/src/test/**/*</excludes>
-				</configuration>
-			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.16</version>
+                <configuration>
+                    <configLocation>config/checkstyle.xml</configLocation>
+                    <excludes>${basedir}/src/test/**/*</excludes>
+                </configuration>
+            </plugin>
 
-			<plugin>
-				<groupId>org.mortbay.jetty</groupId>
-				<artifactId>jetty-maven-plugin</artifactId>
-				<version>${jetty.version}</version>
-				<configuration>
-					<connectors>
-						<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-							<port>8080</port>
-							<maxIdleTime>3600000</maxIdleTime>
-						</connector>
-						<connector implementation="org.eclipse.jetty.server.ssl.SslSocketConnector">
-							<port>8443</port>
-							<maxIdleTime>3600000</maxIdleTime>
-							<keystore>${project.build.directory}/test-classes/keystore</keystore>
-							<password>wicket</password>
-							<keyPassword>wicket</keyPassword>
-						</connector>
-					</connectors>
-				</configuration>
-			</plugin>
+            <plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>${jetty.version}</version>
+                <configuration>
+                    <connectors>
+                        <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+                            <port>8080</port>
+                            <maxIdleTime>3600000</maxIdleTime>
+                        </connector>
+                        <connector implementation="org.eclipse.jetty.server.ssl.SslSocketConnector">
+                            <port>8443</port>
+                            <maxIdleTime>3600000</maxIdleTime>
+                            <keystore>${project.build.directory}/test-classes/keystore</keystore>
+                            <password>wicket</password>
+                            <keyPassword>wicket</keyPassword>
+                        </connector>
+                    </connectors>
+                </configuration>
+            </plugin>
 			
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jxr-plugin</artifactId>
-				<version>2.3</version>
-			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>2.5</version>
+            </plugin>
 			
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.9</version>
-        <configuration>
-          <!-- Default configuration for all reports -->
-					<aggregate>true</aggregate>
-        </configuration>
-        <executions>
-					<execution>
-						<id>attach-javadocs</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-          <execution>
-            <id>aggregate</id>
-            <goals>
-              <goal>aggregate</goal>
-            </goals>
-            <phase>site</phase>
-            <configuration>
-              <!-- Specific configuration for the aggregate report -->
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-		</plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.10.3</version>
+                <configuration>
+                    <!-- Default configuration for all reports -->
+                    <aggregate>true</aggregate>
+                    <failOnError>false</failOnError>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>aggregate</id>
+                        <goals>
+                            <goal>aggregate</goal>
+                        </goals>
+                        <phase>site</phase>
+                        <configuration>
+                            <!-- Specific configuration for the aggregate report -->
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
 
-		<resources>
-			<resource>
-				<filtering>false</filtering>
-				<directory>src/main/resources</directory>
-			</resource>
-			<resource>
-				<filtering>false</filtering>
-				<directory>src/main/java</directory>
-				<includes>
-					<include>**</include>
-				</includes>
-				<excludes>
-					<exclude>**/*.java</exclude>
-				</excludes>
-			</resource>
-		</resources>
-		<testResources>
-			<testResource>
-				<filtering>false</filtering>
-				<directory>src/test/resources</directory>
-			</testResource>
-			<testResource>
-				<filtering>false</filtering>
-				<directory>src/test/java</directory>
-				<includes>
-					<include>**</include>
-				</includes>
-				<excludes>
-					<exclude>**/*.java</exclude>
-				</excludes>
-			</testResource>
-		</testResources>
-	</build>
+        <resources>
+            <resource>
+                <filtering>false</filtering>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <filtering>false</filtering>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**</include>
+                </includes>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                </excludes>
+            </resource>
+        </resources>
+        <testResources>
+            <testResource>
+                <filtering>false</filtering>
+                <directory>src/test/resources</directory>
+            </testResource>
+            <testResource>
+                <filtering>false</filtering>
+                <directory>src/test/java</directory>
+                <includes>
+                    <include>**</include>
+                </includes>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                </excludes>
+            </testResource>
+        </testResources>
+    </build>
 
-	<profiles>
-		<profile>
-			<id>release-sign-artifacts</id>
-			<activation>
-				<property>
-					<name>performRelease</name>
-					<value>true</value>
-				</property>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-gpg-plugin</artifactId>
-						<version>1.1</version>
-						<executions>
-							<execution>
-								<id>sign-artifacts</id>
-								<phase>verify</phase>
-								<goals>
-									<goal>sign</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
+    <profiles>
+        <profile>
+            <id>release-sign-artifacts</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.6</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
-	<dependencyManagement>
-	 	<dependencies>
-			<!--  JUNIT DEPENDENCY FOR TESTING -->
-			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>4.10</version>
-				<scope>test</scope>
-			</dependency>
+    <dependencyManagement>
+        <dependencies>
+            <!--  JUNIT DEPENDENCY FOR TESTING -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.12</version>
+                <scope>test</scope>
+            </dependency>
 		
-			<!--  JETTY DEPENDENCIES FOR TESTING  -->
-			<dependency>
-				<groupId>org.eclipse.jetty.aggregate</groupId>
-				<artifactId>jetty-all-server</artifactId>
-				<version>${jetty.version}</version>
-				<scope>provided</scope>
-			</dependency>
+            <!--  JETTY DEPENDENCIES FOR TESTING  -->
+            <dependency>
+                <groupId>org.eclipse.jetty.aggregate</groupId>
+                <artifactId>jetty-all-server</artifactId>
+                <version>${jetty.version}</version>
+                <scope>provided</scope>
+            </dependency>
 		
-			<!-- WICKET DEPENDENCIES -->
-			<dependency>
-				<groupId>org.apache.wicket</groupId>
-				<artifactId>wicket-core</artifactId>
-				<version>${wicket.version}</version>
-				<scope>provided</scope>
-			</dependency>
+            <!-- WICKET DEPENDENCIES -->
+            <dependency>
+                <groupId>org.apache.wicket</groupId>
+                <artifactId>wicket-core</artifactId>
+                <version>${wicket.version}</version>
+                <scope>provided</scope>
+            </dependency>
 
-			<!-- LOGGING DEPENDENCIES - LOG4J -->
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-log4j12</artifactId>
-				<version>1.7.12</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>log4j</groupId>
-				<artifactId>log4j</artifactId>
-				<version>1.2.17</version>
-				<scope>provided</scope>
-			</dependency>
+            <!-- LOGGING DEPENDENCIES - LOG4J -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>1.7.12</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>1.2.17</version>
+                <scope>provided</scope>
+            </dependency>
 		
-		</dependencies>
-	</dependencyManagement>
+            <!-- fix wicket dependency collisions -->
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.4</version>
+                <scope>provided</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
  
-	<modules>
-		<module>models</module>
-		<module>components</module>
-		<module>requests</module>
-		<module>debug</module>
+    <modules>
+        <module>models</module>
+        <module>components</module>
+        <module>requests</module>
+        <module>debug</module>
 		
-		<!-- incubate new ideas -->
-		<module>incubator</module>
+        <!-- incubate new ideas -->
+        <module>incubator</module>
 		
-		<!-- examples -->
-		<module>examples</module>
-	</modules>
+        <!-- examples -->
+        <module>examples</module>
+    </modules>
 
 </project>
