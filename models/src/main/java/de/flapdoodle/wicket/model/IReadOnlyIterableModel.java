@@ -23,17 +23,21 @@ package de.flapdoodle.wicket.model;
 import org.apache.wicket.model.IModel;
 
 import de.flapdoodle.functions.Function1;
+import de.flapdoodle.wicket.model.transformation.IterableModel;
+import de.flapdoodle.wicket.model.transformation.ListMappingModel;
+import de.flapdoodle.wicket.model.transformation.MapModel;
 
-public interface IReadOnlyModel<T> extends IModel<T> {
+public interface IReadOnlyIterableModel<T,I extends Iterable<T>> extends IReadOnlyModel<I> {
 
-	@Override
-	@Deprecated
-	default void setObject(T object) {
-		throw new UnsupportedOperationException("Model " + getClass() +
-				" does not support setObject(Object)");
+	public default <D> IReadOnlyListModel<D> mapEach(Function1<D, T> map) {
+		return new ListMappingModel<T, I, D>(this,map);
 	}
 	
-	public default <R> IReadOnlyModel<R> map(Function1<R, ? super T> map) {
-		return Models.on(this).apply(map);
+	public default <K> MapModel<K, T> asMap(Function1<K, T> keyTransformation) {
+		return new MapModel<>(this, keyTransformation);
+	}
+	
+	public static <T,I extends Iterable<T>> IReadOnlyIterableModel<T,I> asIterable(IModel<I> source) {
+		return new IterableModel<>(source);
 	}
 }

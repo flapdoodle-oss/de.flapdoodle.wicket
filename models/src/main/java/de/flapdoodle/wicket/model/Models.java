@@ -59,7 +59,11 @@ public abstract class Models
 	{
 		return new ModelSet.Set1<T>(source);
 	}
-
+	
+	public static <T, I extends Iterable<T>> IReadOnlyIterableModel<T, I> asIterable(IModel<I> source) {
+		return IReadOnlyIterableModel.asIterable(source);
+	}
+	
 	/**
 	 * Creates a model based on a set of models and a function.
 	 * <ul>

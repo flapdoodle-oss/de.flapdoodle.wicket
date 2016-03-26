@@ -18,15 +18,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.flapdoodle.functions;
+package de.flapdoodle.wicket.model;
 
-import java.io.Serializable;
+import java.util.List;
 
-public interface Function1<R,T> extends Function, Serializable
-{
-	R apply(T value);
-	
-	public default SymetricalFunction<T, R> reversableWith(Function1<T, R> reverse) {
-		return SymetricalFunction.with(this, reverse);
-	}
+public interface IReadOnlyListModel<T> extends IReadOnlyIterableModel<T, List<T>> {
+
 }

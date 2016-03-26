@@ -45,7 +45,7 @@ import org.apache.wicket.model.LoadableDetachableModel;
  * @param <T>
  *            The model object
  */
-public abstract class AbstractReadOnlyDetachedModel<T> extends LoadableDetachableModel<T> {
+public abstract class AbstractReadOnlyDetachedModel<T> extends LoadableDetachableModel<T> implements IReadOnlyModel<T> {
 
 	/**
 	 * This default implementation of setObject unconditionally throws an

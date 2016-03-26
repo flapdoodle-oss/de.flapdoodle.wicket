@@ -20,13 +20,21 @@
  */
 package de.flapdoodle.functions;
 
-import java.io.Serializable;
-
-public interface Function1<R,T> extends Function, Serializable
-{
-	R apply(T value);
+public interface SymetricalFunction<S,D> extends Function1<D, S> {
+	public SymetricalFunction<D, S> reverse();
 	
-	public default SymetricalFunction<T, R> reversableWith(Function1<T, R> reverse) {
-		return SymetricalFunction.with(this, reverse);
+	public static <S, D> SymetricalFunction<S, D> with(Function1<D, S> to, Function1<S, D> from) {
+		return new SymetricalFunction<S, D>() {
+
+			@Override
+			public D apply(S value) {
+				return to.apply(value);
+			}
+
+			@Override
+			public SymetricalFunction<D, S> reverse() {
+				return with(from, to);
+			}
+		};
 	}
 }

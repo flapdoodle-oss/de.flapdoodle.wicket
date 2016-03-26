@@ -18,15 +18,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.flapdoodle.functions;
+package de.flapdoodle.wicket.model.transformation;
 
-import java.io.Serializable;
+import org.apache.wicket.model.IModel;
 
-public interface Function1<R,T> extends Function, Serializable
-{
-	R apply(T value);
-	
-	public default SymetricalFunction<T, R> reversableWith(Function1<T, R> reverse) {
-		return SymetricalFunction.with(this, reverse);
+import de.flapdoodle.wicket.model.IReadOnlyIterableModel;
+
+public class IterableModel<T, I extends Iterable<T>> implements IReadOnlyIterableModel<T, I> {
+
+	private final IModel<I> source;
+
+	public IterableModel(IModel<I> source) {
+		this.source = source;
 	}
+	
+	@Override
+	public I getObject() {
+		return source.getObject();
+	}
+
+	@Override
+	public void detach() {
+		source.detach();
+	}
+
 }

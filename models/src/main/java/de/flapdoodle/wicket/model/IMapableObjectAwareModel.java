@@ -23,11 +23,25 @@ package de.flapdoodle.wicket.model;
 import org.apache.wicket.model.IObjectClassAwareModel;
 
 import de.flapdoodle.functions.Function1;
+import de.flapdoodle.functions.Functions;
+import de.flapdoodle.functions.SymetricalFunction;
 import de.flapdoodle.wicket.model.transformation.ObjectAwareTransformator;
 
 public interface IMapableObjectAwareModel<T> extends IObjectClassAwareModel<T> {
 
+	public default <R> IMapableObjectAwareModel<R> map(Class<R> type, SymetricalFunction<T, R> mapping) {
+		return map(type,mapping,mapping.reverse());
+	}
+	
 	public default <R> IMapableObjectAwareModel<R> map(Class<R> type, Function1<R, ? super T> read, Function1<T, ? super R> write) {
 		return new ObjectAwareTransformator<T, R>(this, type, read, write);
+	}
+	
+	public default <R> IMapableObjectAwareModel<R> mapNullable(Class<R> type, SymetricalFunction<T, R> mapping) {
+		return mapNullable(type,mapping,mapping.reverse());
+	}
+	
+	public default <R> IMapableObjectAwareModel<R> mapNullable(Class<R> type, Function1<R, ? super T> read, Function1<T, ? super R> write) {
+		return new ObjectAwareTransformator<T, R>(this, type, Functions.orNull(read), Functions.orNull(write));
 	}
 }

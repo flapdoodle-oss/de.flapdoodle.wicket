@@ -18,22 +18,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.flapdoodle.wicket.model;
+package de.flapdoodle.wicket.model.transformation;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.wicket.model.IModel;
 
 import de.flapdoodle.functions.Function1;
+import de.flapdoodle.wicket.model.AbstractReadOnlyDetachedModel;
+import de.flapdoodle.wicket.model.IReadOnlyListModel;
 
-public interface IReadOnlyModel<T> extends IModel<T> {
+public class ListMappingModel<T,I extends Iterable<T>,D> extends AbstractReadOnlyDetachedModel<List<D>> implements IReadOnlyListModel<D> {
+
+	private final IModel<I> source;
+	private final Function1<D, T> map;
+
+	public ListMappingModel(IModel<I> source, Function1<D, T> map) {
+		this.source = source;
+		this.map = map;
+	}
 
 	@Override
-	@Deprecated
-	default void setObject(T object) {
-		throw new UnsupportedOperationException("Model " + getClass() +
-				" does not support setObject(Object)");
+	protected List<D> load() {
+		ArrayList<D> ret=new ArrayList<>();
+		for (T value : source.getObject()) {
+			ret.add(map.apply(value));
+		}
+		return ret;
 	}
-	
-	public default <R> IReadOnlyModel<R> map(Function1<R, ? super T> map) {
-		return Models.on(this).apply(map);
+
+	@Override
+	protected void onDetach() {
+		super.onDetach();
+		source.detach();
 	}
 }
