@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 
 import de.flapdoodle.functions.Function1;
@@ -215,7 +214,7 @@ public abstract class Models
 	 * @param source source model
 	 * @return resulting model
 	 */
-	public static <T> IModel<List<T>> unmodifiable(IModel<? extends List<? extends T>> source) {
+	public static <T> IModel<List<? extends T>> unmodifiable(IModel<? extends List<? extends T>> source) {
 		return Models.on(source).apply(new UnmodifiableIfNotNull<T>());
 	}
 	
@@ -239,7 +238,7 @@ public abstract class Models
 	 * @param source source
 	 * @return resulting model
 	 */
-	public static <T> IModel<List<T>> emptyIfNull(IModel<List<T>> source) {
+	public static <T> IModel<List<? extends T>> emptyIfNull(IModel<? extends List<? extends T>> source) {
 		return Models.on(source).apply(new EmptyListIfNull<T>());
 	}
 	
@@ -248,11 +247,11 @@ public abstract class Models
 	 * @param source source
 	 * @return model of same type
 	 */
-	public static <T> IModel<T> readOnly(IModel<T> source) {
+	public static <T> IModel<T> readOnly(IModel<? extends T> source) {
 		return Models.on(source).apply(new Noop<T>());
 	}
 
-	private static final class UnmodifiableIfNotNull<T> implements Function1<List<T>, List<? extends T>> {
+	private static final class UnmodifiableIfNotNull<T> implements Function1<List<? extends T>, List<? extends T>> {
 
 		@Override
 		public List<T> apply(List<? extends T> value) {
@@ -260,16 +259,17 @@ public abstract class Models
 		}
 	}
 
-	private static final class EmptyListIfNull<T> implements Function1<List<T>, List<T>> {
+	private static final class EmptyListIfNull<T> implements Function1<List<? extends T>, List<? extends T>> {
 
 		@Override
-		public List<T> apply(List<T> value) {
+		public List<? extends T> apply(List<? extends T> value) {
 			return value!=null ? value : new ArrayList<T>();
 		}
 	}
 
 	private static final class Noop<T> implements Function1<T, T> {
 
+		@Override
 		public T apply(T value) {
 			return value;
 		}

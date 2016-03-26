@@ -8,8 +8,8 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>de.flapdoodle.wicket7</groupId>
-    <artifactId>de.flapdoodle.wicket-java8</artifactId>
+    <groupId>de.flapdoodle.wicket7-java8</groupId>
+    <artifactId>de.flapdoodle.wicket</artifactId>
     <name>${project.name}</name>
     <version>7.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
@@ -52,9 +52,9 @@
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>com.mycila.maven-license-plugin</groupId>
-                    <artifactId>maven-license-plugin</artifactId>
-                    <version>1.9.0</version>
+				            <groupId>com.mycila</groupId>
+				            <artifactId>license-maven-plugin</artifactId>
+				            <version>2.11</version>
                     <configuration>
                         <!--
                         <basedir>${basedir}</basedir>
@@ -131,8 +131,8 @@
                 </configuration>
             </plugin>    
             <plugin>
-                <groupId>com.mycila.maven-license-plugin</groupId>
-                <artifactId>maven-license-plugin</artifactId>
+		            <groupId>com.mycila</groupId>
+		            <artifactId>license-maven-plugin</artifactId>
                 <configuration>
                     <header>${project.basedir}/src/etc/header.txt</header>
                 </configuration>
@@ -184,12 +184,18 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.3</version>
                 <configuration>
+                    <compilerVersion>1.8</compilerVersion>
                     <source>1.8</source>
                     <target>1.8</target>
                     <encoding>UTF-8</encoding>
-                    <optimize>true</optimize>
-                    <debug>true</debug>
-                    <compilerVersion>1.8</compilerVersion>
+                    <showWarnings>true</showWarnings>
+                    <showDeprecation>true</showDeprecation>
+                    <fork>true</fork>
+                    <compilerArgs>
+                        <arg>-Xlint</arg>
+                    </compilerArgs>
+                    <!-- Prevents an endPosTable exception during compilation -->
+                    <useIncrementalCompilation>false</useIncrementalCompilation>
                 </configuration>
             </plugin>
 

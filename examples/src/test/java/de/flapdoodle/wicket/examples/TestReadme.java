@@ -56,12 +56,12 @@ once as in LoadableDetachedModel.
 /*
 #### complex model transformation setup
 */
-	public <T> IModel<List<T>> subListModel(IModel<List<T>> source,IModel<Integer> offsetModel, IModel<Integer> sizeModel) {
-		IModel<List<T>> emptyIfNull = Models.emptyIfNull(source);
+	public <T> IModel<List<? extends T>> subListModel(IModel<List<T>> source,IModel<Integer> offsetModel, IModel<Integer> sizeModel) {
+		IModel<? extends List<? extends T>> emptyIfNull = Models.emptyIfNull(source);
 		
-		return Models.on(emptyIfNull,offsetModel,sizeModel).apply(new Function3<List<T>, List<T>, Integer, Integer>() {
+		return Models.on(emptyIfNull,offsetModel,sizeModel).apply(new Function3<List<? extends T>, List<? extends T>, Integer, Integer>() {
 			@Override
-			public List<T> apply(List<T> list, Integer offset, Integer size) {
+			public List<? extends T> apply(List<? extends T> list, Integer offset, Integer size) {
 				int startIdx=Math.min(list.size(), offset);
 				int lastIdx=Math.min(list.size(),offset+size);
 				return list.subList(startIdx, lastIdx);
@@ -79,11 +79,11 @@ are some functions to prevent this.
 	public void unmodifiableAndReadOnly() {
 		
 	List<Integer> source=new ArrayList<Integer>(Arrays.asList(1,2,3));
-	IModel<List<Integer>> unmodifiableListModel = Models.unmodifiable(source);
+	IModel<? extends List<? extends Integer>> unmodifiableListModel = Models.unmodifiable(source);
 	
-	IModel<List<? extends Integer>> modifiableListModel = Model.ofList(Arrays.asList(1,2,3));
-	IModel<List<Integer>> asUnmodifiableListModel = Models.unmodifiable(modifiableListModel);
-	IModel<List<? extends Integer>> readOnlyListModel = Models.readOnly(modifiableListModel);
+	IModel<? extends List<? extends Integer>> modifiableListModel = Model.ofList(Arrays.asList(1,2,3));
+	IModel<? extends List<? extends Integer>> asUnmodifiableListModel = Models.unmodifiable(modifiableListModel);
+	IModel<? extends List<? extends Integer>> readOnlyListModel = Models.readOnly(modifiableListModel);
 	
 	}
 }
