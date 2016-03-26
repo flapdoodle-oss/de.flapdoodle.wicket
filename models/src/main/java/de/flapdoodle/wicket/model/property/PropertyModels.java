@@ -22,6 +22,7 @@ package de.flapdoodle.wicket.model.property;
 
 import org.apache.wicket.model.IModel;
 
+@Deprecated
 public abstract class PropertyModels {
 
 	private PropertyModels() {

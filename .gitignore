@@ -20,3 +20,5 @@ velocity.log
 # idea settings #
 .idea
 
+# netbeans stuff #
+nb-configuration.xml

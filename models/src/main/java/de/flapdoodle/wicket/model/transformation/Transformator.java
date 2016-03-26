@@ -27,176 +27,158 @@ import de.flapdoodle.functions.Function;
 import de.flapdoodle.functions.Function1;
 import de.flapdoodle.functions.Function2;
 import de.flapdoodle.functions.Function3;
+import de.flapdoodle.wicket.model.IReadOnlyModel;
 
 /**
- * model implementation using source models and a tranformation function 
+ * model implementation using source models and a tranformation function
+ * 
  * @param <T>
  */
-abstract class Transformator<T> extends LoadableDetachableModel<T>
-{
+abstract class Transformator<T> extends LoadableDetachableModel<T> implements IReadOnlyModel<T> {
 	private final IModel<?>[] _subModels;
 	private final Function _function;
-	
-	protected Transformator(Function function, IModel<?> ... subModels)
-  {
-		_subModels=subModels;
-		_function=function;
-  }
-	
+
+	protected Transformator(Function function, IModel<?>... subModels) {
+		_subModels = subModels;
+		_function = function;
+	}
+
 	@Override
-	protected void onDetach()
-	{
-		for (IModel<?> m : _subModels)
-		{
+	protected void onDetach() {
+		for (IModel<?> m : _subModels) {
 			m.detach();
 		}
 	}
-	
+
 	@Override
 	public void setObject(T object) {
-		throw new UnsupportedOperationException("Model " + getClass() + " with " + _function +
-				" does not support setObject(Object)");
+		throw new UnsupportedOperationException(
+				"Model " + getClass() + " with " + _function + " does not support setObject(Object)");
 	};
-	
-	final static class Model1<T,M1> extends Transformator<T>
-	{
+
+	final static class Model1<T, M1> extends Transformator<T> {
 		IModel<? extends M1> _m1;
 		Function1<T, ? super M1> _function;
-		
-		public Model1(IModel<? extends M1> m1, Function1<T, ? super M1> function)
-    {
-	    super(function, m1);
-	    
-	    _m1=m1;
-	    _function=function;
-    }
-		
-		@Override
-		protected T load()
-		{
-		  return _function.apply(_m1.getObject());
+
+		public Model1(IModel<? extends M1> m1, Function1<T, ? super M1> function) {
+			super(function, m1);
+
+			_m1 = m1;
+			_function = function;
 		}
-	}
-	
-	final static class Model2<T,M1,M2> extends Transformator<T>
-	{
-		IModel<? extends M1> _m1;
-		IModel<? extends M2> _m2;
-		Function2<T, ? super M1, ? super M2> _function;
-		
-		public Model2(IModel<? extends M1> m1, IModel<? extends M2> m2, Function2<T, ? super M1, ? super M2> function)
-    {
-	    super(function, m1,m2);
-	    
-	    _m1=m1;
-	    _m2=m2;
-	    _function=function;
-    }
-		
+
 		@Override
-		protected T load()
-		{
-		  return _function.apply(_m1.getObject(),_m2.getObject());
+		protected T load() {
+			return _function.apply(_m1.getObject());
 		}
 	}
 
-	final static class Model3<T,M1,M2,M3> extends Transformator<T>
-	{
+	final static class Model2<T, M1, M2> extends Transformator<T> {
+		IModel<? extends M1> _m1;
+		IModel<? extends M2> _m2;
+		Function2<T, ? super M1, ? super M2> _function;
+
+		public Model2(IModel<? extends M1> m1, IModel<? extends M2> m2, Function2<T, ? super M1, ? super M2> function) {
+			super(function, m1, m2);
+
+			_m1 = m1;
+			_m2 = m2;
+			_function = function;
+		}
+
+		@Override
+		protected T load() {
+			return _function.apply(_m1.getObject(), _m2.getObject());
+		}
+	}
+
+	final static class Model3<T, M1, M2, M3> extends Transformator<T> {
 		IModel<? extends M1> _m1;
 		IModel<? extends M2> _m2;
 		IModel<? extends M3> _m3;
 		Function3<T, ? super M1, ? super M2, ? super M3> _function;
-		
-		public Model3(IModel<? extends M1> m1, IModel<? extends M2> m2, IModel<? extends M3> m3, Function3<T, ? super M1, ? super M2, ? super M3> function)
-    {
-	    super(function, m1,m2,m3);
-	    
-	    _m1=m1;
-	    _m2=m2;
-	    _m3=m3;
-	    _function=function;
-    }
-		
+
+		public Model3(IModel<? extends M1> m1, IModel<? extends M2> m2, IModel<? extends M3> m3,
+				Function3<T, ? super M1, ? super M2, ? super M3> function) {
+			super(function, m1, m2, m3);
+
+			_m1 = m1;
+			_m2 = m2;
+			_m3 = m3;
+			_function = function;
+		}
+
 		@Override
-		protected T load()
-		{
-		  return _function.apply(_m1.getObject(),_m2.getObject(),_m3.getObject());
+		protected T load() {
+			return _function.apply(_m1.getObject(), _m2.getObject(), _m3.getObject());
 		}
 	}
 
-
-	final static class LazyModel1<T,M1> extends Transformator<T>
-	{
+	final static class LazyModel1<T, M1> extends Transformator<T> {
 		IModel<? extends M1> _m1;
 		Function1<T, ? super Lazy<? extends M1>> _function;
-		
-		public LazyModel1(IModel<? extends M1> m1, Function1<T, ? super Lazy<? extends M1>> function)
-    {
-	    super(function, m1);
-	    
-	    _m1=m1;
-	    _function=function;
-    }
-		
+
+		public LazyModel1(IModel<? extends M1> m1, Function1<T, ? super Lazy<? extends M1>> function) {
+			super(function, m1);
+
+			_m1 = m1;
+			_function = function;
+		}
+
 		@Override
-		protected T load()
-		{
-		  return _function.apply(lazy(_m1));
+		protected T load() {
+			return _function.apply(lazy(_m1));
 		}
 	}
-	
-	final static class LazyModel2<T,M1,M2> extends Transformator<T>
-	{
+
+	final static class LazyModel2<T, M1, M2> extends Transformator<T> {
 		IModel<? extends M1> _m1;
 		IModel<? extends M2> _m2;
 		Function2<T, ? super Lazy<? extends M1>, ? super Lazy<? extends M2>> _function;
-		
-		public LazyModel2(IModel<? extends M1> m1, IModel<? extends M2> m2, Function2<T, ? super Lazy<? extends M1>, ? super Lazy<? extends M2>> function)
-    {
-	    super(function, m1,m2);
-	    
-	    _m1=m1;
-	    _m2=m2;
-	    _function=function;
-    }
-		
+
+		public LazyModel2(IModel<? extends M1> m1, IModel<? extends M2> m2,
+				Function2<T, ? super Lazy<? extends M1>, ? super Lazy<? extends M2>> function) {
+			super(function, m1, m2);
+
+			_m1 = m1;
+			_m2 = m2;
+			_function = function;
+		}
+
 		@Override
-		protected T load()
-		{
-		  return _function.apply(lazy(_m1),lazy(_m2));
+		protected T load() {
+			return _function.apply(lazy(_m1), lazy(_m2));
 		}
 	}
 
-	final static class LazyModel3<T,M1,M2,M3> extends Transformator<T>
-	{
+	final static class LazyModel3<T, M1, M2, M3> extends Transformator<T> {
 		IModel<? extends M1> _m1;
 		IModel<? extends M2> _m2;
 		IModel<? extends M3> _m3;
 		Function3<T, ? super Lazy<? extends M1>, ? super Lazy<? extends M2>, ? super Lazy<? extends M3>> _function;
-		
-		public LazyModel3(IModel<? extends M1> m1, IModel<? extends M2> m2, IModel<? extends M3> m3, Function3<T, ? super Lazy<? extends M1>, ? super Lazy<? extends M2>, ? super Lazy<? extends M3>> function)
-    {
-	    super(function, m1,m2,m3);
-	    
-	    _m1=m1;
-	    _m2=m2;
-	    _m3=m3;
-	    _function=function;
-    }
-		
+
+		public LazyModel3(IModel<? extends M1> m1, IModel<? extends M2> m2, IModel<? extends M3> m3,
+				Function3<T, ? super Lazy<? extends M1>, ? super Lazy<? extends M2>, ? super Lazy<? extends M3>> function) {
+			super(function, m1, m2, m3);
+
+			_m1 = m1;
+			_m2 = m2;
+			_m3 = m3;
+			_function = function;
+		}
+
 		@Override
-		protected T load()
-		{
-		  return _function.apply(lazy(_m1),lazy(_m2),lazy(_m3));
+		protected T load() {
+			return _function.apply(lazy(_m1), lazy(_m2), lazy(_m3));
 		}
 	}
-	
+
 	private static <T> Lazy<T> lazy(IModel<T> model) {
 		return new LazyModelAdapter<T>(model);
 	}
 
 	final static class LazyModelAdapter<T> implements Lazy<T> {
-		
+
 		private final IModel<T> _model;
 
 		public LazyModelAdapter(IModel<T> model) {
@@ -207,6 +189,6 @@ abstract class Transformator<T> extends LoadableDetachableModel<T>
 		public T get() {
 			return _model.getObject();
 		}
-		
+
 	}
 }

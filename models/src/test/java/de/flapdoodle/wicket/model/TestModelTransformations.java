@@ -20,7 +20,7 @@
  */
 package de.flapdoodle.wicket.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,7 @@ import de.flapdoodle.functions.Function3;
 import de.flapdoodle.wicket.model.transformation.Lazy;
 
 
-public class TestModelTransformations {
+public class TestModelTransformations extends AbstractModelTest {
 
 	@Test
 	public void sourceModelAndFunction() {
@@ -60,6 +60,7 @@ public class TestModelTransformations {
 		Assert.assertEquals("1", model.getObject());
 		model.detach();
 		Assert.assertEquals("2", model.getObject());
+		serialize(model);
 	}
 
 	@Test
@@ -90,6 +91,7 @@ public class TestModelTransformations {
 		Assert.assertEquals(Integer.valueOf(4), model.getObject());
 		model.detach();
 		Assert.assertEquals(Integer.valueOf(5), model.getObject());
+		serialize(model);
 	}
 	
 	@Test
@@ -159,6 +161,7 @@ public class TestModelTransformations {
 		Assert.assertEquals("5 Kinder", model.getObject());
 		model.detach();
 		Assert.assertEquals("5 Äpfel", model.getObject());
+		serialize(model);
 	}
 	
 	private <T> void checkExceptionOnSetObject(IModel<T> model,T value) {
@@ -170,8 +173,8 @@ public class TestModelTransformations {
 		}
 		Assert.assertNotNull("Exception on setObject",e);
 	}
-
-	private final class LazyStringAndIntList2String implements Function2<String, Lazy<? extends List<? extends String>>, Lazy<? extends List<? extends Integer>>> {
+	
+	private static final class LazyStringAndIntList2String implements Function2<String, Lazy<? extends List<? extends String>>, Lazy<? extends List<? extends Integer>>> {
 
 		@Override
 		public String apply(Lazy<? extends List<? extends String>> value, Lazy<? extends List<? extends Integer>> value2) {
@@ -179,7 +182,7 @@ public class TestModelTransformations {
 		}
 	}
 
-	private final class LazyStringIntAndBoolList2String implements Function3<String, Lazy<? extends List<? extends String>>, Lazy<? extends List<? extends Integer>>, Lazy<? extends List<? extends Boolean>>> {
+	private static final class LazyStringIntAndBoolList2String implements Function3<String, Lazy<? extends List<? extends String>>, Lazy<? extends List<? extends Integer>>, Lazy<? extends List<? extends Boolean>>> {
 
 		@Override
 		public String apply(Lazy<? extends List<? extends String>> value, Lazy<? extends List<? extends Integer>> value2, Lazy<? extends List<? extends Boolean>> value3) {
@@ -187,7 +190,7 @@ public class TestModelTransformations {
 		}
 	}
 
-	private final class StringAndIntList2String implements Function2<String, List<? extends String>, List<? extends Integer>> {
+	private static final class StringAndIntList2String implements Function2<String, List<? extends String>, List<? extends Integer>> {
 
 		@Override
 		public String apply(List<? extends String> value, List<? extends Integer> value2) {
@@ -195,7 +198,7 @@ public class TestModelTransformations {
 		}
 	}
 
-	private final class StringIntAndBoolList2String implements Function3<String, List<? extends String>, List<? extends Integer>, List<? extends Boolean>> {
+	private static final class StringIntAndBoolList2String implements Function3<String, List<? extends String>, List<? extends Integer>, List<? extends Boolean>> {
 
 		@Override
 		public String apply(List<? extends String> value, List<? extends Integer> value2, List<? extends Boolean> value3) {
@@ -203,7 +206,7 @@ public class TestModelTransformations {
 		}
 	}
 
-	private final class LazyStringList2String implements Function1<String, Lazy<? extends List<? extends String>>> {
+	private static final class LazyStringList2String implements Function1<String, Lazy<? extends List<? extends String>>> {
 
 		@Override
 		public String apply(Lazy<? extends List<? extends String>> value) {
@@ -211,7 +214,7 @@ public class TestModelTransformations {
 		}
 	}
 
-	private final class StringList2String implements Function1<String, List<? extends String>> {
+	private static final class StringList2String implements Function1<String, List<? extends String>> {
 
 		@Override
 		public String apply(List<? extends String> value) {
@@ -219,7 +222,7 @@ public class TestModelTransformations {
 		}
 	}
 
-	private final class AddToNumbersAndAString implements Function3<String, Integer, Integer, String> {
+	private static final class AddToNumbersAndAString implements Function3<String, Integer, Integer, String> {
 
 		@Override
 		public String apply(Integer value, Integer value2,String value3) {
@@ -227,7 +230,7 @@ public class TestModelTransformations {
 		}
 	}
 
-	private final class AddTwoNumbers implements Function2<Integer, Integer, Integer> {
+	private static final class AddTwoNumbers implements Function2<Integer, Integer, Integer> {
 
 		@Override
 		public Integer apply(Integer value, Integer value2) {
@@ -235,7 +238,7 @@ public class TestModelTransformations {
 		}
 	}
 
-	private final class IntegerToString implements Function1<String, Integer> {
+	private static final class IntegerToString implements Function1<String, Integer> {
 
 		@Override
 		public String apply(Integer value) {

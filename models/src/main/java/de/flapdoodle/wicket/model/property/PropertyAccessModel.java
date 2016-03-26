@@ -23,7 +23,7 @@ package de.flapdoodle.wicket.model.property;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.IObjectClassAwareModel;
 
-
+@Deprecated
 public class PropertyAccessModel<T, S> implements IObjectClassAwareModel<T> {
 
 	private final IModel<S> _source;
