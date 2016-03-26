@@ -93,6 +93,17 @@ public class Functions {
 		return new SwappedTypeFunction<R, T1, T2>(source);
 	}
 	
+	public static <R, T> Function1<R, T> orNull(Function1<R, T> transformation) {
+		return new Function1<R, T>() {
+
+			@Override
+			public R apply(T value) {
+				return value!=null ? transformation.apply(value) : null;
+			}
+		};
+	}
+
+	
 	static class JoinedFunction1<R, X, T> implements Function1<R, T> {
 
 		private final Function1<R, ? super X> _outer;
@@ -177,5 +188,6 @@ public class Functions {
 		}
 
 	}
+	
 
 }
