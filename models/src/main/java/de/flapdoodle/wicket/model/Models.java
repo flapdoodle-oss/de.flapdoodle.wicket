@@ -214,7 +214,7 @@ public abstract class Models
 	 * @param source source model
 	 * @return resulting model
 	 */
-	public static <T> IModel<List<? extends T>> unmodifiable(IModel<? extends List<? extends T>> source) {
+	public static <T> IModel<List<T>> unmodifiable(IModel<? extends List<? extends T>> source) {
 		return Models.on(source).apply(new UnmodifiableIfNotNull<T>());
 	}
 	
@@ -224,7 +224,7 @@ public abstract class Models
 	 * @param list
 	 * @return resulting model
 	 */
-	public static <T> IModel<List<T>> unmodifiable(final List<T> list) {
+	public static <T> IModel<List<T>> unmodifiable(final List<? extends T> list) {
 		return new AbstractReadOnlyDetachedModel<List<T>>() {
 			@Override
 			protected List<T> load() {
@@ -238,7 +238,7 @@ public abstract class Models
 	 * @param source source
 	 * @return resulting model
 	 */
-	public static <T> IModel<List<? extends T>> emptyIfNull(IModel<? extends List<? extends T>> source) {
+	public static <T> IModel<List<T>> emptyIfNull(IModel<? extends List<T>> source) {
 		return Models.on(source).apply(new EmptyListIfNull<T>());
 	}
 	
@@ -251,7 +251,7 @@ public abstract class Models
 		return Models.on(source).apply(new Noop<T>());
 	}
 
-	private static final class UnmodifiableIfNotNull<T> implements Function1<List<? extends T>, List<? extends T>> {
+	private static final class UnmodifiableIfNotNull<T> implements Function1<List<T>, List<? extends T>> {
 
 		@Override
 		public List<T> apply(List<? extends T> value) {
@@ -259,10 +259,10 @@ public abstract class Models
 		}
 	}
 
-	private static final class EmptyListIfNull<T> implements Function1<List<? extends T>, List<? extends T>> {
+	private static final class EmptyListIfNull<T> implements Function1<List<T>, List<T>> {
 
 		@Override
-		public List<? extends T> apply(List<? extends T> value) {
+		public List<T> apply(List<T> value) {
 			return value!=null ? value : new ArrayList<T>();
 		}
 	}

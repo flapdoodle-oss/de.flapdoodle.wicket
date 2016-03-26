@@ -61,7 +61,7 @@ public class TestReadOnly {
 	public void modelFromAListModelAsUnmodifiable() {
 		ArrayList<String> sourceList = new ArrayList<String>(Arrays.asList("Ha","Hu","Ha"));
 		IModel<? extends List<? extends String>> source = Model.ofList(sourceList);
-		IModel<List<? extends String>> model = Models.unmodifiable(source);
+		IModel<List<String>> model = Models.unmodifiable(source);
 		
 		Assert.assertEquals("Hu", model.getObject().get(1));
 		sourceList.remove(1);
@@ -73,7 +73,7 @@ public class TestReadOnly {
 	@Test
 	public void listEmptyIfNull() {
 		IModel<? extends List<? extends String>> sourceModel=Model.<String>ofList(null);
-		IModel<List<? extends String>> nullCheckedModel = Models.emptyIfNull(Models.unmodifiable(sourceModel));
+		IModel<List<String>> nullCheckedModel = Models.emptyIfNull(Models.unmodifiable(sourceModel));
 		Assert.assertNotNull(nullCheckedModel.getObject());
 		Assert.assertTrue(nullCheckedModel.getObject().isEmpty());
 	}

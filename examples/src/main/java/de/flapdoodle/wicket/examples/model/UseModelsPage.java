@@ -29,7 +29,6 @@ import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.IModel;
@@ -46,18 +45,18 @@ public class UseModelsPage extends WebPage {
 		
 		IModel<List<String>> listModel = Models.unmodifiable(source);
 		
-		IModel<List<String>> emptyIfNullListModel = Models.emptyIfNull(listModel);
+		IModel<? extends List<String>> emptyIfNullListModel = Models.emptyIfNull(listModel);
 		
-		IModel<Integer> listSizeModel = Models.on(emptyIfNullListModel).apply(new Function1<Integer, List<String>>() {
+		IModel<Integer> listSizeModel = Models.on(emptyIfNullListModel).apply(new Function1<Integer, List<? extends String>>() {
 			@Override
-			public Integer apply(List<String> value) {
+			public Integer apply(List<? extends String> value) {
 				return value.size();
 			}
 		});
 		
-		IModel<String> firstEntryModel = Models.on(emptyIfNullListModel).apply(new Function1<String, List<String>>() {
+		IModel<String> firstEntryModel = Models.on(emptyIfNullListModel).apply(new Function1<String, List<? extends String>>() {
 			@Override
-			public String apply(List<String> value) {
+			public String apply(List<? extends String> value) {
 				return !value.isEmpty() ? value.get(0) : null;
 			}
 		});
