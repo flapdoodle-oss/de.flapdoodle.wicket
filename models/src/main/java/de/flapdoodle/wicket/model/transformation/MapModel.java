@@ -23,30 +23,36 @@ package de.flapdoodle.wicket.model.transformation;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.wicket.model.IModel;
 
 import de.flapdoodle.functions.Function1;
 import de.flapdoodle.wicket.model.AbstractReadOnlyDetachedModel;
-import de.flapdoodle.wicket.model.IReadOnlyIterableModel;
-import de.flapdoodle.wicket.model.Models;
+import de.flapdoodle.wicket.model.IReadOnlyMapModel;
 
-public class MapModel<K,V> extends AbstractReadOnlyDetachedModel<Map<K,V>> {
+public class MapModel<K,V> extends AbstractReadOnlyDetachedModel<Map<K,V>> implements IReadOnlyMapModel<K, V> {
 
-	private final IModel<? extends Iterable<V>> source;
+	private final IModel<? extends Iterable<? extends V>> source;
 	private final Function1<K, ? super V> keyTransformation;
 
-	public MapModel(IModel<? extends Iterable<V>> source, Function1<K, ? super V> keyTransformation) {
+	public MapModel(IModel<? extends Iterable<? extends V>> source, Function1<K, ? super V> keyTransformation) {
 		this.source = source;
 		this.keyTransformation = keyTransformation;
 	}
 	
 	@Override
 	protected Map<K, V> load() {
+		return asMap(source.getObject(), keyTransformation);
+	}
+
+	protected static <K,V> Map<K, V> asMap(Iterable<? extends V> src, Function1<K, ? super V> transformation) {
 		Map<K,V> result=new LinkedHashMap<>();
-		for (V value : source.getObject()) {
-			result.put(keyTransformation.apply(value), value);
+		for (V value : src) {
+			K key = transformation.apply(value);
+			V old = result.put(key, value);
+			if (old!=null) {
+				throw new IllegalArgumentException("multiple values got the same key: "+value+","+old+" -> "+key);
+			}
 		}
 		return Collections.unmodifiableMap(result);
 	}
@@ -56,9 +62,4 @@ public class MapModel<K,V> extends AbstractReadOnlyDetachedModel<Map<K,V>> {
 		super.onDetach();
 		source.detach();
 	}
-	
-	public IReadOnlyIterableModel<K, Set<K>> keys() {
-		return Models.asIterable(Models.on(this).apply(Map::keySet));
-	}
-
 }
