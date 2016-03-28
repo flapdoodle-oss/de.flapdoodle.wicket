@@ -26,6 +26,7 @@ import org.apache.wicket.model.lambda.SerializableBiConsumer;
 import de.flapdoodle.functions.Function1;
 import de.flapdoodle.functions.Function2;
 import de.flapdoodle.functions.Function3;
+import de.flapdoodle.wicket.model.IMapableModel;
 import de.flapdoodle.wicket.model.IMapableObjectAwareModel;
 import de.flapdoodle.wicket.model.IReadOnlyModel;
 import de.flapdoodle.wicket.model.Models;
@@ -77,7 +78,11 @@ public abstract class ModelSet
 		}
 		
 		public <R> IMapableObjectAwareModel<R> mapProperty(Class<R> type, Function1<R, ? super T1> read, SerializableBiConsumer<? super T1, R> write) {
-			return new PropertyAccessModel<>(_m1, type, read, write);
+			return new ObjectAwarePropertyAccessModel<>(_m1, type, read, write);
+		}
+                
+		public <R> IMapableModel<R> mapProperty(Function1<R, ? super T1> read, SerializableBiConsumer<? super T1, R> write) {
+			return new PropertyAccessModel<>(_m1, read, write);
 		}
 	}
 	

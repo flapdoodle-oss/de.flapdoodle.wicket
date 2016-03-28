@@ -31,13 +31,14 @@ import org.junit.Test;
 
 import de.flapdoodle.wicket.model.AbstractModelTest;
 import de.flapdoodle.wicket.model.ModelProxy;
+import static org.junit.Assert.assertEquals;
 
-public class PropertyAccessModelTest extends AbstractModelTest {
+public class ObjectAwarePropertyAccessModelTest extends AbstractModelTest {
 
 	@Test
 	public void modelMustBeSerializable() {
 		Model<Foo> fooModel = Model.of(new Foo());
-		IModel<String> propertyModel = new PropertyAccessModel<>(fooModel, String.class, Foo::getText, Foo::setText);
+		IModel<String> propertyModel = new ObjectAwarePropertyAccessModel<>(fooModel, String.class, Foo::getText, Foo::setText);
 		propertyModel.setObject("Fooo");
 		propertyModel.getObject();
 		propertyModel.detach();
@@ -48,7 +49,7 @@ public class PropertyAccessModelTest extends AbstractModelTest {
 	public void detachMustPropagate() {
 		Model<Foo> fooModel = Model.of(new Foo());
 		ModelProxy<Foo> proxy = new ModelProxy<>(fooModel);
-		IModel<String> propertyModel = new PropertyAccessModel<>(proxy, String.class, Foo::getText, Foo::setText);
+		IModel<String> propertyModel = new ObjectAwarePropertyAccessModel<>(proxy, String.class, Foo::getText, Foo::setText);
 		
 		assertEquals(0,proxy.detachCalled());
 		propertyModel.detach();
@@ -60,7 +61,7 @@ public class PropertyAccessModelTest extends AbstractModelTest {
 		Foo foo = new Foo();
 		foo.setText(randomString());
 		Model<Foo> fooModel = Model.of(foo);
-		IModel<String> propertyModel = new PropertyAccessModel<>(fooModel, String.class, Foo::getText, Foo::setText);
+		IModel<String> propertyModel = new ObjectAwarePropertyAccessModel<>(fooModel, String.class, Foo::getText, Foo::setText);
 		
 		assertEquals(foo.getText(),propertyModel.getObject());
 	}
@@ -69,7 +70,7 @@ public class PropertyAccessModelTest extends AbstractModelTest {
 	public void setObjectMustSetPropertyValue() {
 		Foo foo = new Foo();
 		Model<Foo> fooModel = Model.of(foo);
-		IModel<String> propertyModel = new PropertyAccessModel<>(fooModel, String.class, Foo::getText, Foo::setText);
+		IModel<String> propertyModel = new ObjectAwarePropertyAccessModel<>(fooModel, String.class, Foo::getText, Foo::setText);
 		
 		assertEquals(null, foo.getText());
 		String randomString = randomString();

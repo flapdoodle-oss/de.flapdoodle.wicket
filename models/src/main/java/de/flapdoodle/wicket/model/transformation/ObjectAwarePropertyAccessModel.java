@@ -18,11 +18,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.flapdoodle.wicket.model;
+package de.flapdoodle.wicket.model.transformation;
 
-import org.apache.wicket.model.IObjectClassAwareModel;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.lambda.SerializableBiConsumer;
 
+import de.flapdoodle.functions.Function1;
+import de.flapdoodle.wicket.model.IMapableObjectAwareModel;
 
-public interface IMapableObjectAwareModel<T> extends IObjectClassAwareModel<T>,IMapableModel<T> {
+public class ObjectAwarePropertyAccessModel<M, R> extends PropertyAccessModel<M, R> implements IMapableObjectAwareModel<R> {
+
+    final Class<R> type;
+    
+	public ObjectAwarePropertyAccessModel(IModel<M> m1, Class<R> type, Function1<R, ? super M> read,
+			SerializableBiConsumer<? super M, R> write) {
+            super(m1,read,write);
+		this.type = type;
+	}
+
+	@Override
+	public Class<R> getObjectClass() {
+		return type;
+	}
 
 }
