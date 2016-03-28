@@ -35,9 +35,9 @@ import de.flapdoodle.wicket.model.Models;
 public class MapModel<K,V> extends AbstractReadOnlyDetachedModel<Map<K,V>> {
 
 	private final IModel<? extends Iterable<V>> source;
-	private final Function1<K, V> keyTransformation;
+	private final Function1<K, ? super V> keyTransformation;
 
-	public MapModel(IModel<? extends Iterable<V>> source, Function1<K, V> keyTransformation) {
+	public MapModel(IModel<? extends Iterable<V>> source, Function1<K, ? super V> keyTransformation) {
 		this.source = source;
 		this.keyTransformation = keyTransformation;
 	}

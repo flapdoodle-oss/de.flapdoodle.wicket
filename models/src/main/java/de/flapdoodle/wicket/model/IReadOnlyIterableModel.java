@@ -33,7 +33,7 @@ public interface IReadOnlyIterableModel<T,I extends Iterable<T>> extends IReadOn
 		return new ListMappingModel<T, I, D>(this,map);
 	}
 	
-	public default <K> MapModel<K, T> asMap(Function1<K, T> keyTransformation) {
+	public default <K> MapModel<K, T> asMap(Function1<K, ? super T> keyTransformation) {
 		return new MapModel<>(this, keyTransformation);
 	}
 	
