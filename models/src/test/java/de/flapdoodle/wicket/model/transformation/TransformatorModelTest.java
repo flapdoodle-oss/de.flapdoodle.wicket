@@ -21,44 +21,33 @@
 package de.flapdoodle.wicket.model.transformation;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.junit.Test;
 
 import de.flapdoodle.wicket.model.AbstractModelTest;
 import de.flapdoodle.wicket.model.ModelProxy;
 
-public class MapModelTest extends AbstractModelTest {
+public class TransformatorModelTest extends AbstractModelTest {
 
 	@Test
-	public void emptyCollectionShouldGiveEmptyMap() {
-		MapModel<String, String> model = new MapModel<String,String>(Model.ofList(new ArrayList<String>()), x->x);
-		assertTrue(model.getObject().isEmpty());
+	public void setAndGetObjectMustMapValue() {
+		Model<Integer> srcModel = Model.of(2);
+		TransformatorModel<Integer, String> transformationModel = new TransformatorModel<Integer, String>(srcModel, Object::toString, Integer::valueOf);
+		assertEquals("2",transformationModel.getObject());
+		transformationModel.setObject("3");
+		assertEquals(Integer.valueOf(3),srcModel.getObject());
+		assertEquals("3",transformationModel.getObject());
 	}
 	
 	@Test
 	public void detachMustPropagate() {
-		IModel<? extends List<? extends String>> src = Model.ofList(new ArrayList<String>());
-		ModelProxy<? extends List<? extends String>> proxy = new ModelProxy<>(src);
-		MapModel<String, String> model = new MapModel<String,String>(proxy, x->x);
+		Model<Integer> srcModel = Model.of(2);
+		ModelProxy<Integer> proxy=new ModelProxy<>(srcModel);
+		TransformatorModel<Integer, String> transformationModel = new TransformatorModel<Integer, String>(proxy, Object::toString, Integer::valueOf);
 		
 		assertEquals(0,proxy.detachCalled());
-		model.getObject();
-		model.detach();
+		transformationModel.detach();
 		assertEquals(1,proxy.detachCalled());
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void keyCollisionMustThrowException() {
-		List<String> src=new ArrayList<>();
-		src.add("a");
-		src.add("b");
-		src.add("a");
-		MapModel.asMap(src, x->x);
 	}
 }

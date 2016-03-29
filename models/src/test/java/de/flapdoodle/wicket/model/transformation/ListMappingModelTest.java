@@ -22,8 +22,10 @@ package de.flapdoodle.wicket.model.transformation;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.wicket.model.IModel;
@@ -31,34 +33,30 @@ import org.apache.wicket.model.Model;
 import org.junit.Test;
 
 import de.flapdoodle.wicket.model.AbstractModelTest;
-import de.flapdoodle.wicket.model.ModelProxy;
 
-public class MapModelTest extends AbstractModelTest {
+public class ListMappingModelTest extends AbstractModelTest {
 
 	@Test
-	public void emptyCollectionShouldGiveEmptyMap() {
-		MapModel<String, String> model = new MapModel<String,String>(Model.ofList(new ArrayList<String>()), x->x);
-		assertTrue(model.getObject().isEmpty());
+	public void emptyListMustGiveEmptyResult() {
+		List<Object> result = ListMappingModel.map(new ArrayList<>(), x->{fail("should not be called"); return x;});
+		assertTrue(result.isEmpty());
 	}
 	
 	@Test
-	public void detachMustPropagate() {
-		IModel<? extends List<? extends String>> src = Model.ofList(new ArrayList<String>());
-		ModelProxy<? extends List<? extends String>> proxy = new ModelProxy<>(src);
-		MapModel<String, String> model = new MapModel<String,String>(proxy, x->x);
-		
-		assertEquals(0,proxy.detachCalled());
-		model.getObject();
-		model.detach();
-		assertEquals(1,proxy.detachCalled());
+	public void mapShouldMapEachEntry() {
+		List<String> result = ListMappingModel.map(Arrays.asList("1","2"), x -> "["+x+"]");
+		assertEquals("[[1], [2]]",result.toString());
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void keyCollisionMustThrowException() {
-		List<String> src=new ArrayList<>();
-		src.add("a");
-		src.add("b");
-		src.add("a");
-		MapModel.asMap(src, x->x);
+	@Test
+	public void cacheResultUntilDetach() {
+		List<Integer> sourceList = new ArrayList<>(Arrays.asList(1,2,3));
+		IModel<? extends List<? extends Integer>> listModel = Model.ofList(sourceList);
+		ListMappingModel<Integer, String> listMappingModel = new ListMappingModel<Integer,String>(listModel, x -> x.toString());
+		assertEquals("[1, 2, 3]", listMappingModel.getObject().toString());
+		sourceList.add(4);
+		assertEquals("[1, 2, 3]", listMappingModel.getObject().toString());
+		listMappingModel.detach();
+		assertEquals("[1, 2, 3, 4]", listMappingModel.getObject().toString());
 	}
 }

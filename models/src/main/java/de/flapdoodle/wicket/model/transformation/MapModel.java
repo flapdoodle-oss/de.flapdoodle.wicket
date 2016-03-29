@@ -27,15 +27,15 @@ import java.util.Map;
 import org.apache.wicket.model.IModel;
 
 import de.flapdoodle.functions.Function1;
-import de.flapdoodle.wicket.model.AbstractReadOnlyDetachedModel;
 import de.flapdoodle.wicket.model.IReadOnlyMapModel;
 
-public class MapModel<K,V> extends AbstractReadOnlyDetachedModel<Map<K,V>> implements IReadOnlyMapModel<K, V> {
+public class MapModel<K,V> extends AbstractReadOnlyDetachDelegationModel<Map<K,V>> implements IReadOnlyMapModel<K, V> {
 
 	private final IModel<? extends Iterable<? extends V>> source;
 	private final Function1<K, ? super V> keyTransformation;
 
 	public MapModel(IModel<? extends Iterable<? extends V>> source, Function1<K, ? super V> keyTransformation) {
+		super(source);
 		this.source = source;
 		this.keyTransformation = keyTransformation;
 	}
@@ -55,11 +55,5 @@ public class MapModel<K,V> extends AbstractReadOnlyDetachedModel<Map<K,V>> imple
 			}
 		}
 		return Collections.unmodifiableMap(result);
-	}
-	
-	@Override
-	protected void onDetach() {
-		super.onDetach();
-		source.detach();
 	}
 }

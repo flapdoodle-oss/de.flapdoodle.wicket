@@ -18,26 +18,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.flapdoodle.wicket.model;
+package de.flapdoodle.wicket.model.transformation;
 
 import org.apache.wicket.model.IModel;
 
-import de.flapdoodle.functions.Function1;
-import de.flapdoodle.wicket.model.transformation.IterableModel;
-import de.flapdoodle.wicket.model.transformation.ListMappingModel;
-import de.flapdoodle.wicket.model.transformation.MapModel;
+import de.flapdoodle.wicket.model.AbstractReadOnlyDetachedModel;
 
-public interface IReadOnlyIterableModel<T,I extends Iterable<T>> extends IReadOnlyModel<I> {
+public abstract class AbstractReadOnlyDetachDelegationModel<T> extends AbstractReadOnlyDetachedModel<T>  {
 
-	public default <D> IReadOnlyListModel<D> mapEach(Function1<D, T> map) {
-		return new ListMappingModel<>(this,map);
+	private final IModel<?> detachDelegate;
+
+	public AbstractReadOnlyDetachDelegationModel(IModel<?> detachDelegate) {
+		this.detachDelegate = detachDelegate;
 	}
-	
-	public default <K> MapModel<K, T> asMap(Function1<K, ? super T> keyTransformation) {
-		return new MapModel<>(this, keyTransformation);
-	}
-	
-	public static <T,I extends Iterable<T>> IReadOnlyIterableModel<T,I> asIterable(IModel<I> source) {
-		return new IterableModel<>(source);
+
+	@Override
+	protected void onDetach() {
+		super.onDetach();
+		detachDelegate.detach();
 	}
 }

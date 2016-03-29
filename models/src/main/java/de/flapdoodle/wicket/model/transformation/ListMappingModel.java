@@ -26,31 +26,29 @@ import java.util.List;
 import org.apache.wicket.model.IModel;
 
 import de.flapdoodle.functions.Function1;
-import de.flapdoodle.wicket.model.AbstractReadOnlyDetachedModel;
 import de.flapdoodle.wicket.model.IReadOnlyListModel;
 
-public class ListMappingModel<T,I extends Iterable<T>,D> extends AbstractReadOnlyDetachedModel<List<D>> implements IReadOnlyListModel<D> {
+public class ListMappingModel<T,D> extends AbstractReadOnlyDetachDelegationModel<List<D>> implements IReadOnlyListModel<D> {
 
-	private final IModel<I> source;
+	private final IModel<? extends Iterable<? extends T>> source;
 	private final Function1<D, T> map;
 
-	public ListMappingModel(IModel<I> source, Function1<D, T> map) {
+	public ListMappingModel(IModel<? extends Iterable<? extends T>> source, Function1<D, T> map) {
+		super(source);
 		this.source = source;
 		this.map = map;
 	}
 
 	@Override
 	protected List<D> load() {
+		return map(source.getObject(), map);
+	}
+
+	protected static <T,I extends Iterable<? extends T>,D> List<D> map(I entries, Function1<D, T> map) {
 		ArrayList<D> ret=new ArrayList<>();
-		for (T value : source.getObject()) {
+		for (T value : entries) {
 			ret.add(map.apply(value));
 		}
 		return ret;
-	}
-
-	@Override
-	protected void onDetach() {
-		super.onDetach();
-		source.detach();
 	}
 }
