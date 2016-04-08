@@ -23,6 +23,7 @@ package de.flapdoodle.wicket.model;
 import org.apache.wicket.model.IModel;
 
 import de.flapdoodle.functions.Function1;
+import org.apache.wicket.model.IDetachable;
 
 public interface IReadOnlyModel<T> extends IModel<T> {
 
@@ -36,4 +37,21 @@ public interface IReadOnlyModel<T> extends IModel<T> {
 	public default <R> IReadOnlyModel<R> map(Function1<R, ? super T> map) {
 		return Models.on(this).apply(map);
 	}
+        
+        public default IReadOnlyModel<T> andDetach(IDetachable detachable) {
+            IReadOnlyModel<T> delegate=this;
+            
+            return new IReadOnlyModel<T>() {
+                @Override
+                public T getObject() {
+                    return delegate.getObject();
+                }
+
+                @Override
+                public void detach() {
+                    delegate.detach();
+                    detachable.detach();
+                }
+            };
+        }
 }

@@ -25,6 +25,7 @@ import de.flapdoodle.functions.Functions;
 import de.flapdoodle.functions.SymetricalFunction;
 import de.flapdoodle.wicket.model.transformation.ObjectAwareTransformator;
 import de.flapdoodle.wicket.model.transformation.TransformatorModel;
+import org.apache.wicket.model.IDetachable;
 import org.apache.wicket.model.IModel;
 
 /**
@@ -63,4 +64,27 @@ public interface IMapableModel<T> extends IModel<T> {
 	public default <R> IMapableModel<R> mapNullable(Function1<R, ? super T> read, Function1<T, ? super R> write) {
 		return new TransformatorModel<T, R>(this, Functions.orNull(read), Functions.orNull(write));
 	}
+        
+        public default IMapableModel<T> andDetach(IDetachable detachable) {
+            IMapableModel<T> delegate=this;
+            
+            return new IMapableModel<T>() {
+                @Override
+                public T getObject() {
+                    return delegate.getObject();
+                }
+
+                @Override
+                public void setObject(T object) {
+                    delegate.setObject(object);
+                }
+
+                @Override
+                public void detach() {
+                    delegate.detach();
+                    detachable.detach();
+                }
+            };
+        }
+
 }
