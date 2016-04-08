@@ -11,7 +11,7 @@
     <groupId>de.flapdoodle.wicket7-java8</groupId>
     <artifactId>de.flapdoodle.wicket</artifactId>
     <name>${project.name}</name>
-    <version>7.0.3</version>
+    <version>7.0.4-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <description>custom wicket extensions which might be useful</description>
