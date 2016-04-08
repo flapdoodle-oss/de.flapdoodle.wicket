@@ -35,12 +35,12 @@ Snapshots (Repository http://oss.sonatype.org/content/repositories/snapshots)
 
 #### Java8 Version
 
-Stable (Maven Central Repository, Released: 09.10.2015 - wait 24hrs for maven central)
+Stable (Maven Central Repository, Released: 08.04.2016 - wait 24hrs for maven central)
 
 	<dependency>
 		<groupId>de.flapdoodle.wicket7-java8</groupId>
 		<artifactId>de.flapdoodle.wicket</artifactId>
-		<version>7.0.2</version>
+		<version>7.0.3</version>
 	</dependency>
 
 Snapshots (Repository http://oss.sonatype.org/content/repositories/snapshots)
@@ -48,7 +48,7 @@ Snapshots (Repository http://oss.sonatype.org/content/repositories/snapshots)
 	<dependency>
 		<groupId>de.flapdoodle.wicket7-java8</groupId>
 		<artifactId>de.flapdoodle.wicket</artifactId>
-		<version>7.0.3-SNAPSHOT</version>
+		<version>7.0.4-SNAPSHOT</version>
 	</dependency>
 
 ### Whats in it?
@@ -71,7 +71,14 @@ __/\*moduleIdGoesHere\*/__ with __models__ and the right version (i think you ge
 
 ### Changelog
 
-#### 7.0.2 (SNAPSHOT)
+#### 7.0.4 (SNAPSHOT)
+
+
+#### 7.0.3
+
+- detach delegation added
+
+#### 7.0.2
 
 - java8 version started
 
