@@ -33,6 +33,11 @@
 		</dependency>
 		<dependency>
 			<groupId>de.flapdoodle.wicket7-java8</groupId>
+			<artifactId>de.flapdoodle.wicket--atp</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>de.flapdoodle.wicket7-java8</groupId>
 			<artifactId>de.flapdoodle.wicket--requests</artifactId>
 			<version>${project.version}</version>
 		</dependency>

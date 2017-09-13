@@ -458,6 +458,7 @@
     </dependencyManagement>
  
     <modules>
+        <module>atp</module>
         <module>models</module>
         <module>components</module>
         <module>requests</module>
