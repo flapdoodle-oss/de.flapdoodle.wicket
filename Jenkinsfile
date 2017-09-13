@@ -17,5 +17,5 @@ node {
 
    junit '**/target/surefire-reports/TEST-*.xml'
    jacoco()
-   archiveArtifacts artifacts: 'target/site/jacoco/**', onlyIfSuccessful: true
+   archiveArtifacts artifacts: '**/target/site/jacoco/**', onlyIfSuccessful: true
 }
