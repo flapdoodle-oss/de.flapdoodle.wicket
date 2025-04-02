@@ -20,9 +20,6 @@
  */
 package org.apache.wicket.model.lambda;
 
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
@@ -31,6 +28,7 @@ import java.io.Serializable;
 
 import org.apache.wicket.core.util.lang.WicketObjects;
 import org.apache.wicket.model.IModel;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 public class LambdasTest
@@ -131,11 +129,11 @@ public class LambdasTest
 
 	private void check(IModel<String> personNameModel)
 	{
-		assertThat(personNameModel.getObject(), is(nullValue()));
+		Assertions.assertThat(personNameModel.getObject()).isNull();
 
 		final String personName = "new name";
 		personNameModel.setObject(personName);
-		assertThat(personNameModel.getObject(), is(personName));
+		Assertions.assertThat(personNameModel.getObject()).isEqualTo(personName);
 
 		serialize(personNameModel, personName);
 	}
@@ -143,8 +141,8 @@ public class LambdasTest
 	private void serialize(IModel<String> personNameModel, String personName)
 	{
 		final IModel<String> clone = cloneBySerial(personNameModel);
-		assertThat(clone, is(instanceOf(Lambdas.LambdaModel.class)));
-		assertThat(clone.getObject(), is(personName));
+		Assertions.assertThat(clone).isInstanceOf(Lambdas.LambdaModel.class);
+		Assertions.assertThat(clone.getObject()).isEqualTo(personName);
 	}
 
     private <T> T cloneBySerial(T object) {
