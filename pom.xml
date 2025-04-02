@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
+    <!--
     <parent>
         <groupId>org.sonatype.oss</groupId>
         <artifactId>oss-parent</artifactId>
-        <version>7</version>
+        <version>9</version>
     </parent>
+    -->
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.flapdoodle.wicket7-java8</groupId>
@@ -17,17 +19,6 @@
     <description>custom wicket extensions which might be useful</description>
     <url>http://github.com/flapdoodle-oss/de.flapdoodle.wicket</url>
 
-    <properties>
-        <project.name>Flapdoodle Wicket7/Java8</project.name>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <wicket.version>7.0.0</wicket.version>
-        <jetty.version>7.6.13.v20130916</jetty.version>
-        <!-- allowed values: R7, 1.0, 1.5, 2.0 or none -->
-        <wtp.version>none</wtp.version>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
-
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
@@ -35,154 +26,52 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+    <developers>
+        <developer>
+            <name>Michael Mosmann</name>
+            <email>michael@mosmann.de</email>
+            <organization>Flapdoodle OSS</organization>
+            <organizationUrl>http://github.com/flapdoodle-oss</organizationUrl>
+        </developer>
+    </developers>
 
 
     <scm>
         <connection>scm:git:git@github.com:flapdoodle-oss/de.flapdoodle.wicket.git</connection>
         <developerConnection>scm:git:git@github.com:flapdoodle-oss/de.flapdoodle.wicket.git</developerConnection>
         <url>git@github.com:flapdoodle-oss/de.flapdoodle.wicket.git</url>
+        <tag>HEAD</tag>
     </scm>
 
-    <!--
-    https://docs.sonatype.org/display/Repository/Central+Sync+Requirements
-    https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide
-    https://docs.sonatype.org/display/Repository/How+To+Generate+PGP+Signatures+With+Maven
-    -->
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-				            <groupId>com.mycila</groupId>
-				            <artifactId>license-maven-plugin</artifactId>
-				            <version>2.11</version>
-                    <configuration>
-                        <!--
-                        <basedir>${basedir}</basedir>
-                        -->
-                        <header>${project.basedir}/src/etc/header.txt</header>
-                        <!--
-                        <validHeaders>
-                                <validHeader>/otherSupportedHeader.txt</validHeader>
-                                <validHeader>http://www.company.com/yetAnotherSupportedHeader.txt</validHeader>
-                        </validHeaders>
-                        -->
-                        <quiet>false</quiet>
-                        <failIfMissing>true</failIfMissing>
-                        <strictCheck>true</strictCheck>
-                        <aggregate>false</aggregate>
-                        <includes>
-                            <include>src/**</include>
-                            <include>**/test/**</include>
-                        </includes>
-                        <!--
-                        <excludes> <exclude>target/**</exclude>
-                        <exclude>.clover/**</exclude> </excludes>
-                        <useDefaultExcludes>true</useDefaultExcludes>
-                        -->
-                        <!--
-                        <mapping> <jwc>XML_STYLE</jwc>
-                        <application>XML_STYLE</application>
-                        <myFileExtension>JAVADOC_STYLE</myFileExtension> </mapping>
-                        <useDefaultMapping>true</useDefaultMapping>
-                        -->
-                        <properties>
-                            <lic.year>2011</lic.year>
-                            <lic.email>michael@mosmann.de</lic.email>
-                            <lic.username>Michael Mosmann</lic.username>
-                            <lic.email2>unknown@email.de</lic.email2>
-                            <lic.username2>Jan Bernitt</lic.username2>
-                            <lic.developers>nobody yet</lic.developers>
-                        </properties>
-                        <encoding>UTF-8</encoding>
-                        <!--
-                        <headerDefinitions> <headerDefinition>def1.xml</headerDefinition>
-                        <headerDefinition>def2.xml</headerDefinition> </headerDefinitions>
-                        -->
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>check</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-            </plugins>
-        </pluginManagement>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 
+    <!-- https://docs.sonatype.org/display/Repository/Central+Sync+Requirements
+    https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide
+    https://docs.sonatype.org/display/Repository/How+To+Generate+PGP+Signatures+With+Maven -->
+    <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-toolchains-plugin</artifactId>
-                <version>1.1</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>toolchain</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>2.17.1</version>
                 <configuration>
-                    <toolchains>
-                        <jdk>
-                            <version>[1.8,)</version>
-                        </jdk>
-                    </toolchains>
+                    <generateBackupPoms>false</generateBackupPoms>
                 </configuration>
-            </plugin>    
-            <plugin>
-		            <groupId>com.mycila</groupId>
-		            <artifactId>license-maven-plugin</artifactId>
-                <configuration>
-                    <header>${project.basedir}/src/etc/header.txt</header>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <version>1.4</version>
-                <executions>
-                    <execution>
-                        <id>enforce-versions</id>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <!--
-                                <bannedPlugins>
-                                    < ! - - will only display a warning but does not fail the build. - - >
-                                    <level>WARN</level>
-                                    <excludes>
-                                        <exclude>org.apache.maven.plugins:maven-verifier-plugin</exclude>
-                                    </excludes>
-                                    <message>Please consider using the maven-invoker-plugin (http://maven.apache.org/plugins/maven-invoker-plugin/)!</message>
-                                </bannedPlugins>
-                                -->
-                                <requireMavenVersion>
-                                    <version>3.2.0</version>
-                                </requireMavenVersion>
-                                <!--
-                                <requireJavaVersion>
-                                    <version>1.8</version>
-                                </requireJavaVersion>
-                                -->
-                                <!--
-                                <requireOS>
-                                    <family>unix</family>
-                                </requireOS>
-                                -->
-                                <dependencyConvergence />
-                            </rules>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.3</version>
+                <version>3.11.0</version>
                 <configuration>
                     <compilerVersion>1.8</compilerVersion>
                     <source>1.8</source>
@@ -201,18 +90,8 @@
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-eclipse-plugin</artifactId>
-                <version>2.10</version>
-                <configuration>
-                    <downloadSources>true</downloadSources>
-                    <wtpversion>${wtp.version}</wtpversion>
-                </configuration>
-            </plugin>
-			
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>2.7</version>
+                <version>3.3.1</version>
                 <configuration>
                     <encoding>UTF-8</encoding>
                 </configuration>
@@ -220,8 +99,47 @@
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>3.4.1</version>
+                <executions>
+                    <execution>
+                        <id>enforce-ban-duplicate-classes</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <banDuplicateClasses>
+                                    <ignoreClasses>
+                                        <!-- example of ignoring one specific class -->
+                                        <!-- <ignoreClass>com.xyz.i18n.Messages</ignoreClass> -->
+                                        <!-- example of ignoring with wildcards -->
+                                        <!-- <ignoreClass>org.apache.commons.logging.*</ignoreClass> -->
+                                    </ignoreClasses>
+                                    <findAllDuplicates>true</findAllDuplicates>
+                                </banDuplicateClasses>
+                                <requireMavenVersion>
+                                    <version>3.6.3</version>
+                                </requireMavenVersion>
+                            </rules>
+                            <!-- TODO enable after cleanup -->
+                            <fail>false</fail>
+                        </configuration>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>extra-enforcer-rules</artifactId>
+                        <version>1.8.0</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>2.4</version>
+                <version>3.2.1</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -236,19 +154,88 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.18.1</version>
+                <version>3.2.2</version>
                 <configuration>
                     <excludes>
                         <exclude>**/live/**</exclude>
                         <exclude>**/examples/**</exclude>
                     </excludes>
+                    <systemPropertyVariables>
+                        <de.flapdoodle.testdoc.destination>${project.basedir}</de.flapdoodle.testdoc.destination>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
-    
+
+            <plugin>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>2.11</version>
+                <configuration>
+                    <!-- <basedir>${basedir}</basedir> -->
+                    <header>${basedir}/src/etc/header.txt</header>
+                    <!-- <validHeaders> <validHeader>/otherSupportedHeader.txt</validHeader>
+                    <validHeader>http://www.company.com/yetAnotherSupportedHeader.txt</validHeader>
+                    </validHeaders> -->
+                    <quiet>false</quiet>
+                    <failIfMissing>true</failIfMissing>
+                    <strictCheck>true</strictCheck>
+                    <aggregate>false</aggregate>
+                    <includes>
+                        <include>src/**</include>
+                        <include>**/test/**</include>
+                    </includes>
+                    <excludes>
+                        <exclude>**/*.txt</exclude>
+                        <exclude>**/*.properties</exclude>
+                        <exclude>**/*.tgz</exclude>
+                        <exclude>**/*.tbz2</exclude>
+                    </excludes>
+                    <useDefaultExcludes>true</useDefaultExcludes>
+                    <!-- <excludes> <exclude>target/**</exclude> <exclude>.clover/**</exclude>
+                    </excludes>  -->
+                    <!-- <mapping> <jwc>XML_STYLE</jwc> <application>XML_STYLE</application>
+                    <myFileExtension>JAVADOC_STYLE</myFileExtension> </mapping> <useDefaultMapping>true</useDefaultMapping> -->
+                    <properties>
+                        <lic.year>2011</lic.year>
+                        <lic.email>michael@mosmann.de</lic.email>
+                        <lic.username>Michael Mosmann</lic.username>
+                        <lic.email2>unknown@email.de</lic.email2>
+                        <lic.username2>Jan Bernitt</lic.username2>
+                        <lic.developers>nobody yet</lic.developers>
+                    </properties>
+                    <encoding>UTF-8</encoding>
+                    <!-- <headerDefinitions> <headerDefinition>def1.xml</headerDefinition>
+                    <headerDefinition>def2.xml</headerDefinition> </headerDefinitions> -->
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>3.3.1</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-eclipse-plugin</artifactId>
+                <version>2.10</version>
+                <configuration>
+                    <downloadSources>true</downloadSources>
+                </configuration>
+            </plugin>
+
+
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.7.5.201505241946</version>
+                <version>0.8.12</version>
                 <executions>
                     <execution>
                         <id>prepare-agent</id>
@@ -269,7 +256,55 @@
                     <lineRatio>90</lineRatio> </check> </configuration> </execution> -->
                 </executions>
             </plugin>
-			
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.6.2</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                        	<source>8</source>
+                            <doclint>none</doclint>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-toolchains-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>toolchain</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <toolchains>
+                        <jdk>
+                            <version>[1.8,)</version>
+                        </jdk>
+                    </toolchains>
+                </configuration>
+            </plugin>
+
+            <!--
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-release-plugin</artifactId>
+                            <version>2.5.3</version>
+                            <configuration>
+                                <pushChanges>false</pushChanges>
+                            </configuration>
+                        </plugin>
+            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
@@ -336,6 +371,42 @@
                 </executions>
             </plugin>
         </plugins>
+        <pluginManagement>
+            <plugins>
+                <!--This plugin's configuration is used to store Eclipse m2e settings
+                only. It has no influence on the Maven build itself. -->
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>
+                                            org.apache.maven.plugins
+                                        </groupId>
+                                        <artifactId>
+                                            maven-toolchains-plugin
+                                        </artifactId>
+                                        <versionRange>
+                                            [1.1,)
+                                        </versionRange>
+                                        <goals>
+                                            <goal>toolchain</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore />
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
 
         <resources>
             <resource>
@@ -380,12 +451,15 @@
                     <value>true</value>
                 </property>
             </activation>
+            <properties>
+                <pitest.skip>true</pitest.skip>
+            </properties>
             <build>
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.6</version>
+                        <version>3.1.0</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
@@ -400,6 +474,17 @@
             </build>
         </profile>
     </profiles>
+
+    <properties>
+        <project.name>Flapdoodle Wicket7/Java8</project.name>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <wicket.version>7.0.0</wicket.version>
+        <jetty.version>7.6.13.v20130916</jetty.version>
+        <!-- allowed values: R7, 1.0, 1.5, 2.0 or none -->
+        <wtp.version>none</wtp.version>
+    </properties>
 
     <dependencyManagement>
         <dependencies>

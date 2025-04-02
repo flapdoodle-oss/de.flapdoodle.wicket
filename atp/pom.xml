@@ -5,6 +5,7 @@
         <groupId>de.flapdoodle.wicket7-java8</groupId>
         <artifactId>de.flapdoodle.wicket</artifactId>
         <version>7.0.4-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>de.flapdoodle.wicket--atp</artifactId>
     <packaging>jar</packaging>
