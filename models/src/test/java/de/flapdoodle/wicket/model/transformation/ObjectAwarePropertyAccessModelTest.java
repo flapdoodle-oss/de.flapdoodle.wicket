@@ -20,18 +20,17 @@
  */
 package de.flapdoodle.wicket.model.transformation;
 
-import static org.junit.Assert.assertEquals;
-
 import java.io.Serializable;
 import java.util.UUID;
 
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-import org.junit.Test;
 
 import de.flapdoodle.wicket.model.AbstractModelTest;
 import de.flapdoodle.wicket.model.ModelProxy;
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ObjectAwarePropertyAccessModelTest extends AbstractModelTest {
 
@@ -50,10 +49,10 @@ public class ObjectAwarePropertyAccessModelTest extends AbstractModelTest {
 		Model<Foo> fooModel = Model.of(new Foo());
 		ModelProxy<Foo> proxy = new ModelProxy<>(fooModel);
 		IModel<String> propertyModel = new ObjectAwarePropertyAccessModel<>(proxy, String.class, Foo::getText, Foo::setText);
-		
-		assertEquals(0,proxy.detachCalled());
+
+		assertThat((Object) proxy.detachCalled()).isEqualTo(0);
 		propertyModel.detach();
-		assertEquals(1,proxy.detachCalled());
+		assertThat((Object) proxy.detachCalled()).isEqualTo(1);
 	}
 	
 	@Test
@@ -62,8 +61,9 @@ public class ObjectAwarePropertyAccessModelTest extends AbstractModelTest {
 		foo.setText(randomString());
 		Model<Foo> fooModel = Model.of(foo);
 		IModel<String> propertyModel = new ObjectAwarePropertyAccessModel<>(fooModel, String.class, Foo::getText, Foo::setText);
-		
-		assertEquals(foo.getText(),propertyModel.getObject());
+
+		Object expected = foo.getText();
+		assertThat((Object) propertyModel.getObject()).isEqualTo(expected);
 	}
 	
 	@Test
@@ -71,11 +71,11 @@ public class ObjectAwarePropertyAccessModelTest extends AbstractModelTest {
 		Foo foo = new Foo();
 		Model<Foo> fooModel = Model.of(foo);
 		IModel<String> propertyModel = new ObjectAwarePropertyAccessModel<>(fooModel, String.class, Foo::getText, Foo::setText);
-		
-		assertEquals(null, foo.getText());
+
+		assertThat((Object) foo.getText()).isEqualTo(null);
 		String randomString = randomString();
 		propertyModel.setObject(randomString);
-		assertEquals(randomString, foo.getText());
+		assertThat((Object) foo.getText()).isEqualTo(randomString);
 	}
 
 	private static String randomString() {

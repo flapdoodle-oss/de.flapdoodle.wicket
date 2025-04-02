@@ -20,24 +20,25 @@
  */
 package de.flapdoodle.wicket.serialize.java;
 
-import java.io.IOException;
-import java.io.Serializable;
-
-import junit.framework.Assert;
-
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.junit.Test;
-
 import de.flapdoodle.wicket.serialize.java.checks.AttachedLoadableModelCheck;
 import de.flapdoodle.wicket.serialize.java.checks.SerializableChecks;
 import de.flapdoodle.wicket.serialize.java.checks.SerializingNotAllowedForTypesCheck;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.io.Serializable;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class TestPreSerializeChecker {
 
-	@Test(expected = WicketSerializableCheckException.class)
+	@Test
 	public void beanIsNotSerializable() throws IOException {
-		checkWith(new SimpleBean(), checks());
+		assertThatThrownBy(() ->	checkWith(new SimpleBean(), checks()))
+			.isInstanceOf(WicketSerializableCheckException.class);
 	}
 
 	@Test
@@ -45,12 +46,13 @@ public class TestPreSerializeChecker {
 		checkWith(new SerialBean(), checks());
 	}
 
-	@Test(expected = WicketSerializableCheckException.class)
+	@Test
 	public void customTypeIsNotSerializable() throws IOException {
-		checkWith(new CouldBeADomainType(), checks());
+		assertThatThrownBy(() ->	checkWith(new CouldBeADomainType(), checks()))
+			.isInstanceOf(WicketSerializableCheckException.class);
 	}
 	
-	@Test(expected = WicketSerializableCheckException.class)
+	@Test
 	public void notDetachedLDM() throws IOException {
 		IModel<String> model = new LoadableDetachableModel<String>() {
 			@Override
@@ -58,8 +60,9 @@ public class TestPreSerializeChecker {
 				return "dont care about the value here";
 			}
 		};
-		Assert.assertNotNull(model.getObject());
-		checkWith(new CouldBeAPanel("panel", model), checks());
+		assertThat(model.getObject()).isNotNull();
+		assertThatThrownBy(() ->	checkWith(new CouldBeAPanel("panel", model), checks()))
+			.isInstanceOf(WicketSerializableCheckException.class);
 	}
 
 	private ISerializableCheck checks() {
@@ -69,7 +72,9 @@ public class TestPreSerializeChecker {
 
 	private void checkWith(Object object, ISerializableCheck check)
 			throws IOException {
-		new PreSerializeChecker(check).writeObject(object);
+		try(PreSerializeChecker checker = new PreSerializeChecker(check)) {
+			checker.writeObject(object);
+		}
 	}
 
 	static class SimpleBean {

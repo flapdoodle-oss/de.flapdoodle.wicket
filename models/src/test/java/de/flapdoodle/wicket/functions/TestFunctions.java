@@ -20,15 +20,14 @@
  */
 package de.flapdoodle.wicket.functions;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Assert;
-import org.junit.Test;
-
 import de.flapdoodle.functions.Function1;
 import de.flapdoodle.functions.Function2;
 import de.flapdoodle.functions.Function3;
 import de.flapdoodle.functions.Functions;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestFunctions {
 
@@ -40,25 +39,25 @@ public class TestFunctions {
 		Function1<Integer, Integer> ba = Functions.join(b, a);
 		Function1<Integer, Integer> abba = Functions.join(ab, ba);
 
-		assertEquals(Integer.valueOf(2), a.apply(1));
-		assertEquals(Integer.valueOf(3), b.apply(1));
-		assertEquals(Integer.valueOf(4), ab.apply(1));
-		assertEquals(Integer.valueOf(4), ba.apply(1));
+		assertThat(a.apply(1)).isEqualTo(Integer.valueOf(2));
+		assertThat(b.apply(1)).isEqualTo(Integer.valueOf(3));
+		assertThat(ab.apply(1)).isEqualTo(Integer.valueOf(4));
+		assertThat(ba.apply(1)).isEqualTo(Integer.valueOf(4));
 
-		assertEquals(Integer.valueOf(7), abba.apply(1));
-		
+		assertThat(abba.apply(1)).isEqualTo(Integer.valueOf(7));
+
 		Function1<? extends Integer, ? super Integer> genericSuperA=a;
 		Function1<? extends Integer, ? super Integer> genericSuperB=b;
 		Function1<? extends Integer, Integer> res = Functions.join(genericSuperA, genericSuperB);
-		assertEquals(Integer.valueOf(4), res.apply(1));
+		assertThat(res.apply(1)).isEqualTo(Integer.valueOf(4));
 	}
 
 	@Test
 	public void joinFunction2() {
 		AwithString aString = new AwithString();
-		Decorate<String> decorate=new Decorate<String>();
+		Decorate<String> decorate= new Decorate<>();
 		Function2<String, A, String> aAny = Functions.join(aString,decorate);
-		assertEquals("A[hi]", aAny.apply(new A(), "hi"));
+		assertThat(aAny.apply(new A(), "hi")).isEqualTo("A[hi]");
 	}
 	
 	@Test
@@ -66,7 +65,7 @@ public class TestFunctions {
 		AwithString aString = new AwithString();
 		BwithC bc = new BwithC();
 		Function3<String, A, B, C> abc = Functions.join(aString, bc);
-		assertEquals("ABC", abc.apply(new A(), new B(), new C()));
+		assertThat(abc.apply(new A(), new B(), new C())).isEqualTo("ABC");
 	}
 	
 	@Test
@@ -76,19 +75,19 @@ public class TestFunctions {
 		Concat all = new Concat();
 		Function3<String, A, B, C> abc = Functions.join(all, ab, bc);
 
-		assertEquals("ABBC", abc.apply(new A(), new B(), new C()));
+		assertThat(abc.apply(new A(), new B(), new C())).isEqualTo("ABBC");
 
 		Function3<String, C, B, A> cba = Functions.join(Functions.swap(all), Functions.swap(bc), Functions.swap(ab));
 
-		assertEquals("ABBC", cba.apply(new C(), new B(), new A()));
+		assertThat(cba.apply(new C(), new B(), new A())).isEqualTo("ABBC");
 	}
 
 	@Test
 	public void swapFunctionType() {
 		AwithB ab = new AwithB();
 
-		assertEquals("AB", ab.apply(new A(), new B()));
-		assertEquals("AB", Functions.swap(ab).apply(new B(), new A()));
+		assertThat(ab.apply(new A(), new B())).isEqualTo("AB");
+		assertThat(Functions.swap(ab).apply(new B(), new A())).isEqualTo("AB");
 	}
 
 	static class Inc implements Function1<Integer, Integer> {

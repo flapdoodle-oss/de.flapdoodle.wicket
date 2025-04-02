@@ -20,55 +20,55 @@
  */
 package de.flapdoodle.wicket.request.cycle.exception;
 
-import junit.framework.Assert;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestExceptions {
 
 	@Test
 	public void testRootException() {
 		A top=new A("a",new B("b",new C("c",new D("root"))));
-		Assert.assertEquals("type", D.class,Exceptions.rootCause(top).getClass());
-		Assert.assertEquals("message", "root",Exceptions.rootCause(top).getMessage());
+		assertThat(Exceptions.rootCause(top).getClass()).describedAs("type").isEqualTo(D.class);
+		assertThat(Exceptions.rootCause(top).getMessage()).describedAs("message").isEqualTo("root");
 	}
-	
+
 	@Test
 	public void testAnyOf() {
 		A top=new A("a",new B("b",new D("d",new B("root"))));
 		
 		Throwable anyCauseOf = Exceptions.anyCauseOf(top,B.class);
-		
-		Assert.assertEquals("type", B.class,anyCauseOf.getClass());
-		Assert.assertEquals("message", "b",anyCauseOf.getMessage());
-		
+
+		assertThat(anyCauseOf.getClass()).describedAs("type").isEqualTo(B.class);
+		assertThat(anyCauseOf.getMessage()).describedAs("message").isEqualTo("b");
+
 		anyCauseOf = Exceptions.anyCauseOf(top,C.class);
-		
-		Assert.assertNull(anyCauseOf);
+
+		assertThat(anyCauseOf).isNull();
 
 		anyCauseOf = Exceptions.anyCauseOf(top,A.class);
-		
-		Assert.assertEquals("type", A.class,anyCauseOf.getClass());
-		Assert.assertEquals("message", "a",anyCauseOf.getMessage());
+
+		assertThat(anyCauseOf.getClass()).describedAs("type").isEqualTo(A.class);
+		assertThat(anyCauseOf.getMessage()).describedAs("message").isEqualTo("a");
 	}
-	
+
 	@Test
 	public void testFirstNot() {
 		A top=new A("a",new B("b",new D("d",new B("root"))));
 		
 		Throwable anyCauseOf = Exceptions.firstCauseNotOf(top,B.class,A.class);
-		
-		Assert.assertEquals("type", D.class,anyCauseOf.getClass());
-		Assert.assertEquals("message", "d",anyCauseOf.getMessage());
-		
+
+		assertThat(anyCauseOf.getClass()).describedAs("type").isEqualTo(D.class);
+		assertThat(anyCauseOf.getMessage()).describedAs("message").isEqualTo("d");
+
 		anyCauseOf = Exceptions.firstCauseNotOf(top,B.class,D.class,A.class);
-		
-		Assert.assertNull(anyCauseOf);
+
+		assertThat(anyCauseOf).isNull();
 
 		anyCauseOf = Exceptions.firstCauseNotOf(top,D.class,B.class);
-		
-		Assert.assertEquals("type", A.class,anyCauseOf.getClass());
-		Assert.assertEquals("message", "a",anyCauseOf.getMessage());
+
+		assertThat(anyCauseOf.getClass()).describedAs("type").isEqualTo(A.class);
+		assertThat(anyCauseOf.getMessage()).describedAs("message").isEqualTo("a");
 	}
 	
 	

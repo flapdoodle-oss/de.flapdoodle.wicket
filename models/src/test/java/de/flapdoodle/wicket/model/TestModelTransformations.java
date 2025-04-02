@@ -20,21 +20,19 @@
  */
 package de.flapdoodle.wicket.model;
 
-import static org.junit.Assert.assertNotNull;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-import org.junit.Assert;
-import org.junit.Test;
 
 import de.flapdoodle.functions.Function1;
 import de.flapdoodle.functions.Function2;
 import de.flapdoodle.functions.Function3;
 import de.flapdoodle.wicket.model.transformation.Lazy;
+import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestModelTransformations extends AbstractModelTest {
 
@@ -55,11 +53,11 @@ public class TestModelTransformations extends AbstractModelTest {
 	}
 
 	private void checkModelModifications(Model<Integer> source, IModel<String> model) {
-		Assert.assertEquals("1", model.getObject());
+		assertThat((Object) model.getObject()).isEqualTo("1");
 		source.setObject(2);
-		Assert.assertEquals("1", model.getObject());
+		assertThat((Object) model.getObject()).isEqualTo("1");
 		model.detach();
-		Assert.assertEquals("2", model.getObject());
+		assertThat((Object) model.getObject()).isEqualTo("2");
 		serialize(model);
 	}
 
@@ -82,15 +80,15 @@ public class TestModelTransformations extends AbstractModelTest {
 	}
 	
 	private void checkModelModifications(Model<Integer> a, Model<Integer> b, IModel<Integer> model) {
-		Assert.assertEquals(Integer.valueOf(3), model.getObject());
+		assertThat((Object) model.getObject()).isEqualTo(Integer.valueOf(3));
 		a.setObject(2);
-		Assert.assertEquals(Integer.valueOf(3), model.getObject());
+		assertThat((Object) model.getObject()).isEqualTo(Integer.valueOf(3));
 		model.detach();
-		Assert.assertEquals(Integer.valueOf(4), model.getObject());
+		assertThat((Object) model.getObject()).isEqualTo(Integer.valueOf(4));
 		b.setObject(3);
-		Assert.assertEquals(Integer.valueOf(4), model.getObject());
+		assertThat((Object) model.getObject()).isEqualTo(Integer.valueOf(4));
 		model.detach();
-		Assert.assertEquals(Integer.valueOf(5), model.getObject());
+		assertThat((Object) model.getObject()).isEqualTo(Integer.valueOf(5));
 		serialize(model);
 	}
 	
@@ -117,22 +115,22 @@ public class TestModelTransformations extends AbstractModelTest {
 	@Test
 	public void genericMethodSignatureForFunction1ShouldBeFlexible() {
 		IModel<? extends List<? extends String>> listModel=new Model<ArrayList<? extends String>>(new ArrayList<String>());
-		
-		assertNotNull(Models.on(listModel).apply(new StringList2String()).getObject());
-		assertNotNull(Models.on(listModel).applyLazy(new LazyStringList2String()).getObject());
-		assertNotNull(Models.apply(new StringList2String()).to(listModel).getObject());
-		assertNotNull(Models.applyLazy(new LazyStringList2String()).to(listModel).getObject());
+
+		assertThat((Object) Models.on(listModel).apply(new StringList2String()).getObject()).isNotNull();
+		assertThat((Object) Models.on(listModel).applyLazy(new LazyStringList2String()).getObject()).isNotNull();
+		assertThat((Object) Models.apply(new StringList2String()).to(listModel).getObject()).isNotNull();
+		assertThat((Object) Models.applyLazy(new LazyStringList2String()).to(listModel).getObject()).isNotNull();
 	}
-	
+
 	@Test
 	public void genericMethodSignatureForFunction2ShouldBeFlexible() {
 		IModel<? extends List<? extends String>> listModel=new Model<ArrayList<? extends String>>(new ArrayList<String>());
 		IModel<? extends List<? extends Integer>> numberModel=new Model<ArrayList<? extends Integer>>(new ArrayList<Integer>());
-		
-		assertNotNull(Models.on(listModel,numberModel).apply(new StringAndIntList2String()).getObject());
-		assertNotNull(Models.on(listModel,numberModel).applyLazy(new LazyStringAndIntList2String()).getObject());
-		assertNotNull(Models.apply(new StringAndIntList2String()).to(listModel,numberModel).getObject());
-		assertNotNull(Models.applyLazy(new LazyStringAndIntList2String()).to(listModel,numberModel).getObject());
+
+		assertThat((Object) Models.on(listModel, numberModel).apply(new StringAndIntList2String()).getObject()).isNotNull();
+		assertThat((Object) Models.on(listModel, numberModel).applyLazy(new LazyStringAndIntList2String()).getObject()).isNotNull();
+		assertThat((Object) Models.apply(new StringAndIntList2String()).to(listModel, numberModel).getObject()).isNotNull();
+		assertThat((Object) Models.applyLazy(new LazyStringAndIntList2String()).to(listModel, numberModel).getObject()).isNotNull();
 	}
 	
 	@Test
@@ -140,27 +138,27 @@ public class TestModelTransformations extends AbstractModelTest {
 		IModel<? extends List<? extends String>> listModel=new Model<ArrayList<? extends String>>(new ArrayList<String>());
 		IModel<? extends List<? extends Integer>> numberModel=new Model<ArrayList<? extends Integer>>(new ArrayList<Integer>());
 		IModel<? extends List<? extends Boolean>> boolModel=new Model<ArrayList<? extends Boolean>>(new ArrayList<Boolean>());
-		
-		assertNotNull(Models.on(listModel,numberModel,boolModel).apply(new StringIntAndBoolList2String()).getObject());
-		assertNotNull(Models.on(listModel,numberModel,boolModel).applyLazy(new LazyStringIntAndBoolList2String()).getObject());
-		assertNotNull(Models.apply(new StringIntAndBoolList2String()).to(listModel,numberModel,boolModel).getObject());
-		assertNotNull(Models.applyLazy(new LazyStringIntAndBoolList2String()).to(listModel,numberModel,boolModel).getObject());
+
+		assertThat((Object) Models.on(listModel, numberModel, boolModel).apply(new StringIntAndBoolList2String()).getObject()).isNotNull();
+		assertThat((Object) Models.on(listModel, numberModel, boolModel).applyLazy(new LazyStringIntAndBoolList2String()).getObject()).isNotNull();
+		assertThat((Object) Models.apply(new StringIntAndBoolList2String()).to(listModel, numberModel, boolModel).getObject()).isNotNull();
+		assertThat((Object) Models.applyLazy(new LazyStringIntAndBoolList2String()).to(listModel, numberModel, boolModel).getObject()).isNotNull();
 	}
 	
 	private void checkModelModifications(Model<Integer> a, Model<Integer> b, Model<String> postfix, IModel<String> model) {
-		Assert.assertEquals("3 Kinder", model.getObject());
+		assertThat((Object) model.getObject()).isEqualTo("3 Kinder");
 		a.setObject(2);
-		Assert.assertEquals("3 Kinder", model.getObject());
+		assertThat((Object) model.getObject()).isEqualTo("3 Kinder");
 		model.detach();
-		Assert.assertEquals("4 Kinder", model.getObject());
+		assertThat((Object) model.getObject()).isEqualTo("4 Kinder");
 		b.setObject(3);
-		Assert.assertEquals("4 Kinder", model.getObject());
+		assertThat((Object) model.getObject()).isEqualTo("4 Kinder");
 		model.detach();
-		Assert.assertEquals("5 Kinder", model.getObject());
+		assertThat((Object) model.getObject()).isEqualTo("5 Kinder");
 		postfix.setObject("Äpfel");
-		Assert.assertEquals("5 Kinder", model.getObject());
+		assertThat((Object) model.getObject()).isEqualTo("5 Kinder");
 		model.detach();
-		Assert.assertEquals("5 Äpfel", model.getObject());
+		assertThat((Object) model.getObject()).isEqualTo("5 Äpfel");
 		serialize(model);
 	}
 	
@@ -171,7 +169,7 @@ public class TestModelTransformations extends AbstractModelTest {
 		} catch (Exception ex) {
 			e=ex;
 		}
-		Assert.assertNotNull("Exception on setObject",e);
+		assertThat(e).describedAs("Exception on setObject").isNotNull();
 	}
 	
 	private static final class LazyStringAndIntList2String implements Function2<String, Lazy<? extends List<? extends String>>, Lazy<? extends List<? extends Integer>>> {

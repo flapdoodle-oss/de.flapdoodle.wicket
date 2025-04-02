@@ -20,45 +20,47 @@
  */
 package de.flapdoodle.wicket.model.transformation;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-import org.junit.Test;
 
 import de.flapdoodle.wicket.model.AbstractModelTest;
 import de.flapdoodle.wicket.model.ModelProxy;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class MapModelTest extends AbstractModelTest {
 
 	@Test
 	public void emptyCollectionShouldGiveEmptyMap() {
 		MapModel<String, String> model = new MapModel<String,String>(Model.ofList(new ArrayList<String>()), x->x);
-		assertTrue(model.getObject().isEmpty());
+		assertThat(model.getObject().isEmpty()).isTrue();
 	}
-	
+
 	@Test
 	public void detachMustPropagate() {
 		IModel<? extends List<? extends String>> src = Model.ofList(new ArrayList<String>());
 		ModelProxy<? extends List<? extends String>> proxy = new ModelProxy<>(src);
 		MapModel<String, String> model = new MapModel<String,String>(proxy, x->x);
-		
-		assertEquals(0,proxy.detachCalled());
+
+		assertThat((Object) proxy.detachCalled()).isEqualTo(0);
 		model.getObject();
 		model.detach();
-		assertEquals(1,proxy.detachCalled());
+		assertThat((Object) proxy.detachCalled()).isEqualTo(1);
 	}
-	
-	@Test(expected = IllegalArgumentException.class)
+
+	@Test
 	public void keyCollisionMustThrowException() {
 		List<String> src=new ArrayList<>();
 		src.add("a");
 		src.add("b");
 		src.add("a");
-		MapModel.asMap(src, x->x);
+		assertThatThrownBy(() -> MapModel.asMap(src, x->x))
+			.isInstanceOf(IllegalArgumentException.class);
 	}
 }

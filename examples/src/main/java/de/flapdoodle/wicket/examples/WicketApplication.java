@@ -22,9 +22,7 @@ package de.flapdoodle.wicket.examples;
 
 import org.apache.wicket.Page;
 import org.apache.wicket.protocol.http.WebApplication;
-import org.apache.wicket.request.cycle.IRequestCycleListener;
 
-import de.flapdoodle.wicket.detach.FieldInspectingDetachListener;
 import de.flapdoodle.wicket.examples.debug.DoNotSerializeMe;
 import de.flapdoodle.wicket.examples.pages.StartPage;
 import de.flapdoodle.wicket.request.cycle.RequestCyclePageExceptionListener;

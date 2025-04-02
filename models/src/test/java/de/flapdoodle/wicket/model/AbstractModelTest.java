@@ -20,12 +20,9 @@
  */
 package de.flapdoodle.wicket.model;
 
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
-
 import org.apache.wicket.core.util.lang.WicketObjects;
 import org.apache.wicket.model.IModel;
+import org.assertj.core.api.Assertions;
 
 public abstract class AbstractModelTest {
 
@@ -37,8 +34,8 @@ public abstract class AbstractModelTest {
 	protected <T> void serialize(IModel<T> model)
 	{
 		final IModel<T> clone = cloneBySerial(model);
-		assertThat(clone, is(instanceOf(model.getClass())));
-		assertThat(clone.getObject(), is(model.getObject()));
+		Assertions.assertThat(clone).isInstanceOf(model.getClass());
+		Assertions.assertThat(clone.getObject()).isEqualTo(model.getObject());
 	}
 
     private <T> T cloneBySerial(T object) {
@@ -50,6 +47,5 @@ public abstract class AbstractModelTest {
 //
 //        return (T) deserialized;
     }
-
 
 }

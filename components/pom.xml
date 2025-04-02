@@ -27,8 +27,16 @@
  	<dependencies>
 		<!--  JUNIT DEPENDENCY FOR TESTING -->
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>de.flapdoodle.testdoc</groupId>
+			<artifactId>de.flapdoodle.testdoc</artifactId>
 		</dependency>
 	
 		<!-- WICKET DEPENDENCIES -->

@@ -20,13 +20,12 @@
  */
 package de.flapdoodle.wicket.model.transformation;
 
-import static org.junit.Assert.assertEquals;
-
-import org.apache.wicket.model.Model;
-import org.junit.Test;
-
 import de.flapdoodle.wicket.model.AbstractModelTest;
 import de.flapdoodle.wicket.model.ModelProxy;
+import org.apache.wicket.model.Model;
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class TransformatorModelTest extends AbstractModelTest {
 
@@ -34,10 +33,10 @@ public class TransformatorModelTest extends AbstractModelTest {
 	public void setAndGetObjectMustMapValue() {
 		Model<Integer> srcModel = Model.of(2);
 		TransformatorModel<Integer, String> transformationModel = new TransformatorModel<Integer, String>(srcModel, Object::toString, Integer::valueOf);
-		assertEquals("2",transformationModel.getObject());
+		assertThat((Object) transformationModel.getObject()).isEqualTo("2");
 		transformationModel.setObject("3");
-		assertEquals(Integer.valueOf(3),srcModel.getObject());
-		assertEquals("3",transformationModel.getObject());
+		assertThat((Object) srcModel.getObject()).isEqualTo(Integer.valueOf(3));
+		assertThat((Object) transformationModel.getObject()).isEqualTo("3");
 	}
 	
 	@Test
@@ -45,9 +44,9 @@ public class TransformatorModelTest extends AbstractModelTest {
 		Model<Integer> srcModel = Model.of(2);
 		ModelProxy<Integer> proxy=new ModelProxy<>(srcModel);
 		TransformatorModel<Integer, String> transformationModel = new TransformatorModel<Integer, String>(proxy, Object::toString, Integer::valueOf);
-		
-		assertEquals(0,proxy.detachCalled());
+
+		assertThat((Object) proxy.detachCalled()).isEqualTo(0);
 		transformationModel.detach();
-		assertEquals(1,proxy.detachCalled());
+		assertThat((Object) proxy.detachCalled()).isEqualTo(1);
 	}
 }

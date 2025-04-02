@@ -26,9 +26,9 @@ import java.util.List;
 
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestReadOnly {
 
@@ -36,12 +36,12 @@ public class TestReadOnly {
 	public void modelFromList() {
 		ArrayList<String> sourceList = new ArrayList<String>(Arrays.asList("Ha","Hu","Ha"));
 		IModel<List<String>> model = Models.unmodifiable(sourceList);
-		
-		Assert.assertEquals("Hu", model.getObject().get(1));
+
+		assertThat(model.getObject().get(1)).isEqualTo("Hu");
 		sourceList.remove(1);
-		Assert.assertEquals("Ha", model.getObject().get(1));
-		Assert.assertNotNull(exceptionFromRemoveFirst(model));
-		Assert.assertNotNull(exceptionFromSetObject(model, new ArrayList<String>()));
+		assertThat(model.getObject().get(1)).isEqualTo("Ha");
+		assertThat(exceptionFromRemoveFirst(model)).isNotNull();
+		assertThat(exceptionFromSetObject(model, new ArrayList<String>())).isNotNull();
 	}
 
 	@Test
@@ -49,35 +49,35 @@ public class TestReadOnly {
 		ArrayList<String> sourceList = new ArrayList<String>(Arrays.asList("Ha","Hu","Ha"));
 		IModel<? extends List<? extends String>> source = Model.ofList(sourceList);
 		IModel<List<? extends String>> model = Models.readOnly(source);
-		
-		Assert.assertEquals("Hu", model.getObject().get(1));
+
+		assertThat(model.getObject().get(1)).isEqualTo("Hu");
 		sourceList.remove(1);
-		Assert.assertEquals("Ha", model.getObject().get(1));
-		Assert.assertNull(exceptionFromRemoveFirst(model));
-		Assert.assertNotNull(exceptionFromSetObject(model, new ArrayList<String>()));
+		assertThat(model.getObject().get(1)).isEqualTo("Ha");
+		assertThat(exceptionFromRemoveFirst(model)).isNull();
+		assertThat(exceptionFromSetObject(model, new ArrayList<String>())).isNotNull();
 	}
-	
+
 	@Test
 	public void modelFromAListModelAsUnmodifiable() {
 		ArrayList<String> sourceList = new ArrayList<String>(Arrays.asList("Ha","Hu","Ha"));
 		IModel<? extends List<? extends String>> source = Model.ofList(sourceList);
 		IModel<List<String>> model = Models.unmodifiable(source);
-		
-		Assert.assertEquals("Hu", model.getObject().get(1));
+
+		assertThat(model.getObject().get(1)).isEqualTo("Hu");
 		sourceList.remove(1);
-		Assert.assertEquals("Ha", model.getObject().get(1));
-		Assert.assertNotNull(exceptionFromRemoveFirst(model));
-		Assert.assertNotNull(exceptionFromSetObject(model, new ArrayList<String>()));
+		assertThat(model.getObject().get(1)).isEqualTo("Ha");
+		assertThat(exceptionFromRemoveFirst(model)).isNotNull();
+		assertThat(exceptionFromSetObject(model, new ArrayList<String>())).isNotNull();
 	}
 	
 	@Test
 	public void listEmptyIfNull() {
 		IModel<? extends List<? extends String>> sourceModel=Model.<String>ofList(null);
 		IModel<List<String>> nullCheckedModel = Models.emptyIfNull(Models.unmodifiable(sourceModel));
-		Assert.assertNotNull(nullCheckedModel.getObject());
-		Assert.assertTrue(nullCheckedModel.getObject().isEmpty());
+		assertThat(nullCheckedModel.getObject()).isNotNull();
+		assertThat(nullCheckedModel.getObject().isEmpty()).isTrue();
 	}
-	
+
 	private Exception exceptionFromRemoveFirst(IModel<? extends List<?>> model) {
 		Exception e=null;
 		try {
@@ -97,4 +97,5 @@ public class TestReadOnly {
 		}
 		return e;
 	}
+
 }

@@ -24,14 +24,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.wicket.util.lang.Objects;
-import org.junit.Assert;
-import org.junit.Test;
 
 import de.flapdoodle.tests.sample.IJoinedSample;
 import de.flapdoodle.tests.sample.ISample;
 import de.flapdoodle.tests.sample.Sample;
 import de.flapdoodle.tests.sampler.Variation;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestVariations {
 
@@ -40,61 +41,62 @@ public class TestVariations {
 		Set<IJoinedSample<Boolean, Boolean, ISample<Boolean>>> values=new HashSet<IJoinedSample<Boolean,Boolean,ISample<Boolean>>>();
 		
 		IGenerator<Boolean, IJoinedSample<Boolean, Boolean, ISample<Boolean>>> variations = Variations.of(Variation.bool(),Variations.of(Variation.bool()));
-		Assert.assertTrue(variations.hasNext());
+		assertThat(variations.hasNext()).isTrue();
 		values.add(variations.get());
-		Assert.assertTrue(variations.hasNext());
+		assertThat(variations.hasNext()).isTrue();
 		values.add(variations.get());
-		Assert.assertTrue(variations.hasNext());
+		assertThat(variations.hasNext()).isTrue();
 		values.add(variations.get());
-		Assert.assertTrue(variations.hasNext());
+		assertThat(variations.hasNext()).isTrue();
 		values.add(variations.get());
-		Assert.assertFalse(variations.hasNext());
-		
-		Assert.assertEquals(4,values.size());
-		
-		Assert.assertNotNull(values.remove(Sample.of(true, Sample.of(true))));
-		Assert.assertNotNull(values.remove(Sample.of(false, Sample.of(true))));
-		Assert.assertNotNull(values.remove(Sample.of(true, Sample.of(false))));
-		Assert.assertNotNull(values.remove(Sample.of(false, Sample.of(false))));
-		
-		Assert.assertTrue(values.isEmpty());
+		assertThat(variations.hasNext()).isFalse();
+
+		assertThat(values.size()).isEqualTo((Integer) 4);
+
+		assertThat(values.remove(Sample.of(true, Sample.of(true)))).isNotNull();
+		assertThat(values.remove(Sample.of(false, Sample.of(true)))).isNotNull();
+		assertThat(values.remove(Sample.of(true, Sample.of(false)))).isNotNull();
+		assertThat(values.remove(Sample.of(false, Sample.of(false)))).isNotNull();
+
+		assertThat(values.isEmpty()).isTrue();
 	}
-	
+
+	@Test
 	public void six() {
 		Set<String> values=new HashSet<String>();
 		
 		IGenerator<String, IJoinedSample<String, Integer, ISample<Integer>>> variations = Variations.of(Variation.of("A","B","C"),Variations.of(Variation.of(1,2,3)));
-		Assert.assertTrue(variations.hasNext());
+		assertThat(variations.hasNext()).isTrue();
 		values.add(asString(variations.get()));
-		Assert.assertTrue(variations.hasNext());
+		assertThat(variations.hasNext()).isTrue();
 		values.add(asString(variations.get()));
-		Assert.assertTrue(variations.hasNext());
+		assertThat(variations.hasNext()).isTrue();
 		values.add(asString(variations.get()));
-		Assert.assertTrue(variations.hasNext());
+		assertThat(variations.hasNext()).isTrue();
 		values.add(asString(variations.get()));
-		Assert.assertTrue(variations.hasNext());
+		assertThat(variations.hasNext()).isTrue();
 		values.add(asString(variations.get()));
-		Assert.assertTrue(variations.hasNext());
+		assertThat(variations.hasNext()).isTrue();
 		values.add(asString(variations.get()));
-		Assert.assertTrue(variations.hasNext());
+		assertThat(variations.hasNext()).isTrue();
 		values.add(asString(variations.get()));
-		Assert.assertTrue(variations.hasNext());
+		assertThat(variations.hasNext()).isTrue();
 		values.add(asString(variations.get()));
-		Assert.assertTrue(variations.hasNext());
+		assertThat(variations.hasNext()).isTrue();
 		values.add(asString(variations.get()));
-		Assert.assertFalse(variations.hasNext());
-		
-		Assert.assertEquals(9,values.size());
-		
-		Assert.assertNotNull(values.remove("A1"));
-		Assert.assertNotNull(values.remove("A2"));
-		Assert.assertNotNull(values.remove("A3"));
-		Assert.assertNotNull(values.remove("B1"));
-		Assert.assertNotNull(values.remove("B2"));
-		Assert.assertNotNull(values.remove("B3"));
-		Assert.assertNotNull(values.remove("C1"));
-		Assert.assertNotNull(values.remove("C2"));
-		Assert.assertNotNull(values.remove("C3"));
+		assertThat(variations.hasNext()).isFalse();
+
+		assertThat(values.size()).isEqualTo((Integer) 9);
+
+		assertThat(values.remove("A1")).isNotNull();
+		assertThat(values.remove("A2")).isNotNull();
+		assertThat(values.remove("A3")).isNotNull();
+		assertThat(values.remove("B1")).isNotNull();
+		assertThat(values.remove("B2")).isNotNull();
+		assertThat(values.remove("B3")).isNotNull();
+		assertThat(values.remove("C1")).isNotNull();
+		assertThat(values.remove("C2")).isNotNull();
+		assertThat(values.remove("C3")).isNotNull();
 	}
 
 	@Test
@@ -112,8 +114,8 @@ public class TestVariations {
 				notEquals.add(sample);
 			}
 		}
-		
-		Assert.assertEquals(""+notEquals, 2,notEquals.size());
+
+		assertThat(notEquals.size()).isEqualTo((Integer) 2);
 	}
 	
 	private int one(int number, boolean flag) {

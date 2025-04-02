@@ -20,13 +20,14 @@
  */
 package de.flapdoodle.tests.sampler;
 
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import junit.framework.Assert;
-
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestSampler {
 
@@ -35,15 +36,15 @@ public class TestSampler {
 		Iterator<Boolean> iterator = new BoolVariation().iterator();
 		Set<Boolean> values = new HashSet<Boolean>();
 
-		Assert.assertTrue(iterator.hasNext());
+		assertThat(iterator.hasNext()).isTrue();
 		values.add(iterator.next());
-		Assert.assertTrue(iterator.hasNext());
+		assertThat(iterator.hasNext()).isTrue();
 		values.add(iterator.next());
-		Assert.assertFalse(iterator.hasNext());
+		assertThat(iterator.hasNext()).isFalse();
 
-		Assert.assertTrue(values.remove(Boolean.TRUE));
-		Assert.assertTrue(values.remove(Boolean.FALSE));
-		Assert.assertEquals(0, values.size());
+		assertThat(values.remove(Boolean.TRUE)).isTrue();
+		assertThat(values.remove(Boolean.FALSE)).isTrue();
+		assertThat(values.size()).isEqualTo((Integer) 0);
 	}
 
 	@Test
@@ -51,28 +52,28 @@ public class TestSampler {
 		Iterator<Boolean> iterator = new NullableVariation<Boolean>(new BoolVariation()).iterator();
 		Set<Boolean> values = new HashSet<Boolean>();
 
-		Assert.assertTrue(iterator.hasNext());
+		assertThat(iterator.hasNext()).isTrue();
 		values.add(iterator.next());
-		Assert.assertTrue(iterator.hasNext());
+		assertThat(iterator.hasNext()).isTrue();
 		values.add(iterator.next());
-		Assert.assertTrue(iterator.hasNext());
+		assertThat(iterator.hasNext()).isTrue();
 		values.add(iterator.next());
-		Assert.assertFalse(iterator.hasNext());
+		assertThat(iterator.hasNext()).isFalse();
 
-		Assert.assertTrue(values.remove(Boolean.TRUE));
-		Assert.assertTrue(values.remove(Boolean.FALSE));
-		Assert.assertTrue(values.remove(null));
-		Assert.assertEquals(0, values.size());
+		assertThat(values.remove(Boolean.TRUE)).isTrue();
+		assertThat(values.remove(Boolean.FALSE)).isTrue();
+		assertThat(values.remove(null)).isTrue();
+		assertThat(values.size()).isEqualTo((Integer) 0);
 	}
 
 	@Test
 	public void fixedValues() {
 		Iterator<Integer> iterator = new FixedValuesVariation<Integer>(1, 2, 3).iterator();
-		Assert.assertTrue(iterator.hasNext());
-		Assert.assertEquals(Integer.valueOf(1), iterator.next());
-		Assert.assertTrue(iterator.hasNext());
-		Assert.assertEquals(Integer.valueOf(2), iterator.next());
-		Assert.assertTrue(iterator.hasNext());
-		Assert.assertEquals(Integer.valueOf(3), iterator.next());
+		assertThat(iterator.hasNext()).isTrue();
+		assertThat(iterator.next()).isEqualTo(Integer.valueOf(1));
+		assertThat(iterator.hasNext()).isTrue();
+		assertThat(iterator.next()).isEqualTo(Integer.valueOf(2));
+		assertThat(iterator.hasNext()).isTrue();
+		assertThat(iterator.next()).isEqualTo(Integer.valueOf(3));
 	}
 }
