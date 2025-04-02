@@ -20,10 +20,9 @@
  */
 package de.flapdoodle.tests.sample;
 
-import junit.framework.Assert;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Test;
-
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestSample {
 
@@ -32,7 +31,8 @@ public class TestSample {
 		IJoinedSample<Integer, Integer, Simple<Integer>> sample = Sample.of(3, Simple.of(2));
 		IJoinedSample<String, Integer, IJoinedSample<Integer, Integer, Simple<Integer>>> twoPlusOne = Sample.of("Hu", sample);
 		
-		Assert.assertEquals(Integer.valueOf(2), twoPlusOne.next().next().get());
+		assertThat(twoPlusOne.next().next().get())
+			.isEqualTo(2);
 		
 	}
 }

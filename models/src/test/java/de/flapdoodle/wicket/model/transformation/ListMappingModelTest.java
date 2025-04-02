@@ -20,32 +20,32 @@
  */
 package de.flapdoodle.wicket.model.transformation;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-import org.junit.Test;
 
 import de.flapdoodle.wicket.model.AbstractModelTest;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 public class ListMappingModelTest extends AbstractModelTest {
 
 	@Test
 	public void emptyListMustGiveEmptyResult() {
 		List<Object> result = ListMappingModel.map(new ArrayList<>(), x->{fail("should not be called"); return x;});
-		assertTrue(result.isEmpty());
+		assertThat(result.isEmpty()).isTrue();
 	}
 	
 	@Test
 	public void mapShouldMapEachEntry() {
 		List<String> result = ListMappingModel.map(Arrays.asList("1","2"), x -> "["+x+"]");
-		assertEquals("[[1], [2]]",result.toString());
+		assertThat(result.toString()).isEqualTo("[[1], [2]]");
 	}
 	
 	@Test
@@ -53,10 +53,10 @@ public class ListMappingModelTest extends AbstractModelTest {
 		List<Integer> sourceList = new ArrayList<>(Arrays.asList(1,2,3));
 		IModel<? extends List<? extends Integer>> listModel = Model.ofList(sourceList);
 		ListMappingModel<Integer, String> listMappingModel = new ListMappingModel<Integer,String>(listModel, x -> x.toString());
-		assertEquals("[1, 2, 3]", listMappingModel.getObject().toString());
+		assertThat(listMappingModel.getObject().toString()).isEqualTo("[1, 2, 3]");
 		sourceList.add(4);
-		assertEquals("[1, 2, 3]", listMappingModel.getObject().toString());
+		assertThat(listMappingModel.getObject().toString()).isEqualTo("[1, 2, 3]");
 		listMappingModel.detach();
-		assertEquals("[1, 2, 3, 4]", listMappingModel.getObject().toString());
+		assertThat(listMappingModel.getObject().toString()).isEqualTo("[1, 2, 3, 4]");
 	}
 }

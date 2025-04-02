@@ -21,12 +21,15 @@
 package org.apache.wicket.model.lambda;
 
 import de.flapdoodle.wicket.model.AbstractReadOnlyDetachedModel;
-import java.io.Serializable;
-import java.util.function.Function;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-import org.junit.Test;
-import org.junit.Assert;
+import org.junit.jupiter.api.Test;
+
+import java.io.Serializable;
+import java.util.function.Function;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  *
  * @author mosmann
@@ -37,7 +40,7 @@ public class LambdaFunTest {
     public void foo() {
         final Model<Integer> src = Model.of(1);
         final IModel<String> result = with(src).apply((Function<Integer,String> & Serializable) LambdaFunTest::intToString);
-        Assert.assertEquals("1",result.getObject());
+        assertThat(result.getObject()).isEqualTo("1");
     }
     
     static String intToString(int value) {

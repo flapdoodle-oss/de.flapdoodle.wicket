@@ -20,16 +20,13 @@
  */
 package org.apache.wicket.model.lambda;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
+import org.apache.wicket.core.util.lang.WicketObjects;
+import org.apache.wicket.model.IModel;
+import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;
 
-import org.apache.wicket.core.util.lang.WicketObjects;
-import org.apache.wicket.model.IModel;
-import org.assertj.core.api.Assertions;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class LambdasTest
 {
@@ -62,7 +59,7 @@ public class LambdasTest
 		final SerializableConsumer<String> setName = person::setName;
 		IModel<String> personNameModel1 = Lambdas.of(getName, setName);
 		IModel<String> personNameModel2 = Lambdas.of(getName, setName);
-		assertEquals(personNameModel1, personNameModel2);
+		assertThat(personNameModel2).isEqualTo(personNameModel1);
 	}
 
 	@Test
@@ -73,7 +70,8 @@ public class LambdasTest
 		final SerializableConsumer<String> setName = person::setName;
 		IModel<String> personNameModel1 = Lambdas.of(getName, setName);
 		IModel<String> personNameModel2 = Lambdas.of(getName, setName);
-		assertEquals(personNameModel1.hashCode(), personNameModel2.hashCode());
+		Object expected = personNameModel1.hashCode();
+		assertThat((Object) personNameModel2.hashCode()).isEqualTo(expected);
 	}
 
 	@Test
@@ -83,12 +81,12 @@ public class LambdasTest
 		IModel<String> nameModel = Lambdas.of(ldm, NonSerializablePerson::getName);
 
 		ldm.getObject().setName("New name");
-		assertEquals("New name", nameModel.getObject());
+		assertThat((Object) nameModel.getObject()).isEqualTo("New name");
 
 		// after a detach, we have a new object, so the name model should return null
 		ldm.detach();
 
-		assertNull(nameModel.getObject());
+		assertThat((Object) nameModel.getObject()).isNull();
 	}
 
 	@Test
@@ -105,9 +103,9 @@ public class LambdasTest
 		IModel<?> nameModel2 = Lambdas.of(organization, NonSerializableOrganization::getName);
 		IModel<?> nameModel3 = Lambdas.of(organization, organizationGetName);
 
-		assertEquals("New name", nameModel1.getObject());
-		assertEquals("New name", nameModel2.getObject());
-		assertEquals("New name", nameModel3.getObject());
+		assertThat(nameModel1.getObject()).isEqualTo("New name");
+		assertThat(nameModel2.getObject()).isEqualTo("New name");
+		assertThat(nameModel3.getObject()).isEqualTo("New name");
 	}
 
 	@Test
@@ -122,18 +120,18 @@ public class LambdasTest
 		IModel<?> nameModel2 = Lambdas.of(organization, NonSerializableOrganization::getName);
 		IModel<?> nameModel3 = Lambdas.of(organization, organizationGetName);
 
-		assertNull(nameModel1.getObject());
-		assertNull(nameModel2.getObject());
-		assertNull(nameModel3.getObject());
-}
+		assertThat(nameModel1.getObject()).isNull();
+		assertThat(nameModel2.getObject()).isNull();
+		assertThat(nameModel3.getObject()).isNull();
+	}
 
 	private void check(IModel<String> personNameModel)
 	{
-		Assertions.assertThat(personNameModel.getObject()).isNull();
+		assertThat(personNameModel.getObject()).isNull();
 
 		final String personName = "new name";
 		personNameModel.setObject(personName);
-		Assertions.assertThat(personNameModel.getObject()).isEqualTo(personName);
+		assertThat(personNameModel.getObject()).isEqualTo(personName);
 
 		serialize(personNameModel, personName);
 	}
@@ -141,8 +139,8 @@ public class LambdasTest
 	private void serialize(IModel<String> personNameModel, String personName)
 	{
 		final IModel<String> clone = cloneBySerial(personNameModel);
-		Assertions.assertThat(clone).isInstanceOf(Lambdas.LambdaModel.class);
-		Assertions.assertThat(clone.getObject()).isEqualTo(personName);
+		assertThat(clone).isInstanceOf(Lambdas.LambdaModel.class);
+		assertThat(clone.getObject()).isEqualTo(personName);
 	}
 
     private <T> T cloneBySerial(T object) {

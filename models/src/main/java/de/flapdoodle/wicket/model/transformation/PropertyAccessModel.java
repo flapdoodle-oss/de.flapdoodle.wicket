@@ -25,7 +25,6 @@ import org.apache.wicket.model.lambda.SerializableBiConsumer;
 
 import de.flapdoodle.functions.Function1;
 import de.flapdoodle.wicket.model.IMapableModel;
-import de.flapdoodle.wicket.model.IMapableObjectAwareModel;
 
 public class PropertyAccessModel<M, R> implements IMapableModel<R> {
 

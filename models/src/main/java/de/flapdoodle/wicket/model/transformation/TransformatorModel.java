@@ -24,7 +24,6 @@ import org.apache.wicket.model.IModel;
 
 import de.flapdoodle.functions.Function1;
 import de.flapdoodle.wicket.model.IMapableModel;
-import de.flapdoodle.wicket.model.IMapableObjectAwareModel;
 
 public class TransformatorModel<T, R> implements IMapableModel<R> {
 
