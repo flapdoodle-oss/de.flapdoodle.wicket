@@ -44,7 +44,7 @@ public class WicketApplication extends WebApplication {
 		ISerializableCheck checks = new SerializableChecks(new AttachedLoadableModelCheck(),
 				new SerializingNotAllowedForTypesCheck(forbiddenTypes));
 		getFrameworkSettings().setSerializer(new CheckingJavaSerializer(getApplicationKey(), checks));
-		getStoreSettings().setInmemoryCacheSize(1);
+//		getStoreSettings().setInmemoryCacheSize(1);
 
 		// getFrameworkSettings().setDetachListener(new FieldInspectingDetachListener());
 

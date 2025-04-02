@@ -46,12 +46,6 @@
             <artifactId>de.flapdoodle.testdoc</artifactId>
         </dependency>
 
-        <!--  JETTY DEPENDENCIES FOR TESTING  -->
-        <dependency>
-            <groupId>org.eclipse.jetty.aggregate</groupId>
-            <artifactId>jetty-all-server</artifactId>
-        </dependency>
-	
         <!-- WICKET DEPENDENCIES -->
         <dependency>
             <groupId>org.apache.wicket</groupId>

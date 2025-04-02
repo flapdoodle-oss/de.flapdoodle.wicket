@@ -73,9 +73,9 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
                 <configuration>
-                    <compilerVersion>1.8</compilerVersion>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <compilerVersion>21</compilerVersion>
+                    <source>21</source>
+                    <target>21</target>
                     <encoding>UTF-8</encoding>
                     <showWarnings>true</showWarnings>
                     <showDeprecation>true</showDeprecation>
@@ -289,7 +289,7 @@
                 <configuration>
                     <toolchains>
                         <jdk>
-                            <version>[1.8,)</version>
+                            <version>[21,)</version>
                         </jdk>
                     </toolchains>
                 </configuration>
@@ -315,10 +315,24 @@
                 </configuration>
             </plugin>
 
+<!--            <plugin>-->
+<!--                <groupId>org.eclipse.jetty</groupId>-->
+<!--                <artifactId>jetty-maven-plugin</artifactId>-->
+<!--                <version>${jetty.version}</version>-->
+<!--                <configuration>-->
+<!--                    <systemProperties>-->
+<!--                        <systemProperty>-->
+<!--                            <name>maven.project.build.directory.test-classes</name>-->
+<!--                            <value>${project.build.directory}/test-classes</value>-->
+<!--                        </systemProperty>-->
+<!--                    </systemProperties>-->
+<!--                    <jettyXmls>${project.basedir}/src/test/jetty/jetty.xml,${project.basedir}/src/test/jetty/jetty-ssl.xml,${project.basedir}/src/test/jetty/jetty-http.xml,${project.basedir}/src/test/jetty/jetty-https.xml</jettyXmls>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
             <plugin>
                 <groupId>org.mortbay.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
-                <version>${jetty.version}</version>
+                <version>8.1.16.v20140903</version>
                 <configuration>
                     <connectors>
                         <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
@@ -368,6 +382,21 @@
                                 </pluginExecution>
                             </pluginExecutions>
                         </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-maven-plugin</artifactId>
+                    <version>${jetty.version}</version>
+                    <configuration>
+                        <systemProperties>
+                            <systemProperty>
+                                <name>maven.project.build.directory.test-classes</name>
+                                <value>${project.build.directory}/test-classes</value>
+                            </systemProperty>
+                        </systemProperties>
+                        <jettyXmls>${project.basedir}/src/test/jetty/jetty.xml,${project.basedir}/src/test/jetty/jetty-ssl.xml,${project.basedir}/src/test/jetty/jetty-http.xml,${project.basedir}/src/test/jetty/jetty-https.xml</jettyXmls>
                     </configuration>
                 </plugin>
             </plugins>
@@ -443,11 +472,13 @@
     <properties>
         <project.name>Flapdoodle Wicket7/Java8</project.name>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <wicket.version>7.0.0</wicket.version>
-        <jetty.version>7.6.13.v20130916</jetty.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <wicket.version>10.4.0</wicket.version>
+        <slf4j.version>2.0.16</slf4j.version>
+        <jetty.version>11.0.24</jetty.version>
         <junit.version>5.11.4</junit.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- allowed values: R7, 1.0, 1.5, 2.0 or none -->
         <wtp.version>none</wtp.version>
     </properties>
@@ -491,19 +522,17 @@
 <!--                <version>1.3</version>-->
 <!--                <scope>test</scope>-->
 <!--            </dependency>-->
-		
-            <!--  JETTY DEPENDENCIES FOR TESTING  -->
-            <dependency>
-                <groupId>org.eclipse.jetty.aggregate</groupId>
-                <artifactId>jetty-all-server</artifactId>
-                <version>${jetty.version}</version>
-                <scope>provided</scope>
-            </dependency>
-		
+
             <!-- WICKET DEPENDENCIES -->
             <dependency>
                 <groupId>org.apache.wicket</groupId>
                 <artifactId>wicket-core</artifactId>
+                <version>${wicket.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.wicket</groupId>
+                <artifactId>wicket-native-websocket-javax</artifactId>
                 <version>${wicket.version}</version>
                 <scope>provided</scope>
             </dependency>
@@ -512,7 +541,7 @@
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-log4j12</artifactId>
-                <version>1.7.12</version>
+                <version>${slf4j.version}</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
@@ -521,14 +550,64 @@
                 <version>1.2.17</version>
                 <scope>provided</scope>
             </dependency>
-		
-            <!-- fix wicket dependency collisions -->
+
+            <!--  JUNIT DEPENDENCY FOR TESTING -->
             <dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <version>2.4</version>
-                <scope>provided</scope>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
             </dependency>
+
+            <!-- fix wicket dependency collisions -->
+<!--            -->
+<!--            <dependency>-->
+<!--                <groupId>commons-io</groupId>-->
+<!--                <artifactId>commons-io</artifactId>-->
+<!--                <version>2.4</version>-->
+<!--                <scope>provided</scope>-->
+<!--            </dependency>-->
+            
+            <!--  JETTY DEPENDENCIES FOR TESTING  -->
+            <dependency>
+                <groupId>org.apache.wicket</groupId>
+                <artifactId>wicket-tester</artifactId>
+                <version>${wicket.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-server</artifactId>
+                <scope>test</scope>
+                <version>${jetty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-webapp</artifactId>
+                <scope>test</scope>
+                <version>${jetty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-jmx</artifactId>
+                <scope>test</scope>
+                <version>${jetty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.jetty.websocket</groupId>
+                <artifactId>websocket-jakarta-server</artifactId>
+                <scope>test</scope>
+                <version>${jetty.version}</version>
+            </dependency>
+
+            <!-- uncomment if WebSocket support is needed
+            <dependency>
+                <groupId>org.eclipse.jetty.websocket</groupId>
+                <artifactId>websocket-jakarta-server</artifactId>
+                <version>${jetty.version}</version>
+                <scope>test</scope>
+            </dependency>
+            -->
         </dependencies>
     </dependencyManagement>
  

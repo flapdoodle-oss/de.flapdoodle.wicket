@@ -22,6 +22,7 @@ package org.apache.wicket.model.lambda;
 
 import org.apache.wicket.core.util.lang.WicketObjects;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LambdaModel;
 import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;
@@ -38,7 +39,7 @@ public class LambdasTest
 	public void methodReference()
 	{
 		Person person = new Person();
-		IModel<String> personNameModel = Lambdas.of(person::getName, person::setName);
+		IModel<String> personNameModel = LambdaModel.of(person::getName, person::setName);
 		check(personNameModel);
 	}
 
@@ -46,7 +47,7 @@ public class LambdasTest
 	public void explicitLambdas()
 	{
 		Person person = new Person();
-		IModel<String> personNameModel = Lambdas.of( //
+		IModel<String> personNameModel = LambdaModel.of( //
 			() -> person.getName(), (name) -> person.setName(name));
 		check(personNameModel);
 	}
@@ -139,7 +140,7 @@ public class LambdasTest
 	private void serialize(IModel<String> personNameModel, String personName)
 	{
 		final IModel<String> clone = cloneBySerial(personNameModel);
-		assertThat(clone).isInstanceOf(Lambdas.LambdaModel.class);
+		assertThat(clone).isInstanceOf(LambdaModel.class);
 		assertThat(clone.getObject()).isEqualTo(personName);
 	}
 

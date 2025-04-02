@@ -34,7 +34,7 @@ import javax.tools.Diagnostic.Kind;
 import de.flapdoodle.wicket.atp.annotations.Property;
 
 @SupportedAnnotationTypes("de.flapdoodle.wicket.atp.annotations.*")
-@SupportedSourceVersion(SourceVersion.RELEASE_6)
+@SupportedSourceVersion(SourceVersion.RELEASE_21)
 public class PropertyModelAtp extends AbstractProcessor {
 
 	@Override

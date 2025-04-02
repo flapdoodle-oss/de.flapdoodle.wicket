@@ -20,10 +20,10 @@
  */
 package de.flapdoodle.wicket.examples.debug;
 
+import de.flapdoodle.wicket.model.AbstractReadOnlyDetachedModel;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
@@ -38,9 +38,10 @@ public class ModelNotDetachedPage extends WebPage {
 			}
 		};
 		
-		IModel<String> wrongProxyModel=new AbstractReadOnlyModel<String>() {
+		IModel<String> wrongProxyModel=new AbstractReadOnlyDetachedModel<String>() {
+
 			@Override
-			public String getObject() {
+			protected String load() {
 				return nameModel.getObject();
 			}
 		};
