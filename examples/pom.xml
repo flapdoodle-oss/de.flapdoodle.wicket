@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<parent>
-		<groupId>de.flapdoodle.wicket7-java8</groupId>
+		<groupId>de.flapdoodle.wicket10</groupId>
 		<artifactId>de.flapdoodle.wicket</artifactId>
-    <version>7.0.4-SNAPSHOT</version>
-		<relativePath>../pom.xml</relativePath>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>de.flapdoodle.wicket--examples</artifactId>
 	<packaging>war</packaging>
-  <name>${project.name} - Examples</name>
-  
-  <build>
-	  <resources>
+	<name>${project.name} - Examples</name>
+
+	<build>
+	<resources>
 		  <resource>
 			  <filtering>false</filtering>
 			  <directory>src/main/resources</directory>
@@ -47,13 +47,11 @@
 		  </testResource>
 	  </testResources>
 	  <plugins>
-      <plugin>
-        <groupId>com.mycila</groupId>
-        <artifactId>license-maven-plugin</artifactId>
-				<configuration>
-					<header>${project.parent.basedir}/src/etc/header.txt</header>
-				</configuration>
-			</plugin>
+		  <plugin>
+			  <groupId>org.apache.maven.plugins</groupId>
+			  <artifactId>maven-war-plugin</artifactId>
+			  <version>3.4.0</version>
+		  </plugin>
 
 <!--		<plugin>-->
 <!--			<groupId>org.eclipse.jetty</groupId>-->
@@ -74,51 +72,32 @@
   
 	<dependencies>
 		<dependency>
-			<groupId>de.flapdoodle.wicket7-java8</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>de.flapdoodle.wicket--models</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>de.flapdoodle.wicket7-java8</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>de.flapdoodle.wicket--atp</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>de.flapdoodle.wicket7-java8</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>de.flapdoodle.wicket--requests</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>de.flapdoodle.wicket7-java8</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>de.flapdoodle.wicket--components</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 		
 		<dependency>
-			<groupId>de.flapdoodle.wicket7-java8</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>de.flapdoodle.wicket--debug</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>
-			<groupId>de.flapdoodle.wicket7-java8</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>de.flapdoodle.wicket--incubator</artifactId>
-			<version>${project.version}</version>
 		</dependency>
-		<!--  JUNIT DEPENDENCY FOR TESTING -->
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-engine</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.assertj</groupId>
-			<artifactId>assertj-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>de.flapdoodle.testdoc</groupId>
-			<artifactId>de.flapdoodle.testdoc</artifactId>
-		</dependency>
-	
+
 		<!--  JETTY DEPENDENCIES FOR TESTING  -->
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
@@ -144,21 +123,7 @@
 		<!-- WICKET DEPENDENCIES -->
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
-			<artifactId>wicket-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket-native-websocket-javax</artifactId>
-		</dependency>
-
-		<!-- LOGGING DEPENDENCIES - LOG4J -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
 		</dependency>
 	</dependencies>
   

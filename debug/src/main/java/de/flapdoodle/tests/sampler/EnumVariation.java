@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2011
  *   Michael Mosmann <michael@mosmann.de>
  *   Jan Bernitt <unknown@email.de>

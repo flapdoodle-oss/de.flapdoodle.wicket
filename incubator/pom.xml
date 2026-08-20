@@ -1,44 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<parent>
-		<groupId>de.flapdoodle.wicket7-java8</groupId>
+		<groupId>de.flapdoodle.wicket10</groupId>
 		<artifactId>de.flapdoodle.wicket</artifactId>
-    <version>7.0.4-SNAPSHOT</version>
-		<relativePath>../pom.xml</relativePath>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>de.flapdoodle.wicket--incubator</artifactId>
-  <name>${project.name} - Debug Support</name>
-  
-  <build>
-  	<plugins>
-      <plugin>
-        <groupId>com.mycila</groupId>
-        <artifactId>license-maven-plugin</artifactId>
-				<configuration>
-					<header>${project.parent.basedir}/src/etc/header.txt</header>
-				</configuration>
-			</plugin>
-  	</plugins>
-  </build>
+	<name>${project.name} - Debug Support</name>
 
- 	<dependencies>
-		<!--  JUNIT DEPENDENCY FOR TESTING -->
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-engine</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.assertj</groupId>
-			<artifactId>assertj-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>de.flapdoodle.testdoc</groupId>
-			<artifactId>de.flapdoodle.testdoc</artifactId>
-		</dependency>
-	
+	<dependencies>
 		<!--  JETTY DEPENDENCIES FOR TESTING  -->
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
@@ -59,22 +33,6 @@
 		<dependency>
 			<groupId>org.eclipse.jetty.websocket</groupId>
 			<artifactId>websocket-jakarta-server</artifactId>
-		</dependency>
-
-		<!-- WICKET DEPENDENCIES -->
-		<dependency>
-			<groupId>org.apache.wicket</groupId>
-			<artifactId>wicket-core</artifactId>
-		</dependency>
-
-		<!-- LOGGING DEPENDENCIES - LOG4J -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
 		</dependency>
 	</dependencies>
 </project>
