@@ -29,7 +29,7 @@ public class DelegatingModel<T> implements IModel<T> {
 	public DelegatingModel(IModel<T> delegate) {
 		this.delegate = delegate;
 	}
-	
+
 	@Override
 	public void detach() {
 		delegate.detach();

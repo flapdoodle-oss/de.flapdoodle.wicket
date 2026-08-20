@@ -18,13 +18,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.flapdoodle.wicket.functions;
+package de.flapdoodle.wicket.model.functions;
 
-import de.flapdoodle.functions.Function1;
-import de.flapdoodle.functions.Function2;
-import de.flapdoodle.functions.Function3;
-import de.flapdoodle.functions.Functions;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

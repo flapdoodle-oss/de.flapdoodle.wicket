@@ -20,33 +20,31 @@
  */
 package de.flapdoodle.wicket.model.transformation;
 
-import java.io.Serializable;
-
+import de.flapdoodle.wicket.model.Models;
+import de.flapdoodle.wicket.model.functions.Function1;
+import de.flapdoodle.wicket.model.functions.Function2;
+import de.flapdoodle.wicket.model.functions.Function3;
 import org.apache.wicket.model.IModel;
 
-import de.flapdoodle.functions.Function1;
-import de.flapdoodle.functions.Function2;
-import de.flapdoodle.functions.Function3;
-import de.flapdoodle.wicket.model.Models;
+import java.io.Serializable;
 
 /**
  * function reference for model transformation
  */
 public abstract class Functions implements Serializable {
-	
+
 	private Functions() {
 		// no instance
 	}
-	
+
 	/**
 	 * a function reference for model transformation
-	 * @see Models#on(IModel)
 	 *
 	 * @param <R> result model type
 	 * @param <T> source model type
+	 * @see Models#on(IModel)
 	 */
-	public static final class Reference1<R,T>
-	{
+	public static final class Reference1<R, T> {
 		private final Function1<R, T> _function;
 
 		public Reference1(Function1<R, T> function) {
@@ -55,94 +53,91 @@ public abstract class Functions implements Serializable {
 
 		/**
 		 * create a model from a function and a model
-		 * @see Models#on(IModel)
-		 * 
-		 * @param <R> result model type
-		 * @param <T> source model type
+		 *
+		 * @param <R>    result model type
+		 * @param <T>    source model type
 		 * @param source source model
 		 * @return model
+		 * @see Models#on(IModel)
 		 */
 		public IModel<R> to(IModel<? extends T> source) {
 			return new Transformator.Model1<R, T>(source, _function);
 		}
 	}
-	
+
 	/**
 	 * a function reference for model transformation
-	 * @see Models#on(IModel, IModel)
 	 *
-	 * @param <R> result model type
+	 * @param <R>  result model type
 	 * @param <T1> first model type
 	 * @param <T2> second model type
+	 * @see Models#on(IModel, IModel)
 	 */
-	public static final class Reference2<R,T1,T2>
-	{
+	public static final class Reference2<R, T1, T2> {
 		private final Function2<R, T1, T2> _function;
 
 		public Reference2(Function2<R, T1, T2> function) {
 			_function = function;
 		}
-		
+
 		/**
 		 * create a model from a function and a model
-		 * @see Models#on(IModel)
-		 * 
-		 * @param <R> result model type
-		 * @param <T1> first model type
-		 * @param <T2> second model type
-		 * @param first first model
+		 *
+		 * @param <R>    result model type
+		 * @param <T1>   first model type
+		 * @param <T2>   second model type
+		 * @param first  first model
 		 * @param second second model
 		 * @return model
+		 * @see Models#on(IModel)
 		 */
 		public IModel<R> to(IModel<? extends T1> first, IModel<? extends T2> second) {
-			return new Transformator.Model2<R, T1, T2>(first,second, _function);
+			return new Transformator.Model2<R, T1, T2>(first, second, _function);
 		}
 	}
-	
+
 	/**
 	 * a function reference for model transformation
-	 * @see Models#on(IModel, IModel, IModel)
 	 *
-	 * @param <R> result model type
+	 * @param <R>  result model type
 	 * @param <T1> first model type
 	 * @param <T2> second model type
 	 * @param <T3> third model type
+	 * @see Models#on(IModel, IModel, IModel)
 	 */
-	public static final class Reference3<R,T1,T2,T3>
-	{
+	public static final class Reference3<R, T1, T2, T3> {
 		private final Function3<R, T1, T2, T3> _function;
 
 		public Reference3(Function3<R, T1, T2, T3> function) {
 			_function = function;
 		}
-		
+
 		/**
 		 * create a model from a function and a model
-		 * @see Models#on(IModel)
-		 * 
-		 * @param <R> result model type
-		 * @param <T1> first model type
-		 * @param <T2> second model type
-		 * @param <T3> third model type
-		 * @param first first model
+		 *
+		 * @param <R>    result model type
+		 * @param <T1>   first model type
+		 * @param <T2>   second model type
+		 * @param <T3>   third model type
+		 * @param first  first model
 		 * @param second second model
-		 * @param third second model
+		 * @param third  second model
 		 * @return model
+		 * @see Models#on(IModel)
 		 */
 		public IModel<R> to(IModel<? extends T1> first, IModel<? extends T2> second, IModel<? extends T3> third) {
-			return new Transformator.Model3<R, T1, T2, T3>(first,second,third, _function);
+			return new Transformator.Model3<R, T1, T2, T3>(first, second, third, _function);
 		}
 	}
 
 	/**
 	 * a function reference for model transformation
-	 * @see Models#on(IModel)
 	 *
 	 * @param <R> result model type
 	 * @param <T> source model type
+	 * @see Models#on(IModel)
 	 */
-	public static final class LazyReference1<R,T>
-	{
+	public static final class LazyReference1<R, T> {
 		private final Function1<R, ? super Lazy<? extends T>> _function;
 
 		public LazyReference1(Function1<R, ? super Lazy<? extends T>> function) {
@@ -151,82 +146,80 @@ public abstract class Functions implements Serializable {
 
 		/**
 		 * create a model from a function and a model
-		 * @see Models#on(IModel)
-		 * 
-		 * @param <R> result model type
-		 * @param <T> source model type
+		 *
+		 * @param <R>    result model type
+		 * @param <T>    source model type
 		 * @param source source model
 		 * @return model
+		 * @see Models#on(IModel)
 		 */
 		public IModel<? extends R> to(IModel<? extends T> source) {
 			return new Transformator.LazyModel1<R, T>(source, _function);
 		}
 	}
-	
+
 	/**
 	 * a function reference for model transformation
-	 * @see Models#on(IModel, IModel)
 	 *
-	 * @param <R> result model type
+	 * @param <R>  result model type
 	 * @param <T1> first model type
 	 * @param <T2> second model type
+	 * @see Models#on(IModel, IModel)
 	 */
-	public static final class LazyReference2<R,T1,T2>
-	{
+	public static final class LazyReference2<R, T1, T2> {
 		private final Function2<R, ? super Lazy<? extends T1>, ? super Lazy<? extends T2>> _function;
 
 		public LazyReference2(Function2<R, ? super Lazy<? extends T1>, ? super Lazy<? extends T2>> function) {
 			_function = function;
 		}
-		
+
 		/**
 		 * create a model from a function and a model
-		 * @see Models#on(IModel)
-		 * 
-		 * @param <R> result model type
-		 * @param <T1> first model type
-		 * @param <T2> second model type
-		 * @param first first model
+		 *
+		 * @param <R>    result model type
+		 * @param <T1>   first model type
+		 * @param <T2>   second model type
+		 * @param first  first model
 		 * @param second second model
 		 * @return model
+		 * @see Models#on(IModel)
 		 */
 		public IModel<? extends R> to(IModel<? extends T1> first, IModel<? extends T2> second) {
-			return new Transformator.LazyModel2<R, T1, T2>(first,second, _function);
+			return new Transformator.LazyModel2<R, T1, T2>(first, second, _function);
 		}
 	}
-	
+
 	/**
 	 * a function reference for model transformation
-	 * @see Models#on(IModel, IModel, IModel)
 	 *
-	 * @param <R> result model type
+	 * @param <R>  result model type
 	 * @param <T1> first model type
 	 * @param <T2> second model type
 	 * @param <T3> third model type
+	 * @see Models#on(IModel, IModel, IModel)
 	 */
-	public static final class LazyReference3<R,T1,T2,T3>
-	{
+	public static final class LazyReference3<R, T1, T2, T3> {
 		private final Function3<R, ? super Lazy<? extends T1>, ? super Lazy<? extends T2>, ? super Lazy<? extends T3>> _function;
 
 		public LazyReference3(Function3<R, ? super Lazy<? extends T1>, ? super Lazy<? extends T2>, ? super Lazy<? extends T3>> function) {
 			_function = function;
 		}
-		
+
 		/**
 		 * create a model from a function and a model
-		 * @see Models#on(IModel)
-		 * 
-		 * @param <R> result model type
-		 * @param <T1> first model type
-		 * @param <T2> second model type
-		 * @param <T3> third model type
-		 * @param first first model
+		 *
+		 * @param <R>    result model type
+		 * @param <T1>   first model type
+		 * @param <T2>   second model type
+		 * @param <T3>   third model type
+		 * @param first  first model
 		 * @param second second model
-		 * @param third second model
+		 * @param third  second model
 		 * @return model
+		 * @see Models#on(IModel)
 		 */
 		public IModel<? extends R> to(IModel<? extends T1> first, IModel<? extends T2> second, IModel<? extends T3> third) {
-			return new Transformator.LazyModel3<R, T1, T2, T3>(first,second,third, _function);
+			return new Transformator.LazyModel3<R, T1, T2, T3>(first, second, third, _function);
 		}
 	}
 }

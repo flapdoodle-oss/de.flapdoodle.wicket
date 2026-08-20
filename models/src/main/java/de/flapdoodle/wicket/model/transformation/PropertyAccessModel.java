@@ -20,11 +20,10 @@
  */
 package de.flapdoodle.wicket.model.transformation;
 
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.lambda.SerializableBiConsumer;
-
-import de.flapdoodle.functions.Function1;
 import de.flapdoodle.wicket.model.IMapableModel;
+import de.flapdoodle.wicket.model.functions.Function1;
+import de.flapdoodle.wicket.model.functions.SerializableBiConsumer;
+import org.apache.wicket.model.IModel;
 
 public class PropertyAccessModel<M, R> implements IMapableModel<R> {
 
@@ -33,7 +32,7 @@ public class PropertyAccessModel<M, R> implements IMapableModel<R> {
 	private final SerializableBiConsumer<? super M, R> write;
 
 	public PropertyAccessModel(IModel<M> m1, Function1<R, ? super M> read,
-			SerializableBiConsumer<? super M, R> write) {
+		SerializableBiConsumer<? super M, R> write) {
 		this.model = m1;
 		this.read = read;
 		this.write = write;

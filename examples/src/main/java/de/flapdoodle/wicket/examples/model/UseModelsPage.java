@@ -34,7 +34,7 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
-import de.flapdoodle.functions.Function1;
+import de.flapdoodle.wicket.model.functions.Function1;
 import de.flapdoodle.wicket.model.Models;
 
 

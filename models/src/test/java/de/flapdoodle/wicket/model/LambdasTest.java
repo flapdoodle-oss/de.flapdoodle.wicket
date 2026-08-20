@@ -18,8 +18,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.wicket.model.lambda;
+package de.flapdoodle.wicket.model;
 
+import de.flapdoodle.wicket.model.functions.SerializableConsumer;
+import de.flapdoodle.wicket.model.functions.SerializableFunction;
+import de.flapdoodle.wicket.model.functions.SerializableSupplier;
 import org.apache.wicket.core.util.lang.WicketObjects;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LambdaModel;
@@ -47,8 +50,7 @@ public class LambdasTest
 	public void explicitLambdas()
 	{
 		Person person = new Person();
-		IModel<String> personNameModel = LambdaModel.of( //
-			() -> person.getName(), (name) -> person.setName(name));
+		IModel<String> personNameModel = LambdaModel.of(person::getName, person::setName);
 		check(personNameModel);
 	}
 

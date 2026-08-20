@@ -20,11 +20,10 @@
  */
 package de.flapdoodle.wicket.model.transformation;
 
+import de.flapdoodle.wicket.model.AbstractReadOnlyDetachedModel;
 import org.apache.wicket.model.IModel;
 
-import de.flapdoodle.wicket.model.AbstractReadOnlyDetachedModel;
-
-public abstract class AbstractReadOnlyDetachDelegationModel<T> extends AbstractReadOnlyDetachedModel<T>  {
+public abstract class AbstractReadOnlyDetachDelegationModel<T> extends AbstractReadOnlyDetachedModel<T> {
 
 	private final IModel<?> detachDelegate;
 

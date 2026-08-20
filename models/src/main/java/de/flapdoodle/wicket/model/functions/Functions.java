@@ -18,7 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.flapdoodle.functions;
+package de.flapdoodle.wicket.model.functions;
 
 /**
  * function aggregation helper
@@ -32,11 +32,9 @@ public class Functions {
 	/**
 	 * joins two functions with matching types to a new function
 	 * converts T to X to R
-	 * 
-	 * @param outer
-	 *          the last applied function
-	 * @param inner
-	 *          the first applied function
+	 *
+	 * @param outer the last applied function
+	 * @param inner the first applied function
 	 * @return a new function
 	 */
 	public static <R, X, T> Function1<R, T> join(Function1<R, ? super X> outer, Function1<X, ? super T> inner) {
@@ -46,10 +44,9 @@ public class Functions {
 	/**
 	 * joins to functions with matching types to a new function
 	 * converts T2 to X and T1 to R
-	 * @param outer
-	 *          the last applied function
-	 * @param inner
-	 *          the first applied function
+	 *
+	 * @param outer the last applied function
+	 * @param inner the first applied function
 	 * @return a new function
 	 */
 	public static <R, T1, T2, X> Function2<R, T1, T2> join(Function2<R, ? super T1, ? super X> outer, Function1<X, ? super T2> inner) {
@@ -59,51 +56,48 @@ public class Functions {
 	/**
 	 * joins to functions with matching types to a new function
 	 * converts T2 and T3 to X and T1 to R
-	 * @param outer
-	 *          the last applied function
-	 * @param inner
-	 *          the first applied function
+	 *
+	 * @param outer the last applied function
+	 * @param inner the first applied function
 	 * @return a new function
 	 */
 	public static <R, T1, T2, T3, X> Function3<R, T1, T2, T3> join(Function2<R, ? super T1, ? super X> outer, Function2<X, ? super T2, ? super T3> inner) {
 		return new JoinedFunction3<R, T1, T2, T3, X>(outer, inner);
 	}
-	
+
 	/**
 	 * joins to functions with matching types to a new function
 	 * converts T2 and T3 to X and T1 to R
-	 * @param outer
-	 *          the last applied function
-	 * @param inner
-	 *          the first applied function
+	 *
+	 * @param outer the last applied function
+	 * @param inner the first applied function
 	 * @return a new function
 	 */
-	public static <R, T1, T2, T3, A, B> Function3<R, T1, T2, T3> join(Function2<R, ? super A, ? super B> outer, Function2<A, ? super T1, ? super T2> left, Function2<B, ? super T2, ? super T3> right) {
+	public static <R, T1, T2, T3, A, B> Function3<R, T1, T2, T3> join(Function2<R, ? super A, ? super B> outer, Function2<A, ? super T1, ? super T2> left,
+		Function2<B, ? super T2, ? super T3> right) {
 		return new JoinedFunction33<R, T1, T2, T3, A, B>(outer, left, right);
 	}
-	
+
 	/**
 	 * swap function type signature without changing behavior
-	 * 
-	 * @param source
-	 *          source function
+	 *
+	 * @param source source function
 	 * @return function adapter with flipped types
 	 */
 	public static <R, T1, T2> Function2<R, T1, T2> swap(Function2<R, ? super T2, ? super T1> source) {
 		return new SwappedTypeFunction<R, T1, T2>(source);
 	}
-	
+
 	public static <R, T> Function1<R, T> orNull(Function1<R, T> transformation) {
 		return new Function1<R, T>() {
 
 			@Override
 			public R apply(T value) {
-				return value!=null ? transformation.apply(value) : null;
+				return value != null ? transformation.apply(value) : null;
 			}
 		};
 	}
 
-	
 	static class JoinedFunction1<R, X, T> implements Function1<R, T> {
 
 		private final Function1<R, ? super X> _outer;
@@ -137,7 +131,7 @@ public class Functions {
 		}
 
 	}
-	
+
 	static class JoinedFunction3<R, T1, T2, T3, X> implements Function3<R, T1, T2, T3> {
 
 		private final Function2<R, ? super T1, ? super X> _outer;
@@ -169,11 +163,11 @@ public class Functions {
 
 		@Override
 		public R apply(T1 a, T2 b, T3 c) {
-			return _outer.apply(_left.apply(a, b),_right.apply(b, c));
+			return _outer.apply(_left.apply(a, b), _right.apply(b, c));
 		}
 
 	}
-	
+
 	static class SwappedTypeFunction<R, T1, T2> implements Function2<R, T1, T2> {
 
 		private final Function2<R, ? super T2, ? super T1> _source;
@@ -188,6 +182,5 @@ public class Functions {
 		}
 
 	}
-	
 
 }

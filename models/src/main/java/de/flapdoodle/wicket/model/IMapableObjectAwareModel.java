@@ -22,7 +22,6 @@ package de.flapdoodle.wicket.model;
 
 import org.apache.wicket.model.IObjectClassAwareModel;
 
-
-public interface IMapableObjectAwareModel<T> extends IObjectClassAwareModel<T>,IMapableModel<T> {
+public interface IMapableObjectAwareModel<T> extends IObjectClassAwareModel<T>, IMapableModel<T> {
 
 }

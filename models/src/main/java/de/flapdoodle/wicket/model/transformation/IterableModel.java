@@ -20,9 +20,8 @@
  */
 package de.flapdoodle.wicket.model.transformation;
 
-import org.apache.wicket.model.IModel;
-
 import de.flapdoodle.wicket.model.IReadOnlyIterableModel;
+import org.apache.wicket.model.IModel;
 
 public class IterableModel<T, I extends Iterable<T>> implements IReadOnlyIterableModel<T, I> {
 
@@ -31,7 +30,7 @@ public class IterableModel<T, I extends Iterable<T>> implements IReadOnlyIterabl
 	public IterableModel(IModel<I> source) {
 		this.source = source;
 	}
-	
+
 	@Override
 	public I getObject() {
 		return source.getObject();

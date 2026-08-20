@@ -18,9 +18,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.flapdoodle.functions;
+package de.flapdoodle.wicket.model.functions;
 
+import java.io.Serializable;
 
-public interface Function {
-
+public interface Function3<R, T1, T2, T3> extends Function, Serializable {
+	public R apply(T1 value, T2 value2, T3 value3);
 }

@@ -18,11 +18,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.flapdoodle.functions;
+package de.flapdoodle.wicket.model.functions;
 
-import java.io.Serializable;
+public interface SymetricalFunction<S, D> extends Function1<D, S> {
+	public SymetricalFunction<D, S> reverse();
 
-public interface Function3<R,T1,T2,T3> extends Function, Serializable
-{
-	public R apply(T1 value,T2 value2, T3 value3);
+	public static <S, D> SymetricalFunction<S, D> with(Function1<D, S> to, Function1<S, D> from) {
+		return new SymetricalFunction<S, D>() {
+
+			@Override
+			public D apply(S value) {
+				return to.apply(value);
+			}
+
+			@Override
+			public SymetricalFunction<D, S> reverse() {
+				return with(from, to);
+			}
+		};
+	}
 }

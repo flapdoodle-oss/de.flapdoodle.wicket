@@ -33,7 +33,7 @@ public class PropertyAccessModel<T, S> implements IObjectClassAwareModel<T> {
 		_source = source;
 		_access = access;
 	}
-	
+
 	@Override
 	public T getObject() {
 		return _access.read(_source.getObject());

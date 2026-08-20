@@ -18,15 +18,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.wicket.model.lambda;
+package de.flapdoodle.wicket.model.functions;
 
 import java.io.Serializable;
-import java.util.function.Supplier;
 
-/**
- *
- * @author mosmann
- */
-public interface SerializableSupplier<T> extends Supplier<T>,Serializable {
-    
+public interface Function2<R, T1, T2> extends Function, Serializable {
+	public R apply(T1 value, T2 value2);
 }

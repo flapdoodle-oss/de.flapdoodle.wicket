@@ -20,18 +20,17 @@
  */
 package de.flapdoodle.wicket.model.transformation;
 
+import de.flapdoodle.wicket.model.IReadOnlyModel;
+import de.flapdoodle.wicket.model.functions.Function;
+import de.flapdoodle.wicket.model.functions.Function1;
+import de.flapdoodle.wicket.model.functions.Function2;
+import de.flapdoodle.wicket.model.functions.Function3;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 
-import de.flapdoodle.functions.Function;
-import de.flapdoodle.functions.Function1;
-import de.flapdoodle.functions.Function2;
-import de.flapdoodle.functions.Function3;
-import de.flapdoodle.wicket.model.IReadOnlyModel;
-
 /**
  * model implementation using source models and a tranformation function
- * 
+ *
  * @param <T>
  */
 abstract class Transformator<T> extends LoadableDetachableModel<T> implements IReadOnlyModel<T> {
@@ -53,8 +52,9 @@ abstract class Transformator<T> extends LoadableDetachableModel<T> implements IR
 	@Override
 	public void setObject(T object) {
 		throw new UnsupportedOperationException(
-				"Model " + getClass() + " with " + _function + " does not support setObject(Object)");
-	};
+			"Model " + getClass() + " with " + _function + " does not support setObject(Object)");
+	}
+	;
 
 	final static class Model1<T, M1> extends Transformator<T> {
 		IModel<? extends M1> _m1;
@@ -99,7 +99,7 @@ abstract class Transformator<T> extends LoadableDetachableModel<T> implements IR
 		Function3<T, ? super M1, ? super M2, ? super M3> _function;
 
 		public Model3(IModel<? extends M1> m1, IModel<? extends M2> m2, IModel<? extends M3> m3,
-				Function3<T, ? super M1, ? super M2, ? super M3> function) {
+			Function3<T, ? super M1, ? super M2, ? super M3> function) {
 			super(function, m1, m2, m3);
 
 			_m1 = m1;
@@ -137,7 +137,7 @@ abstract class Transformator<T> extends LoadableDetachableModel<T> implements IR
 		Function2<T, ? super Lazy<? extends M1>, ? super Lazy<? extends M2>> _function;
 
 		public LazyModel2(IModel<? extends M1> m1, IModel<? extends M2> m2,
-				Function2<T, ? super Lazy<? extends M1>, ? super Lazy<? extends M2>> function) {
+			Function2<T, ? super Lazy<? extends M1>, ? super Lazy<? extends M2>> function) {
 			super(function, m1, m2);
 
 			_m1 = m1;
@@ -158,7 +158,7 @@ abstract class Transformator<T> extends LoadableDetachableModel<T> implements IR
 		Function3<T, ? super Lazy<? extends M1>, ? super Lazy<? extends M2>, ? super Lazy<? extends M3>> _function;
 
 		public LazyModel3(IModel<? extends M1> m1, IModel<? extends M2> m2, IModel<? extends M3> m3,
-				Function3<T, ? super Lazy<? extends M1>, ? super Lazy<? extends M2>, ? super Lazy<? extends M3>> function) {
+			Function3<T, ? super Lazy<? extends M1>, ? super Lazy<? extends M2>, ? super Lazy<? extends M3>> function) {
 			super(function, m1, m2, m3);
 
 			_m1 = m1;

@@ -26,9 +26,9 @@ import java.util.List;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
-import de.flapdoodle.functions.Function1;
-import de.flapdoodle.functions.Function2;
-import de.flapdoodle.functions.Function3;
+import de.flapdoodle.wicket.model.functions.Function1;
+import de.flapdoodle.wicket.model.functions.Function2;
+import de.flapdoodle.wicket.model.functions.Function3;
 import de.flapdoodle.wicket.model.transformation.Lazy;
 import org.junit.jupiter.api.Test;
 

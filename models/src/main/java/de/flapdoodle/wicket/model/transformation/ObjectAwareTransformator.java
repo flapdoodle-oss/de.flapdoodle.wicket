@@ -20,10 +20,9 @@
  */
 package de.flapdoodle.wicket.model.transformation;
 
-import org.apache.wicket.model.IModel;
-
-import de.flapdoodle.functions.Function1;
 import de.flapdoodle.wicket.model.IMapableObjectAwareModel;
+import de.flapdoodle.wicket.model.functions.Function1;
+import org.apache.wicket.model.IModel;
 
 public class ObjectAwareTransformator<T, R> implements IMapableObjectAwareModel<R> {
 

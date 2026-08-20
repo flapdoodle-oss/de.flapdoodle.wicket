@@ -22,7 +22,6 @@ package de.flapdoodle.wicket.model.property;
 
 import java.io.Serializable;
 
-
 @Deprecated
 public interface IPropertyAccess<T, S> extends Serializable {
 

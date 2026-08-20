@@ -18,9 +18,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.wicket.model.lambda;
+package de.flapdoodle.wicket.model;
 
-import de.flapdoodle.wicket.model.AbstractReadOnlyDetachedModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.junit.jupiter.api.Test;

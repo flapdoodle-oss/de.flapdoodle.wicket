@@ -18,7 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.wicket.model.lambda;
+package de.flapdoodle.wicket.model.functions;
 
 import java.io.Serializable;
 import java.util.function.BiConsumer;
@@ -28,5 +28,5 @@ import java.util.function.BiConsumer;
  * @author mosmann
  */
 public interface SerializableBiConsumer<T, V> extends BiConsumer<T, V>, Serializable {
-    
+
 }

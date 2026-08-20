@@ -20,7 +20,6 @@
  */
 package de.flapdoodle.wicket.model.property;
 
-
 @Deprecated
 public abstract class AbstractPropertyAccess<T, S> implements IPropertyAccess<T, S> {
 
@@ -29,7 +28,7 @@ public abstract class AbstractPropertyAccess<T, S> implements IPropertyAccess<T,
 	public AbstractPropertyAccess(Class<T> type) {
 		_type = type;
 	}
-	
+
 	@Override
 	public Class<T> type() {
 		return _type;

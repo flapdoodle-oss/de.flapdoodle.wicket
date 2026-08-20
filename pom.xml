@@ -156,7 +156,7 @@
                         <exclude>**/examples/**</exclude>
                     </excludes>
                     <systemPropertyVariables>
-                        <de.flapdoodle.commons.testdoc.destination>${project.basedir}</de.flapdoodle.commons.testdoc.destination>
+                        <de.flapdoodle.commons.testdoc.destination>${project.basedir}/docs</de.flapdoodle.commons.testdoc.destination>
                     </systemPropertyVariables>
                 </configuration>
             </plugin>
