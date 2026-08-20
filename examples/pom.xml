@@ -14,7 +14,39 @@
   <name>${project.name} - Examples</name>
   
   <build>
-  	<plugins>
+	  <resources>
+		  <resource>
+			  <filtering>false</filtering>
+			  <directory>src/main/resources</directory>
+		  </resource>
+		  <resource>
+			  <filtering>false</filtering>
+			  <directory>src/main/java</directory>
+			  <includes>
+				  <include>**</include>
+			  </includes>
+			  <excludes>
+				  <exclude>**/*.java</exclude>
+			  </excludes>
+		  </resource>
+	  </resources>
+	  <testResources>
+		  <testResource>
+			  <filtering>false</filtering>
+			  <directory>src/test/resources</directory>
+		  </testResource>
+		  <testResource>
+			  <filtering>false</filtering>
+			  <directory>src/test/java</directory>
+			  <includes>
+				  <include>**</include>
+			  </includes>
+			  <excludes>
+				  <exclude>**/*.java</exclude>
+			  </excludes>
+		  </testResource>
+	  </testResources>
+	  <plugins>
       <plugin>
         <groupId>com.mycila</groupId>
         <artifactId>license-maven-plugin</artifactId>
@@ -22,6 +54,21 @@
 					<header>${project.parent.basedir}/src/etc/header.txt</header>
 				</configuration>
 			</plugin>
+
+<!--		<plugin>-->
+<!--			<groupId>org.eclipse.jetty</groupId>-->
+<!--			<artifactId>jetty-maven-plugin</artifactId>-->
+<!--			<version>${jetty.version}</version>-->
+<!--			<configuration>-->
+<!--				<systemProperties>-->
+<!--					<systemProperty>-->
+<!--						<name>maven.project.build.directory.test-classes</name>-->
+<!--						<value>${project.build.directory}/test-classes</value>-->
+<!--					</systemProperty>-->
+<!--				</systemProperties>-->
+<!--				<jettyXmls>${project.basedir}/src/test/jetty/jetty.xml,${project.basedir}/src/test/jetty/jetty-ssl.xml,${project.basedir}/src/test/jetty/jetty-http.xml,${project.basedir}/src/test/jetty/jetty-https.xml</jettyXmls>-->
+<!--			</configuration>-->
+<!--		</plugin>-->
   	</plugins>
   </build>
   
