@@ -18,36 +18,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.flapdoodle.wicket.model.transformation;
+package de.flapdoodle.wicket.model;
 
-import de.flapdoodle.wicket.model.IMappableModel;
-import de.flapdoodle.wicket.model.functions.Function1;
+import de.flapdoodle.wicket.model.transformation.CopyOnChangeListItemModel;
+import de.flapdoodle.wicket.model.transformation.ListModelDelegate;
 import org.apache.wicket.model.IModel;
 
-public class TransformatorModel<T, R> implements IMappableModel<R> {
+import java.util.List;
 
-	private final IModel<T> model;
-	private final Function1<R, ? super T> read;
-	private final Function1<T, ? super R> write;
+public interface IListModel<T> extends IMappableModel<List<T>> {
 
-	public TransformatorModel(IModel<T> model, Function1<R, ? super T> read, Function1<T, ? super R> write) {
-		this.model = model;
-		this.read = read;
-		this.write = write;
+	default IMappableModel<T> itemAt(int index) {
+		return new CopyOnChangeListItemModel<T>(this, index);
 	}
 
-	@Override
-	public R getObject() {
-		return read.apply(model.getObject());
-	}
-
-	@Override
-	public void setObject(R value) {
-		model.setObject(write.apply(value));
-	}
-
-	@Override
-	public void detach() {
-		model.detach();
+	static <T> IListModel<T> asListModel(IModel<List<T>> model) {
+		return new ListModelDelegate<>(model);
 	}
 }

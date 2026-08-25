@@ -33,6 +33,16 @@
 <!--            <groupId>org.eclipse.jetty.websocket</groupId>-->
 <!--            <artifactId>websocket-jakarta-server</artifactId>-->
 <!--        </dependency>-->
+        <dependency>
+            <groupId>org.immutables</groupId>
+            <artifactId>value-annotations</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.immutables</groupId>
+            <artifactId>builder</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 	
 </project>

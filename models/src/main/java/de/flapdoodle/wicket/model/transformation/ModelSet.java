@@ -20,15 +20,13 @@
  */
 package de.flapdoodle.wicket.model.transformation;
 
-import de.flapdoodle.wicket.model.IMapableModel;
-import de.flapdoodle.wicket.model.IMapableObjectAwareModel;
+import de.flapdoodle.wicket.model.IMappableModel;
+import de.flapdoodle.wicket.model.IMappableObjectAwareModel;
 import de.flapdoodle.wicket.model.IReadOnlyModel;
 import de.flapdoodle.wicket.model.Models;
-import de.flapdoodle.wicket.model.functions.Function1;
-import de.flapdoodle.wicket.model.functions.Function2;
-import de.flapdoodle.wicket.model.functions.Function3;
-import de.flapdoodle.wicket.model.functions.SerializableBiConsumer;
+import de.flapdoodle.wicket.model.functions.*;
 import org.apache.wicket.model.IModel;
+import org.danekja.java.util.function.serializable.SerializableBiFunction;
 
 /**
  * model sets
@@ -73,12 +71,20 @@ public abstract class ModelSet {
 			return new Transformator.LazyModel1<R, T1>(_m1, function);
 		}
 
-		public <R> IMapableObjectAwareModel<R> mapProperty(Class<R> type, Function1<R, ? super T1> read, SerializableBiConsumer<? super T1, R> write) {
+		public <R> IMappableObjectAwareModel<R> mapProperty(Class<R> type, Function1<R, ? super T1> read, SerializableBiConsumer<? super T1, R> write) {
 			return new ObjectAwarePropertyAccessModel<>(_m1, type, read, write);
 		}
 
-		public <R> IMapableModel<R> mapProperty(Function1<R, ? super T1> read, SerializableBiConsumer<? super T1, R> write) {
+		public <R> IMappableModel<R> mapProperty(Function1<R, ? super T1> read, SerializableBiConsumer<? super T1, R> write) {
 			return new PropertyAccessModel<>(_m1, read, write);
+		}
+
+		public <R> IMappableModel<R> copyOnChangeProperty(SerializableFunction<T1, R> readProperty, SerializableBiFunction<T1, R, T1> changeProperty) {
+			return CopyOnChangePropertyModel.of(_m1, readProperty, changeProperty);
+		}
+
+		public <R, IT1 extends T1> IMappableModel<R> copyOnChangeProperty(SerializableFunction<T1, IT1> asImmutable, SerializableFunction<T1, R> readProperty, SerializableBiFunction<IT1, R, T1> changeProperty) {
+			return CopyOnChangePropertyModel.of(_m1, asImmutable, readProperty, changeProperty);
 		}
 	}
 
@@ -100,7 +106,7 @@ public abstract class ModelSet {
 		/**
 		 * create a model with a transforming function
 		 *
-		 * @param <R>      result model type
+		 * @param <T>      result model type
 		 * @param <T1>     first model type from set
 		 * @param <T2>     first model type from set
 		 * @param function transforming function
@@ -114,7 +120,7 @@ public abstract class ModelSet {
 		/**
 		 * create a model with a transforming function with model value access indirection
 		 *
-		 * @param <R>      result model type
+		 * @param <T>      result model type
 		 * @param <T1>     first model type from set
 		 * @param <T2>     first model type from set
 		 * @param function transforming function
@@ -161,7 +167,7 @@ public abstract class ModelSet {
 		/**
 		 * create a model with a transforming function with model value access indirection
 		 *
-		 * @param <R>      result model type
+		 * @param <T>      result model type
 		 * @param <T1>     first model type from set
 		 * @param <T2>     first model type from set
 		 * @param function transforming function

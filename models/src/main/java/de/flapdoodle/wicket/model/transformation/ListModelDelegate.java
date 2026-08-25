@@ -18,10 +18,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.flapdoodle.wicket.model;
+package de.flapdoodle.wicket.model.transformation;
 
-import org.apache.wicket.model.IObjectClassAwareModel;
+import de.flapdoodle.wicket.model.IListModel;
+import org.apache.wicket.model.IModel;
 
-public interface IMapableObjectAwareModel<T> extends IObjectClassAwareModel<T>, IMapableModel<T> {
+import java.util.List;
 
+public class ListModelDelegate<T> extends ModelDelegate<List<T>> implements IListModel<T> {
+	public ListModelDelegate(IModel<List<T>> delegate) {
+		super(delegate);
+	}
 }

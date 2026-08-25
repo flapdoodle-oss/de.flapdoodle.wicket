@@ -20,34 +20,33 @@
  */
 package de.flapdoodle.wicket.model.transformation;
 
-import de.flapdoodle.wicket.model.IMappableModel;
-import de.flapdoodle.wicket.model.functions.Function1;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
+import org.junit.jupiter.api.Test;
 
-public class TransformatorModel<T, R> implements IMappableModel<R> {
+import java.util.List;
 
-	private final IModel<T> model;
-	private final Function1<R, ? super T> read;
-	private final Function1<T, ? super R> write;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-	public TransformatorModel(IModel<T> model, Function1<R, ? super T> read, Function1<T, ? super R> write) {
-		this.model = model;
-		this.read = read;
-		this.write = write;
-	}
+class CopyOnChangeListItemModelTest {
 
-	@Override
-	public R getObject() {
-		return read.apply(model.getObject());
-	}
+	@Test
+	void changeListEntry() {
+		List<String> firstObject = List.of("foo", "bar", "baz");
+		IModel<List<String>> listModel = Model.ofList(firstObject);
 
-	@Override
-	public void setObject(R value) {
-		model.setObject(write.apply(value));
-	}
+		assertThatThrownBy(() -> listModel.getObject().set(2,"peng"))
+			.isInstanceOf(UnsupportedOperationException.class);
 
-	@Override
-	public void detach() {
-		model.detach();
+		IModel<String> listItemModel = new CopyOnChangeListItemModel<>(listModel, 1);
+
+		listItemModel.setObject("peng");
+
+		assertThat(listModel.getObject())
+			.hasSize(3)
+			.containsExactly("foo", "peng", "baz");
+
+		assertThat(listModel.getObject()).isNotSameAs(firstObject);
 	}
 }

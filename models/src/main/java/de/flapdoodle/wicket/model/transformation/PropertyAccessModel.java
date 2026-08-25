@@ -20,12 +20,12 @@
  */
 package de.flapdoodle.wicket.model.transformation;
 
-import de.flapdoodle.wicket.model.IMapableModel;
+import de.flapdoodle.wicket.model.IMappableModel;
 import de.flapdoodle.wicket.model.functions.Function1;
 import de.flapdoodle.wicket.model.functions.SerializableBiConsumer;
 import org.apache.wicket.model.IModel;
 
-public class PropertyAccessModel<M, R> implements IMapableModel<R> {
+public class PropertyAccessModel<M, R> implements IMappableModel<R> {
 
 	private final IModel<M> model;
 	private final Function1<R, ? super M> read;

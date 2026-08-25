@@ -80,6 +80,13 @@
                     </compilerArgs>
                     <!-- Prevents an endPosTable exception during compilation -->
                     <useIncrementalCompilation>false</useIncrementalCompilation>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.immutables</groupId>
+                            <artifactId>value</artifactId> <!-- contains the annotation processor -->
+                            <version>${immutables.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
 
@@ -332,6 +339,8 @@
                             <keyPassword>wicket</keyPassword>
                         </connector>
                     </connectors>
+                    <stopKey/>
+                    <stopPort/>
                 </configuration>
             </plugin>
         </plugins>
@@ -468,6 +477,7 @@
         <wtp.version>none</wtp.version>
 
         <flapdoodle.version>1.5.1</flapdoodle.version>
+        <immutables.version>2.12.2</immutables.version>
     </properties>
 
     <dependencyManagement>
@@ -553,9 +563,9 @@
                 <scope>provided</scope>
             </dependency>
             <dependency>
-                <groupId>log4j</groupId>
-                <artifactId>log4j</artifactId>
-                <version>1.2.17</version>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>2.26.1</version>
                 <scope>provided</scope>
             </dependency>
 
@@ -608,6 +618,20 @@
                 <scope>test</scope>
             </dependency>
             -->
+
+            <dependency>
+                <groupId>org.immutables</groupId>
+                <artifactId>value-annotations</artifactId>
+                <version>${immutables.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.immutables</groupId>
+                <artifactId>builder</artifactId>
+                <version>${immutables.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
     <dependencies>
@@ -644,8 +668,8 @@
             <artifactId>slf4j-log4j12</artifactId>
         </dependency>
         <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
         </dependency>
     </dependencies>
  

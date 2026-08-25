@@ -24,6 +24,7 @@ import de.flapdoodle.wicket.model.functions.Function1;
 import de.flapdoodle.wicket.model.functions.Function2;
 import de.flapdoodle.wicket.model.functions.Function3;
 import de.flapdoodle.wicket.model.transformation.Functions;
+import de.flapdoodle.wicket.model.transformation.CopyOnChangeListItemModel;
 import de.flapdoodle.wicket.model.transformation.Lazy;
 import de.flapdoodle.wicket.model.transformation.ModelSet;
 import org.apache.wicket.model.IModel;
@@ -59,6 +60,10 @@ public abstract class Models {
 
 	public static <T, I extends Iterable<T>> IReadOnlyIterableModel<T, I> asIterable(IModel<I> source) {
 		return IReadOnlyIterableModel.asIterable(source);
+	}
+
+	public static <T> IModel<T> copyOnChangeItem(IModel<List<T>> listModel, int index) {
+		return new CopyOnChangeListItemModel<>(listModel, index);
 	}
 
 	/**

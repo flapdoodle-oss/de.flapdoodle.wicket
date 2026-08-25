@@ -20,41 +20,41 @@
  */
 package de.flapdoodle.wicket.model.transformation;
 
-import de.flapdoodle.wicket.model.IMappableObjectAwareModel;
-import de.flapdoodle.wicket.model.functions.Function1;
+import de.flapdoodle.wicket.model.IMappableModel;
 import org.apache.wicket.model.IModel;
 
-public class ObjectAwareTransformator<T, R> implements IMappableObjectAwareModel<R> {
+import java.util.ArrayList;
+import java.util.List;
 
-	private final IModel<T> model;
-	private final Class<R> type;
-	private final Function1<R, ? super T> read;
-	private final Function1<T, ? super R> write;
+public class CopyOnChangeListItemModel<T> implements IMappableModel<T> {
 
-	public ObjectAwareTransformator(IModel<T> model, Class<R> type, Function1<R, ? super T> read, Function1<T, ? super R> write) {
-		this.model = model;
-		this.type = type;
-		this.read = read;
-		this.write = write;
+	private final IModel<List<T>> source;
+	private final int index;
+	public CopyOnChangeListItemModel(IModel<List<T>> source, int index) {
+		this.source = source;
+		this.index = index;
 	}
 
 	@Override
-	public Class<R> getObjectClass() {
-		return type;
+	public T getObject() {
+		List<? extends T> list = source.getObject();
+		return list.size() > index ? list.get(index) : null;
 	}
 
 	@Override
-	public R getObject() {
-		return read.apply(model.getObject());
-	}
-
-	@Override
-	public void setObject(R value) {
-		model.setObject(write.apply(value));
+	public void setObject(T object) {
+		List<? extends T> list = source.getObject();
+		if (list.size() > index) {
+			List<T> changed = new ArrayList<>();
+			changed.addAll(list.subList(0, index));
+			changed.add(object);
+			changed.addAll(list.subList(index+1, list.size()));
+			source.setObject(changed);
+		}
 	}
 
 	@Override
 	public void detach() {
-		model.detach();
+		source.detach();
 	}
 }
