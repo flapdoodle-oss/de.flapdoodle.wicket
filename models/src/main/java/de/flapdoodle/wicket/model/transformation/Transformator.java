@@ -21,12 +21,13 @@
 package de.flapdoodle.wicket.model.transformation;
 
 import de.flapdoodle.wicket.model.IReadOnlyModel;
-import de.flapdoodle.wicket.model.functions.Function;
-import de.flapdoodle.wicket.model.functions.Function1;
-import de.flapdoodle.wicket.model.functions.Function2;
-import de.flapdoodle.wicket.model.functions.Function3;
+import de.flapdoodle.wicket.model.functions.SerializableTriFunction;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.danekja.java.util.function.serializable.SerializableBiFunction;
+import org.danekja.java.util.function.serializable.SerializableFunction;
+
+import java.io.Serializable;
 
 /**
  * model implementation using source models and a tranformation function
@@ -35,9 +36,9 @@ import org.apache.wicket.model.LoadableDetachableModel;
  */
 abstract class Transformator<T> extends LoadableDetachableModel<T> implements IReadOnlyModel<T> {
 	private final IModel<?>[] _subModels;
-	private final Function _function;
+	private final Serializable _function;
 
-	protected Transformator(Function function, IModel<?>... subModels) {
+	protected Transformator(Serializable function, IModel<?>... subModels) {
 		_subModels = subModels;
 		_function = function;
 	}
@@ -58,9 +59,9 @@ abstract class Transformator<T> extends LoadableDetachableModel<T> implements IR
 
 	final static class Model1<T, M1> extends Transformator<T> {
 		IModel<? extends M1> _m1;
-		Function1<T, ? super M1> _function;
+		SerializableFunction<? super M1, T> _function;
 
-		public Model1(IModel<? extends M1> m1, Function1<T, ? super M1> function) {
+		public Model1(IModel<? extends M1> m1, SerializableFunction<? super M1, T> function) {
 			super(function, m1);
 
 			_m1 = m1;
@@ -76,9 +77,9 @@ abstract class Transformator<T> extends LoadableDetachableModel<T> implements IR
 	final static class Model2<T, M1, M2> extends Transformator<T> {
 		IModel<? extends M1> _m1;
 		IModel<? extends M2> _m2;
-		Function2<T, ? super M1, ? super M2> _function;
+		SerializableBiFunction<? super M1, ? super M2, T> _function;
 
-		public Model2(IModel<? extends M1> m1, IModel<? extends M2> m2, Function2<T, ? super M1, ? super M2> function) {
+		public Model2(IModel<? extends M1> m1, IModel<? extends M2> m2, SerializableBiFunction<? super M1, ? super M2, T> function) {
 			super(function, m1, m2);
 
 			_m1 = m1;
@@ -96,10 +97,10 @@ abstract class Transformator<T> extends LoadableDetachableModel<T> implements IR
 		IModel<? extends M1> _m1;
 		IModel<? extends M2> _m2;
 		IModel<? extends M3> _m3;
-		Function3<T, ? super M1, ? super M2, ? super M3> _function;
+		SerializableTriFunction<? super M1, ? super M2, ? super M3, T> _function;
 
 		public Model3(IModel<? extends M1> m1, IModel<? extends M2> m2, IModel<? extends M3> m3,
-			Function3<T, ? super M1, ? super M2, ? super M3> function) {
+			SerializableTriFunction<? super M1, ? super M2, ? super M3, T> function) {
 			super(function, m1, m2, m3);
 
 			_m1 = m1;
@@ -116,9 +117,9 @@ abstract class Transformator<T> extends LoadableDetachableModel<T> implements IR
 
 	final static class LazyModel1<T, M1> extends Transformator<T> {
 		IModel<? extends M1> _m1;
-		Function1<T, ? super Lazy<? extends M1>> _function;
+		SerializableFunction<? super Lazy<? extends M1>, T> _function;
 
-		public LazyModel1(IModel<? extends M1> m1, Function1<T, ? super Lazy<? extends M1>> function) {
+		public LazyModel1(IModel<? extends M1> m1, SerializableFunction<? super Lazy<? extends M1>, T> function) {
 			super(function, m1);
 
 			_m1 = m1;
@@ -134,10 +135,10 @@ abstract class Transformator<T> extends LoadableDetachableModel<T> implements IR
 	final static class LazyModel2<T, M1, M2> extends Transformator<T> {
 		IModel<? extends M1> _m1;
 		IModel<? extends M2> _m2;
-		Function2<T, ? super Lazy<? extends M1>, ? super Lazy<? extends M2>> _function;
+		SerializableBiFunction<? super Lazy<? extends M1>, ? super Lazy<? extends M2>, T> _function;
 
 		public LazyModel2(IModel<? extends M1> m1, IModel<? extends M2> m2,
-			Function2<T, ? super Lazy<? extends M1>, ? super Lazy<? extends M2>> function) {
+			SerializableBiFunction<? super Lazy<? extends M1>, ? super Lazy<? extends M2>, T> function) {
 			super(function, m1, m2);
 
 			_m1 = m1;
@@ -155,10 +156,10 @@ abstract class Transformator<T> extends LoadableDetachableModel<T> implements IR
 		IModel<? extends M1> _m1;
 		IModel<? extends M2> _m2;
 		IModel<? extends M3> _m3;
-		Function3<T, ? super Lazy<? extends M1>, ? super Lazy<? extends M2>, ? super Lazy<? extends M3>> _function;
+		SerializableTriFunction<? super Lazy<? extends M1>, ? super Lazy<? extends M2>, ? super Lazy<? extends M3>, T> _function;
 
 		public LazyModel3(IModel<? extends M1> m1, IModel<? extends M2> m2, IModel<? extends M3> m3,
-			Function3<T, ? super Lazy<? extends M1>, ? super Lazy<? extends M2>, ? super Lazy<? extends M3>> function) {
+			SerializableTriFunction<? super Lazy<? extends M1>, ? super Lazy<? extends M2>, ? super Lazy<? extends M3>, T> function) {
 			super(function, m1, m2, m3);
 
 			_m1 = m1;

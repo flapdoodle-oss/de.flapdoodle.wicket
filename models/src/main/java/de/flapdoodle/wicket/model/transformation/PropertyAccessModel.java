@@ -21,17 +21,17 @@
 package de.flapdoodle.wicket.model.transformation;
 
 import de.flapdoodle.wicket.model.IMappableModel;
-import de.flapdoodle.wicket.model.functions.Function1;
-import de.flapdoodle.wicket.model.functions.SerializableBiConsumer;
 import org.apache.wicket.model.IModel;
+import org.danekja.java.util.function.serializable.SerializableBiConsumer;
+import org.danekja.java.util.function.serializable.SerializableFunction;
 
 public class PropertyAccessModel<M, R> implements IMappableModel<R> {
 
 	private final IModel<M> model;
-	private final Function1<R, ? super M> read;
+	private final SerializableFunction<? super M, R> read;
 	private final SerializableBiConsumer<? super M, R> write;
 
-	public PropertyAccessModel(IModel<M> m1, Function1<R, ? super M> read,
+	public PropertyAccessModel(IModel<M> m1, SerializableFunction<? super M, R> read,
 		SerializableBiConsumer<? super M, R> write) {
 		this.model = m1;
 		this.read = read;

@@ -20,6 +20,9 @@
  */
 package de.flapdoodle.wicket.model.functions;
 
+import org.danekja.java.util.function.serializable.SerializableBiFunction;
+import org.danekja.java.util.function.serializable.SerializableFunction;
+
 /**
  * function aggregation helper
  */
@@ -37,8 +40,8 @@ public class Functions {
 	 * @param inner the first applied function
 	 * @return a new function
 	 */
-	public static <R, X, T> Function1<R, T> join(Function1<R, ? super X> outer, Function1<X, ? super T> inner) {
-		return new JoinedFunction1<R, X, T>(outer, inner);
+	public static <R, X, T> SerializableFunction<T, R> join(SerializableFunction<? super X, R> outer, SerializableFunction<? super T, X> inner) {
+		return new JoinedFunction1<>(outer, inner);
 	}
 
 	/**
@@ -49,7 +52,7 @@ public class Functions {
 	 * @param inner the first applied function
 	 * @return a new function
 	 */
-	public static <R, T1, T2, X> Function2<R, T1, T2> join(Function2<R, ? super T1, ? super X> outer, Function1<X, ? super T2> inner) {
+	public static <R, T1, T2, X> SerializableBiFunction<T1, T2, R> join(SerializableBiFunction<? super T1, ? super X, R> outer, SerializableFunction<? super T2, X> inner) {
 		return new JoinedFunction2<R, T1, T2, X>(outer, inner);
 	}
 
@@ -61,8 +64,8 @@ public class Functions {
 	 * @param inner the first applied function
 	 * @return a new function
 	 */
-	public static <R, T1, T2, T3, X> Function3<R, T1, T2, T3> join(Function2<R, ? super T1, ? super X> outer, Function2<X, ? super T2, ? super T3> inner) {
-		return new JoinedFunction3<R, T1, T2, T3, X>(outer, inner);
+	public static <R, T1, T2, T3, X> SerializableTriFunction<T1, T2, T3, R> join(SerializableBiFunction<? super T1, ? super X, R> outer, SerializableBiFunction<? super T2, ? super T3, X> inner) {
+		return new JoinedSerializableTriFunction<R, T1, T2, T3, X>(outer, inner);
 	}
 
 	/**
@@ -70,12 +73,13 @@ public class Functions {
 	 * converts T2 and T3 to X and T1 to R
 	 *
 	 * @param outer the last applied function
-	 * @param inner the first applied function
+	 * @param left the first applied function
+	 * @param right the first applied function
 	 * @return a new function
 	 */
-	public static <R, T1, T2, T3, A, B> Function3<R, T1, T2, T3> join(Function2<R, ? super A, ? super B> outer, Function2<A, ? super T1, ? super T2> left,
-		Function2<B, ? super T2, ? super T3> right) {
-		return new JoinedFunction33<R, T1, T2, T3, A, B>(outer, left, right);
+	public static <R, T1, T2, T3, A, B> SerializableTriFunction<T1, T2, T3, R> join(SerializableBiFunction<? super A, ? super B, R> outer, SerializableBiFunction<? super T1, ? super T2, A> left,
+		SerializableBiFunction<? super T2, ? super T3, B> right) {
+		return new JoinedSerializableTriFunction3<>(outer, left, right);
 	}
 
 	/**
@@ -84,26 +88,20 @@ public class Functions {
 	 * @param source source function
 	 * @return function adapter with flipped types
 	 */
-	public static <R, T1, T2> Function2<R, T1, T2> swap(Function2<R, ? super T2, ? super T1> source) {
+	public static <R, T1, T2> SerializableBiFunction<T1, T2, R> swap(SerializableBiFunction<? super T2, ? super T1, R> source) {
 		return new SwappedTypeFunction<R, T1, T2>(source);
 	}
 
-	public static <R, T> Function1<R, T> orNull(Function1<R, T> transformation) {
-		return new Function1<R, T>() {
-
-			@Override
-			public R apply(T value) {
-				return value != null ? transformation.apply(value) : null;
-			}
-		};
+	public static <R, T> SerializableFunction<T, R> orNull(SerializableFunction<T, R> transformation) {
+		return value -> value != null ? transformation.apply(value) : null;
 	}
 
-	static class JoinedFunction1<R, X, T> implements Function1<R, T> {
+	static class JoinedFunction1<R, X, T> implements SerializableFunction<T, R> {
 
-		private final Function1<R, ? super X> _outer;
-		private final Function1<X, ? super T> _inner;
+		private final SerializableFunction<? super X, R> _outer;
+		private final SerializableFunction<? super T, X> _inner;
 
-		public JoinedFunction1(Function1<R, ? super X> a, Function1<X, ? super T> b) {
+		public JoinedFunction1(SerializableFunction<? super X, R> a, SerializableFunction<? super T, X> b) {
 			_outer = a;
 			_inner = b;
 		}
@@ -115,12 +113,12 @@ public class Functions {
 
 	}
 
-	static class JoinedFunction2<R, T1, T2, X> implements Function2<R, T1, T2> {
+	static class JoinedFunction2<R, T1, T2, X> implements SerializableBiFunction<T1, T2, R> {
 
-		private final Function2<R, ? super T1, ? super X> _outer;
-		private final Function1<X, ? super T2> _inner;
+		private final SerializableBiFunction<? super T1, ? super X, R> _outer;
+		private final SerializableFunction<? super T2, X> _inner;
 
-		public JoinedFunction2(Function2<R, ? super T1, ? super X> outer, Function1<X, ? super T2> inner) {
+		public JoinedFunction2(SerializableBiFunction<? super T1, ? super X, R> outer, SerializableFunction<? super T2, X> inner) {
 			_outer = outer;
 			_inner = inner;
 		}
@@ -132,12 +130,12 @@ public class Functions {
 
 	}
 
-	static class JoinedFunction3<R, T1, T2, T3, X> implements Function3<R, T1, T2, T3> {
+	static class JoinedSerializableTriFunction<R, T1, T2, T3, X> implements SerializableTriFunction<T1, T2, T3, R> {
 
-		private final Function2<R, ? super T1, ? super X> _outer;
-		private final Function2<X, ? super T2, ? super T3> _inner;
+		private final SerializableBiFunction<? super T1, ? super X, R> _outer;
+		private final SerializableBiFunction<? super T2, ? super T3, X> _inner;
 
-		public JoinedFunction3(Function2<R, ? super T1, ? super X> outer, Function2<X, ? super T2, ? super T3> inner) {
+		public JoinedSerializableTriFunction(SerializableBiFunction<? super T1, ? super X, R> outer, SerializableBiFunction<? super T2, ? super T3, X> inner) {
 			_outer = outer;
 			_inner = inner;
 		}
@@ -149,13 +147,13 @@ public class Functions {
 
 	}
 
-	static class JoinedFunction33<R, T1, T2, T3, A, B> implements Function3<R, T1, T2, T3> {
+	static class JoinedSerializableTriFunction3<R, T1, T2, T3, A, B> implements SerializableTriFunction<T1, T2, T3, R> {
 
-		private final Function2<R, ? super A, ? super B> _outer;
-		private final Function2<A, ? super T1, ? super T2> _left;
-		private final Function2<B, ? super T2, ? super T3> _right;
+		private final SerializableBiFunction<? super A, ? super B, R> _outer;
+		private final SerializableBiFunction<? super T1, ? super T2, A> _left;
+		private final SerializableBiFunction<? super T2, ? super T3, B> _right;
 
-		public JoinedFunction33(Function2<R, ? super A, ? super B> outer, Function2<A, ? super T1, ? super T2> left, Function2<B, ? super T2, ? super T3> right) {
+		public JoinedSerializableTriFunction3(SerializableBiFunction<? super A, ? super B, R> outer, SerializableBiFunction<? super T1, ? super T2, A> left, SerializableBiFunction<? super T2, ? super T3, B> right) {
 			_outer = outer;
 			_left = left;
 			_right = right;
@@ -168,11 +166,11 @@ public class Functions {
 
 	}
 
-	static class SwappedTypeFunction<R, T1, T2> implements Function2<R, T1, T2> {
+	static class SwappedTypeFunction<R, T1, T2> implements SerializableBiFunction<T1, T2, R> {
 
-		private final Function2<R, ? super T2, ? super T1> _source;
+		private final SerializableBiFunction<? super T2, ? super T1, R> _source;
 
-		public SwappedTypeFunction(Function2<R, ? super T2, ? super T1> source) {
+		public SwappedTypeFunction(SerializableBiFunction<? super T2, ? super T1, R> source) {
 			_source = source;
 		}
 

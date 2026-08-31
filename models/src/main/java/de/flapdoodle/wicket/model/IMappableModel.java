@@ -20,9 +20,7 @@
  */
 package de.flapdoodle.wicket.model;
 
-import de.flapdoodle.wicket.model.functions.Function1;
 import de.flapdoodle.wicket.model.functions.Functions;
-import de.flapdoodle.wicket.model.functions.SerializableFunction;
 import de.flapdoodle.wicket.model.functions.SymetricalFunction;
 import de.flapdoodle.wicket.model.transformation.ModelSet;
 import de.flapdoodle.wicket.model.transformation.ObjectAwareModelDelegate;
@@ -31,6 +29,7 @@ import de.flapdoodle.wicket.model.transformation.TransformatorModel;
 import org.apache.wicket.model.IDetachable;
 import org.apache.wicket.model.IModel;
 import org.danekja.java.util.function.serializable.SerializableBiFunction;
+import org.danekja.java.util.function.serializable.SerializableFunction;
 
 /**
  *
@@ -41,7 +40,7 @@ public interface IMappableModel<T> extends IModel<T> {
 		return map(type, mapping, mapping.reverse());
 	}
 
-	default <R> IMappableObjectAwareModel<R> map(Class<R> type, Function1<R, ? super T> read, Function1<T, ? super R> write) {
+	default <R> IMappableObjectAwareModel<R> map(Class<R> type, SerializableFunction<? super T, R> read, SerializableFunction<? super R, T> write) {
 		return new ObjectAwareTransformator<T, R>(this, type, read, write);
 	}
 
@@ -49,7 +48,7 @@ public interface IMappableModel<T> extends IModel<T> {
 		return mapNullable(type, mapping, mapping.reverse());
 	}
 
-	default <R> IMappableObjectAwareModel<R> mapNullable(Class<R> type, Function1<R, ? super T> read, Function1<T, ? super R> write) {
+	default <R> IMappableObjectAwareModel<R> mapNullable(Class<R> type, SerializableFunction<? super T, R> read, SerializableFunction<? super R, T> write) {
 		return new ObjectAwareTransformator<T, R>(this, type, Functions.orNull(read), Functions.orNull(write));
 	}
 
@@ -57,7 +56,7 @@ public interface IMappableModel<T> extends IModel<T> {
 		return map(mapping, mapping.reverse());
 	}
 
-	default <R> IMappableModel<R> map(Function1<R, ? super T> read, Function1<T, ? super R> write) {
+	default <R> IMappableModel<R> map(SerializableFunction<? super T, R> read, SerializableFunction<? super R, T> write) {
 		return new TransformatorModel<T, R>(this, read, write);
 	}
 
@@ -65,7 +64,7 @@ public interface IMappableModel<T> extends IModel<T> {
 		return mapNullable(mapping, mapping.reverse());
 	}
 
-	default <R> IMappableModel<R> mapNullable(Function1<R, ? super T> read, Function1<T, ? super R> write) {
+	default <R> IMappableModel<R> mapNullable(SerializableFunction<? super T, R> read, SerializableFunction<? super R, T> write) {
 		return new TransformatorModel<T, R>(this, Functions.orNull(read), Functions.orNull(write));
 	}
 

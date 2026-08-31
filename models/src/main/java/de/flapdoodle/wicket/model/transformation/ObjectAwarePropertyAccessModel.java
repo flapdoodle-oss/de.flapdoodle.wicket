@@ -21,15 +21,15 @@
 package de.flapdoodle.wicket.model.transformation;
 
 import de.flapdoodle.wicket.model.IMappableObjectAwareModel;
-import de.flapdoodle.wicket.model.functions.Function1;
-import de.flapdoodle.wicket.model.functions.SerializableBiConsumer;
 import org.apache.wicket.model.IModel;
+import org.danekja.java.util.function.serializable.SerializableBiConsumer;
+import org.danekja.java.util.function.serializable.SerializableFunction;
 
 public class ObjectAwarePropertyAccessModel<M, R> extends PropertyAccessModel<M, R> implements IMappableObjectAwareModel<R> {
 
 	final Class<R> type;
 
-	public ObjectAwarePropertyAccessModel(IModel<M> m1, Class<R> type, Function1<R, ? super M> read,
+	public ObjectAwarePropertyAccessModel(IModel<M> m1, Class<R> type, SerializableFunction<? super M, R> read,
 		SerializableBiConsumer<? super M, R> write) {
 		super(m1, read, write);
 		this.type = type;

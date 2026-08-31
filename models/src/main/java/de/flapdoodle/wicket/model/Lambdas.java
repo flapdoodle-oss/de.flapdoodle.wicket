@@ -20,11 +20,11 @@
  */
 package de.flapdoodle.wicket.model;
 
-import de.flapdoodle.wicket.model.functions.SerializableConsumer;
-import de.flapdoodle.wicket.model.functions.SerializableFunction;
-import de.flapdoodle.wicket.model.functions.SerializableSupplier;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.danekja.java.util.function.serializable.SerializableConsumer;
+import org.danekja.java.util.function.serializable.SerializableFunction;
+import org.danekja.java.util.function.serializable.SerializableSupplier;
 
 import java.io.Serializable;
 import java.util.Objects;

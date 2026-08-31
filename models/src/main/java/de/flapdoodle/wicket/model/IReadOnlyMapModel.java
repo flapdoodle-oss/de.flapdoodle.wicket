@@ -25,7 +25,7 @@ import java.util.Set;
 
 public interface IReadOnlyMapModel<K, V> extends IReadOnlyModel<Map<K, V>> {
 
-	public default IReadOnlyIterableModel<K, Set<K>> keys() {
+	default IReadOnlyIterableModel<K, Set<K>> keys() {
 		return Models.asIterable(Models.on(this).apply(Map::keySet));
 	}
 

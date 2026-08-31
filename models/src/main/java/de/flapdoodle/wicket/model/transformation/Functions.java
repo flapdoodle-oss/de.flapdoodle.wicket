@@ -21,10 +21,10 @@
 package de.flapdoodle.wicket.model.transformation;
 
 import de.flapdoodle.wicket.model.Models;
-import de.flapdoodle.wicket.model.functions.Function1;
-import de.flapdoodle.wicket.model.functions.Function2;
-import de.flapdoodle.wicket.model.functions.Function3;
+import de.flapdoodle.wicket.model.functions.SerializableTriFunction;
 import org.apache.wicket.model.IModel;
+import org.danekja.java.util.function.serializable.SerializableBiFunction;
+import org.danekja.java.util.function.serializable.SerializableFunction;
 
 import java.io.Serializable;
 
@@ -45,9 +45,9 @@ public abstract class Functions implements Serializable {
 	 * @see Models#on(IModel)
 	 */
 	public static final class Reference1<R, T> {
-		private final Function1<R, T> _function;
+		private final SerializableFunction<T, R> _function;
 
-		public Reference1(Function1<R, T> function) {
+		public Reference1(SerializableFunction<T, R> function) {
 			_function = function;
 		}
 
@@ -74,9 +74,9 @@ public abstract class Functions implements Serializable {
 	 * @see Models#on(IModel, IModel)
 	 */
 	public static final class Reference2<R, T1, T2> {
-		private final Function2<R, T1, T2> _function;
+		private final SerializableBiFunction<T1, T2, R> _function;
 
-		public Reference2(Function2<R, T1, T2> function) {
+		public Reference2(SerializableBiFunction<T1, T2, R> function) {
 			_function = function;
 		}
 
@@ -106,9 +106,9 @@ public abstract class Functions implements Serializable {
 	 * @see Models#on(IModel, IModel, IModel)
 	 */
 	public static final class Reference3<R, T1, T2, T3> {
-		private final Function3<R, T1, T2, T3> _function;
+		private final SerializableTriFunction<T1, T2, T3, R> _function;
 
-		public Reference3(Function3<R, T1, T2, T3> function) {
+		public Reference3(SerializableTriFunction<T1, T2, T3, R> function) {
 			_function = function;
 		}
 
@@ -138,9 +138,9 @@ public abstract class Functions implements Serializable {
 	 * @see Models#on(IModel)
 	 */
 	public static final class LazyReference1<R, T> {
-		private final Function1<R, ? super Lazy<? extends T>> _function;
+		private final SerializableFunction<? super Lazy<? extends T>, R> _function;
 
-		public LazyReference1(Function1<R, ? super Lazy<? extends T>> function) {
+		public LazyReference1(SerializableFunction<? super Lazy<? extends T>, R> function) {
 			_function = function;
 		}
 
@@ -167,9 +167,9 @@ public abstract class Functions implements Serializable {
 	 * @see Models#on(IModel, IModel)
 	 */
 	public static final class LazyReference2<R, T1, T2> {
-		private final Function2<R, ? super Lazy<? extends T1>, ? super Lazy<? extends T2>> _function;
+		private final SerializableBiFunction<? super Lazy<? extends T1>, ? super Lazy<? extends T2>, R> _function;
 
-		public LazyReference2(Function2<R, ? super Lazy<? extends T1>, ? super Lazy<? extends T2>> function) {
+		public LazyReference2(SerializableBiFunction<? super Lazy<? extends T1>, ? super Lazy<? extends T2>, R> function) {
 			_function = function;
 		}
 
@@ -199,9 +199,9 @@ public abstract class Functions implements Serializable {
 	 * @see Models#on(IModel, IModel, IModel)
 	 */
 	public static final class LazyReference3<R, T1, T2, T3> {
-		private final Function3<R, ? super Lazy<? extends T1>, ? super Lazy<? extends T2>, ? super Lazy<? extends T3>> _function;
+		private final SerializableTriFunction<? super Lazy<? extends T1>, ? super Lazy<? extends T2>, ? super Lazy<? extends T3>, R> _function;
 
-		public LazyReference3(Function3<R, ? super Lazy<? extends T1>, ? super Lazy<? extends T2>, ? super Lazy<? extends T3>> function) {
+		public LazyReference3(SerializableTriFunction<? super Lazy<? extends T1>, ? super Lazy<? extends T2>, ? super Lazy<? extends T3>, R> function) {
 			_function = function;
 		}
 

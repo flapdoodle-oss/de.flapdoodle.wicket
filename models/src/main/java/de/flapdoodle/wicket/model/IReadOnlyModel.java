@@ -20,9 +20,10 @@
  */
 package de.flapdoodle.wicket.model;
 
-import de.flapdoodle.wicket.model.functions.Function1;
 import org.apache.wicket.model.IDetachable;
 import org.apache.wicket.model.IModel;
+import org.danekja.java.util.function.serializable.SerializableBiFunction;
+import org.danekja.java.util.function.serializable.SerializableFunction;
 
 public interface IReadOnlyModel<T> extends IModel<T> {
 
@@ -33,11 +34,17 @@ public interface IReadOnlyModel<T> extends IModel<T> {
 			" does not support setObject(Object)");
 	}
 
-	public default <R> IReadOnlyModel<R> map(Function1<R, ? super T> map) {
+	@Override
+	default <R> IReadOnlyModel<R> map(SerializableFunction<? super T, R> map) {
 		return Models.on(this).apply(map);
 	}
 
-	public default IReadOnlyModel<T> andDetach(IDetachable detachable) {
+	@Override
+	default <R, U> IModel<R> combineWith(IModel<U> other, SerializableBiFunction<? super T, ? super U, R> combiner) {
+		return Models.on(this, other).apply(combiner);
+	}
+
+	default IReadOnlyModel<T> andDetach(IDetachable detachable) {
 		IReadOnlyModel<T> delegate = this;
 
 		return new IReadOnlyModel<T>() {

@@ -21,16 +21,16 @@
 package de.flapdoodle.wicket.model.transformation;
 
 import de.flapdoodle.wicket.model.IMappableModel;
-import de.flapdoodle.wicket.model.functions.Function1;
 import org.apache.wicket.model.IModel;
+import org.danekja.java.util.function.serializable.SerializableFunction;
 
 public class TransformatorModel<T, R> implements IMappableModel<R> {
 
 	private final IModel<T> model;
-	private final Function1<R, ? super T> read;
-	private final Function1<T, ? super R> write;
+	private final SerializableFunction<? super T, R> read;
+	private final SerializableFunction<? super R, T> write;
 
-	public TransformatorModel(IModel<T> model, Function1<R, ? super T> read, Function1<T, ? super R> write) {
+	public TransformatorModel(IModel<T> model, SerializableFunction<? super T, R> read, SerializableFunction<? super R, T> write) {
 		this.model = model;
 		this.read = read;
 		this.write = write;

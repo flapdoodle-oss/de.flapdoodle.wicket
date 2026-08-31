@@ -20,14 +20,14 @@
  */
 package de.flapdoodle.wicket.model;
 
-import de.flapdoodle.wicket.model.functions.Function1;
-import de.flapdoodle.wicket.model.functions.Function2;
-import de.flapdoodle.wicket.model.functions.Function3;
-import de.flapdoodle.wicket.model.transformation.Functions;
+import de.flapdoodle.wicket.model.functions.SerializableTriFunction;
 import de.flapdoodle.wicket.model.transformation.CopyOnChangeListItemModel;
+import de.flapdoodle.wicket.model.transformation.Functions;
 import de.flapdoodle.wicket.model.transformation.Lazy;
 import de.flapdoodle.wicket.model.transformation.ModelSet;
 import org.apache.wicket.model.IModel;
+import org.danekja.java.util.function.serializable.SerializableBiFunction;
+import org.danekja.java.util.function.serializable.SerializableFunction;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -117,7 +117,7 @@ public abstract class Models {
 	 * @param function transforming function
 	 * @return a function reference
 	 */
-	public static <R, T> Functions.Reference1<R, T> apply(Function1<R, T> function) {
+	public static <R, T> Functions.Reference1<R, T> apply(SerializableFunction<T, R> function) {
 		return new Functions.Reference1<R, T>(function);
 	}
 
@@ -135,7 +135,7 @@ public abstract class Models {
 	 * @param function transforming function
 	 * @return a function reference
 	 */
-	public static <R, T1, T2> Functions.Reference2<R, T1, T2> apply(Function2<R, T1, T2> function) {
+	public static <R, T1, T2> Functions.Reference2<R, T1, T2> apply(SerializableBiFunction<T1, T2, R> function) {
 		return new Functions.Reference2<R, T1, T2>(function);
 	}
 
@@ -154,7 +154,7 @@ public abstract class Models {
 	 * @param function transforming function
 	 * @return a function reference
 	 */
-	public static <R, T1, T2, T3> Functions.Reference3<R, T1, T2, T3> apply(Function3<R, T1, T2, T3> function) {
+	public static <R, T1, T2, T3> Functions.Reference3<R, T1, T2, T3> apply(SerializableTriFunction<T1, T2, T3, R> function) {
 		return new Functions.Reference3<R, T1, T2, T3>(function);
 	}
 
@@ -171,7 +171,7 @@ public abstract class Models {
 	 * @param function transforming function
 	 * @return a function reference
 	 */
-	public static <R, T> Functions.LazyReference1<R, T> applyLazy(Function1<R, ? super Lazy<? extends T>> function) {
+	public static <R, T> Functions.LazyReference1<R, T> applyLazy(SerializableFunction<? super Lazy<? extends T>, R> function) {
 		return new Functions.LazyReference1<R, T>(function);
 	}
 
@@ -189,7 +189,7 @@ public abstract class Models {
 	 * @param function transforming function
 	 * @return a function reference
 	 */
-	public static <R, T1, T2> Functions.LazyReference2<R, T1, T2> applyLazy(Function2<R, ? super Lazy<? extends T1>, ? super Lazy<? extends T2>> function) {
+	public static <R, T1, T2> Functions.LazyReference2<R, T1, T2> applyLazy(SerializableBiFunction<? super Lazy<? extends T1>, ? super Lazy<? extends T2>, R> function) {
 		return new Functions.LazyReference2<R, T1, T2>(function);
 	}
 
@@ -209,7 +209,7 @@ public abstract class Models {
 	 * @return a function reference
 	 */
 	public static <R, T1, T2, T3> Functions.LazyReference3<R, T1, T2, T3> applyLazy(
-		Function3<R, ? super Lazy<? extends T1>, ? super Lazy<? extends T2>, ? super Lazy<? extends T3>> function) {
+		SerializableTriFunction<? super Lazy<? extends T1>, ? super Lazy<? extends T2>, ? super Lazy<? extends T3>, R> function) {
 		return new Functions.LazyReference3<R, T1, T2, T3>(function);
 	}
 
@@ -260,7 +260,7 @@ public abstract class Models {
 		return Models.on(source).apply(new Noop<T>());
 	}
 
-	private static final class UnmodifiableIfNotNull<T> implements Function1<List<T>, List<? extends T>> {
+	private static final class UnmodifiableIfNotNull<T> implements SerializableFunction<List<? extends T>, List<T>> {
 
 		@Override
 		public List<T> apply(List<? extends T> value) {
@@ -268,7 +268,7 @@ public abstract class Models {
 		}
 	}
 
-	private static final class EmptyListIfNull<T> implements Function1<List<T>, List<T>> {
+	private static final class EmptyListIfNull<T> implements SerializableFunction<List<T>, List<T>> {
 
 		@Override
 		public List<T> apply(List<T> value) {
@@ -276,7 +276,7 @@ public abstract class Models {
 		}
 	}
 
-	private static final class Noop<T> implements Function1<T, T> {
+	private static final class Noop<T> implements SerializableFunction<T, T> {
 
 		@Override
 		public T apply(T value) {

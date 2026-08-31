@@ -21,12 +21,7 @@
 package de.flapdoodle.wicket.model.functions;
 
 import java.io.Serializable;
-import java.util.function.Consumer;
 
-/**
- *
- * @author mosmann
- */
-public interface SerializableConsumer<T> extends Consumer<T>, Serializable {
-
+public interface SerializableTriFunction<T1, T2, T3, R> extends Serializable {
+	R apply(T1 value, T2 value2, T3 value3);
 }

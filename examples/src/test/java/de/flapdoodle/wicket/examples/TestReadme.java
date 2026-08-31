@@ -20,17 +20,14 @@
  */
 package de.flapdoodle.wicket.examples;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
+import de.flapdoodle.wicket.model.Models;
+import de.flapdoodle.wicket.model.functions.SerializableTriFunction;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
-import de.flapdoodle.wicket.model.functions.Function1;
-import de.flapdoodle.wicket.model.functions.Function3;
-import de.flapdoodle.wicket.model.Models;
-
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class TestReadme {
 
@@ -41,15 +38,12 @@ once as in LoadableDetachedModel.
 #### simple model transformation
 */
 	public IModel<Integer> createSumModel(IModel<List<Integer>> source) {
-		return Models.on(source).apply(new Function1<Integer, List<Integer>>() {
-			@Override
-			public Integer apply(List<Integer> values) {
-				int sum=0;
-				for (Integer v : values!=null ? values : new ArrayList<Integer>()) {
-					if (v!=null) sum=sum+v;
-				}
-				return sum;
+		return Models.on(source).apply( values -> {
+			int sum=0;
+			for (Integer v : values!=null ? values : new ArrayList<Integer>()) {
+				if (v!=null) sum=sum+v;
 			}
+			return sum;
 		});
 	}
 
@@ -59,7 +53,7 @@ once as in LoadableDetachedModel.
 	public <T> IModel<List<? extends T>> subListModel(IModel<List<T>> source,IModel<Integer> offsetModel, IModel<Integer> sizeModel) {
 		IModel<? extends List<? extends T>> emptyIfNull = Models.emptyIfNull(source);
 		
-		return Models.on(emptyIfNull,offsetModel,sizeModel).apply(new Function3<List<? extends T>, List<? extends T>, Integer, Integer>() {
+		return Models.on(emptyIfNull,offsetModel,sizeModel).apply(new SerializableTriFunction<List<? extends T>, Integer, Integer, List<? extends T>>() {
 			@Override
 			public List<? extends T> apply(List<? extends T> list, Integer offset, Integer size) {
 				int startIdx=Math.min(list.size(), offset);

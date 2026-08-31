@@ -20,10 +20,7 @@
  */
 package de.flapdoodle.wicket.examples.model;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
+import de.flapdoodle.wicket.model.Models;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -34,9 +31,9 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
-import de.flapdoodle.wicket.model.functions.Function1;
-import de.flapdoodle.wicket.model.Models;
-
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class UseModelsPage extends WebPage {
 	
@@ -47,19 +44,9 @@ public class UseModelsPage extends WebPage {
 		
 		IModel<? extends List<String>> emptyIfNullListModel = Models.emptyIfNull(listModel);
 		
-		IModel<Integer> listSizeModel = Models.on(emptyIfNullListModel).apply(new Function1<Integer, List<? extends String>>() {
-			@Override
-			public Integer apply(List<? extends String> value) {
-				return value.size();
-			}
-		});
+		IModel<Integer> listSizeModel = Models.on(emptyIfNullListModel).apply(List::size);
 		
-		IModel<String> firstEntryModel = Models.on(emptyIfNullListModel).apply(new Function1<String, List<? extends String>>() {
-			@Override
-			public String apply(List<? extends String> value) {
-				return !value.isEmpty() ? value.get(0) : null;
-			}
-		});
+		IModel<String> firstEntryModel = Models.on(emptyIfNullListModel).apply(value -> !value.isEmpty() ? value.get(0) : null);
 		
 
 		final WebMarkupContainer ajaxBorder=new WebMarkupContainer("ajaxBorder");

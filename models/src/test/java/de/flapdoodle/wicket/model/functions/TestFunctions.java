@@ -20,9 +20,11 @@
  */
 package de.flapdoodle.wicket.model.functions;
 
+import org.danekja.java.util.function.serializable.SerializableBiFunction;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import org.danekja.java.util.function.serializable.SerializableFunction;
 
 public class TestFunctions {
 
@@ -30,9 +32,9 @@ public class TestFunctions {
 	public void joinFunction1() {
 		Inc a = new Inc(1);
 		Inc b = new Inc(2);
-		Function1<Integer, Integer> ab = Functions.join(a, b);
-		Function1<Integer, Integer> ba = Functions.join(b, a);
-		Function1<Integer, Integer> abba = Functions.join(ab, ba);
+		SerializableFunction<Integer, Integer> ab = Functions.join(a, b);
+		SerializableFunction<Integer, Integer> ba = Functions.join(b, a);
+		SerializableFunction<Integer, Integer> abba = Functions.join(ab, ba);
 
 		assertThat(a.apply(1)).isEqualTo(Integer.valueOf(2));
 		assertThat(b.apply(1)).isEqualTo(Integer.valueOf(3));
@@ -41,9 +43,9 @@ public class TestFunctions {
 
 		assertThat(abba.apply(1)).isEqualTo(Integer.valueOf(7));
 
-		Function1<? extends Integer, ? super Integer> genericSuperA=a;
-		Function1<? extends Integer, ? super Integer> genericSuperB=b;
-		Function1<? extends Integer, Integer> res = Functions.join(genericSuperA, genericSuperB);
+		SerializableFunction<? super Integer, ? extends Integer> genericSuperA=a;
+		SerializableFunction<? super Integer, ? extends Integer> genericSuperB=b;
+		SerializableFunction<Integer, ? extends Integer> res = Functions.join(genericSuperA, genericSuperB);
 		assertThat(res.apply(1)).isEqualTo(Integer.valueOf(4));
 	}
 
@@ -51,7 +53,7 @@ public class TestFunctions {
 	public void joinFunction2() {
 		AwithString aString = new AwithString();
 		Decorate<String> decorate= new Decorate<>();
-		Function2<String, A, String> aAny = Functions.join(aString,decorate);
+		SerializableBiFunction<A, String, String> aAny = Functions.join(aString,decorate);
 		assertThat(aAny.apply(new A(), "hi")).isEqualTo("A[hi]");
 	}
 	
@@ -59,7 +61,7 @@ public class TestFunctions {
 	public void joinFunction3() {
 		AwithString aString = new AwithString();
 		BwithC bc = new BwithC();
-		Function3<String, A, B, C> abc = Functions.join(aString, bc);
+		SerializableTriFunction<A, B, C, String> abc = Functions.join(aString, bc);
 		assertThat(abc.apply(new A(), new B(), new C())).isEqualTo("ABC");
 	}
 	
@@ -68,11 +70,11 @@ public class TestFunctions {
 		AwithB ab = new AwithB();
 		BwithC bc = new BwithC();
 		Concat all = new Concat();
-		Function3<String, A, B, C> abc = Functions.join(all, ab, bc);
+		SerializableTriFunction<A, B, C, String> abc = Functions.join(all, ab, bc);
 
 		assertThat(abc.apply(new A(), new B(), new C())).isEqualTo("ABBC");
 
-		Function3<String, C, B, A> cba = Functions.join(Functions.swap(all), Functions.swap(bc), Functions.swap(ab));
+		SerializableTriFunction<C, B, A, String> cba = Functions.join(Functions.swap(all), Functions.swap(bc), Functions.swap(ab));
 
 		assertThat(cba.apply(new C(), new B(), new A())).isEqualTo("ABBC");
 	}
@@ -85,7 +87,7 @@ public class TestFunctions {
 		assertThat(Functions.swap(ab).apply(new B(), new A())).isEqualTo("AB");
 	}
 
-	static class Inc implements Function1<Integer, Integer> {
+	static class Inc implements SerializableFunction<Integer, Integer> {
 
 		final int _inc;
 
@@ -100,7 +102,7 @@ public class TestFunctions {
 
 	}
 
-	static class Decorate<T> implements Function1<String, T> {
+	static class Decorate<T> implements SerializableFunction<T, String> {
 
 		@Override
 		public String apply(T value) {
@@ -129,7 +131,7 @@ public class TestFunctions {
 
 	}
 
-	static abstract class AbstractABC<T1, T2> implements Function2<String, T1, T2> {
+	static abstract class AbstractABC<T1, T2> implements SerializableBiFunction<T1, T2, String> {
 
 		@Override
 		public String apply(T1 a, T2 b) {

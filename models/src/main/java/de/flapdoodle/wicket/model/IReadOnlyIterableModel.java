@@ -20,19 +20,19 @@
  */
 package de.flapdoodle.wicket.model;
 
-import de.flapdoodle.wicket.model.functions.Function1;
 import de.flapdoodle.wicket.model.transformation.IterableModel;
 import de.flapdoodle.wicket.model.transformation.ListMappingModel;
 import de.flapdoodle.wicket.model.transformation.MapModel;
 import org.apache.wicket.model.IModel;
+import org.danekja.java.util.function.serializable.SerializableFunction;
 
 public interface IReadOnlyIterableModel<T, I extends Iterable<T>> extends IReadOnlyModel<I> {
 
-	default <D> IReadOnlyListModel<D> mapEach(Function1<D, T> map) {
+	default <D> IReadOnlyListModel<D> mapEach(SerializableFunction<T, D> map) {
 		return new ListMappingModel<>(this, map);
 	}
 
-	default <K> MapModel<K, T> asMap(Function1<K, ? super T> keyTransformation) {
+	default <K> MapModel<K, T> asMap(SerializableFunction<? super T, K> keyTransformation) {
 		return new MapModel<>(this, keyTransformation);
 	}
 

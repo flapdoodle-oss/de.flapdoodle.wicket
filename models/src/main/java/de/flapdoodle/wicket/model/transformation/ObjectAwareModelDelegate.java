@@ -22,10 +22,6 @@ package de.flapdoodle.wicket.model.transformation;
 
 import de.flapdoodle.wicket.model.IMappableObjectAwareModel;
 import org.apache.wicket.model.IModel;
-import org.danekja.java.util.function.serializable.SerializableBiFunction;
-import org.danekja.java.util.function.serializable.SerializableFunction;
-import org.danekja.java.util.function.serializable.SerializablePredicate;
-import org.danekja.java.util.function.serializable.SerializableSupplier;
 
 public class ObjectAwareModelDelegate<T> extends ModelDelegate<T> implements IMappableObjectAwareModel<T> {
 

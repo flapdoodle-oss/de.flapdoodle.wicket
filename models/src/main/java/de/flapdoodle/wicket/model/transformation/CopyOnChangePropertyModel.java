@@ -21,9 +21,9 @@
 package de.flapdoodle.wicket.model.transformation;
 
 import de.flapdoodle.wicket.model.IMappableModel;
-import de.flapdoodle.wicket.model.functions.SerializableFunction;
 import org.apache.wicket.model.IModel;
 import org.danekja.java.util.function.serializable.SerializableBiFunction;
+import org.danekja.java.util.function.serializable.SerializableFunction;
 
 public class CopyOnChangePropertyModel<T, M, IM> implements IMappableModel<T> {
 

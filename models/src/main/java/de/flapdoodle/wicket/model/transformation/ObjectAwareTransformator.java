@@ -21,17 +21,17 @@
 package de.flapdoodle.wicket.model.transformation;
 
 import de.flapdoodle.wicket.model.IMappableObjectAwareModel;
-import de.flapdoodle.wicket.model.functions.Function1;
 import org.apache.wicket.model.IModel;
+import org.danekja.java.util.function.serializable.SerializableFunction;
 
 public class ObjectAwareTransformator<T, R> implements IMappableObjectAwareModel<R> {
 
 	private final IModel<T> model;
 	private final Class<R> type;
-	private final Function1<R, ? super T> read;
-	private final Function1<T, ? super R> write;
+	private final SerializableFunction<? super T, R> read;
+	private final SerializableFunction<? super R, T> write;
 
-	public ObjectAwareTransformator(IModel<T> model, Class<R> type, Function1<R, ? super T> read, Function1<T, ? super R> write) {
+	public ObjectAwareTransformator(IModel<T> model, Class<R> type, SerializableFunction<? super T, R> read, SerializableFunction<? super R, T> write) {
 		this.model = model;
 		this.type = type;
 		this.read = read;

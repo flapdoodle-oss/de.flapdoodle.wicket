@@ -24,9 +24,11 @@ import de.flapdoodle.wicket.model.IMappableModel;
 import de.flapdoodle.wicket.model.IMappableObjectAwareModel;
 import de.flapdoodle.wicket.model.IReadOnlyModel;
 import de.flapdoodle.wicket.model.Models;
-import de.flapdoodle.wicket.model.functions.*;
+import de.flapdoodle.wicket.model.functions.SerializableTriFunction;
 import org.apache.wicket.model.IModel;
+import org.danekja.java.util.function.serializable.SerializableBiConsumer;
 import org.danekja.java.util.function.serializable.SerializableBiFunction;
+import org.danekja.java.util.function.serializable.SerializableFunction;
 
 /**
  * model sets
@@ -53,7 +55,7 @@ public abstract class ModelSet {
 		 * @return model
 		 * @see Models#on(IModel)
 		 */
-		public <R> IReadOnlyModel<R> apply(Function1<R, ? super T1> function) {
+		public <R> IReadOnlyModel<R> apply(SerializableFunction<? super T1, R> function) {
 			return new Transformator.Model1<R, T1>(_m1, function);
 		}
 
@@ -67,15 +69,15 @@ public abstract class ModelSet {
 		 * @see Models#on(IModel)
 		 * @see Lazy
 		 */
-		public <R> IReadOnlyModel<R> applyLazy(Function1<R, ? super Lazy<? extends T1>> function) {
+		public <R> IReadOnlyModel<R> applyLazy(SerializableFunction<? super Lazy<? extends T1>, R> function) {
 			return new Transformator.LazyModel1<R, T1>(_m1, function);
 		}
 
-		public <R> IMappableObjectAwareModel<R> mapProperty(Class<R> type, Function1<R, ? super T1> read, SerializableBiConsumer<? super T1, R> write) {
+		public <R> IMappableObjectAwareModel<R> mapProperty(Class<R> type, SerializableFunction<? super T1, R> read, SerializableBiConsumer<? super T1, R> write) {
 			return new ObjectAwarePropertyAccessModel<>(_m1, type, read, write);
 		}
 
-		public <R> IMappableModel<R> mapProperty(Function1<R, ? super T1> read, SerializableBiConsumer<? super T1, R> write) {
+		public <R> IMappableModel<R> mapProperty(SerializableFunction<? super T1, R> read, SerializableBiConsumer<? super T1, R> write) {
 			return new PropertyAccessModel<>(_m1, read, write);
 		}
 
@@ -113,7 +115,7 @@ public abstract class ModelSet {
 		 * @return model
 		 * @see Models#on(IModel, IModel)
 		 */
-		public <T> IReadOnlyModel<T> apply(Function2<T, ? super T1, ? super T2> function) {
+		public <T> IReadOnlyModel<T> apply(SerializableBiFunction<? super T1, ? super T2, T> function) {
 			return new Transformator.Model2<T, T1, T2>(_m1, _m2, function);
 		}
 
@@ -127,7 +129,7 @@ public abstract class ModelSet {
 		 * @return model
 		 * @see Models#on(IModel, IModel)
 		 */
-		public <T> IReadOnlyModel<T> applyLazy(Function2<T, ? super Lazy<? extends T1>, ? super Lazy<? extends T2>> function) {
+		public <T> IReadOnlyModel<T> applyLazy(SerializableBiFunction<? super Lazy<? extends T1>, ? super Lazy<? extends T2>, T> function) {
 			return new Transformator.LazyModel2<T, T1, T2>(_m1, _m2, function);
 		}
 	}
@@ -160,7 +162,7 @@ public abstract class ModelSet {
 		 * @return model
 		 * @see Models#on(IModel, IModel, IModel)
 		 */
-		public <T> IReadOnlyModel<T> apply(Function3<T, ? super T1, ? super T2, ? super T3> function) {
+		public <T> IReadOnlyModel<T> apply(SerializableTriFunction<? super T1, ? super T2, ? super T3, T> function) {
 			return new Transformator.Model3<T, T1, T2, T3>(_m1, _m2, _m3, function);
 		}
 
@@ -174,7 +176,8 @@ public abstract class ModelSet {
 		 * @return model
 		 * @see Models#on(IModel, IModel, IModel)
 		 */
-		public <T> IReadOnlyModel<T> applyLazy(Function3<T, ? super Lazy<? extends T1>, ? super Lazy<? extends T2>, ? super Lazy<? extends T3>> function) {
+		public <T> IReadOnlyModel<T> applyLazy(
+			SerializableTriFunction<? super Lazy<? extends T1>, ? super Lazy<? extends T2>, ? super Lazy<? extends T3>, T> function) {
 			return new Transformator.LazyModel3<T, T1, T2, T3>(_m1, _m2, _m3, function);
 		}
 	}

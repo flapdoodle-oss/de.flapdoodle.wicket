@@ -21,8 +21,8 @@
 package de.flapdoodle.wicket.model.transformation;
 
 import de.flapdoodle.wicket.model.IReadOnlyMapModel;
-import de.flapdoodle.wicket.model.functions.Function1;
 import org.apache.wicket.model.IModel;
+import org.danekja.java.util.function.serializable.SerializableFunction;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -31,9 +31,9 @@ import java.util.Map;
 public class MapModel<K, V> extends AbstractReadOnlyDetachDelegationModel<Map<K, V>> implements IReadOnlyMapModel<K, V> {
 
 	private final IModel<? extends Iterable<? extends V>> source;
-	private final Function1<K, ? super V> keyTransformation;
+	private final SerializableFunction<? super V, K> keyTransformation;
 
-	public MapModel(IModel<? extends Iterable<? extends V>> source, Function1<K, ? super V> keyTransformation) {
+	public MapModel(IModel<? extends Iterable<? extends V>> source, SerializableFunction<? super V, K> keyTransformation) {
 		super(source);
 		this.source = source;
 		this.keyTransformation = keyTransformation;
@@ -44,7 +44,7 @@ public class MapModel<K, V> extends AbstractReadOnlyDetachDelegationModel<Map<K,
 		return asMap(source.getObject(), keyTransformation);
 	}
 
-	protected static <K, V> Map<K, V> asMap(Iterable<? extends V> src, Function1<K, ? super V> transformation) {
+	protected static <K, V> Map<K, V> asMap(Iterable<? extends V> src, SerializableFunction<? super V, K> transformation) {
 		Map<K, V> result = new LinkedHashMap<>();
 		for (V value : src) {
 			K key = transformation.apply(value);

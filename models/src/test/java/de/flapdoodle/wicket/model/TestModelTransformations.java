@@ -23,12 +23,12 @@ package de.flapdoodle.wicket.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.danekja.java.util.function.serializable.SerializableBiFunction;
+import org.danekja.java.util.function.serializable.SerializableFunction;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
-import de.flapdoodle.wicket.model.functions.Function1;
-import de.flapdoodle.wicket.model.functions.Function2;
-import de.flapdoodle.wicket.model.functions.Function3;
+import de.flapdoodle.wicket.model.functions.SerializableTriFunction;
 import de.flapdoodle.wicket.model.transformation.Lazy;
 import org.junit.jupiter.api.Test;
 
@@ -172,7 +172,7 @@ public class TestModelTransformations extends AbstractModelTest {
 		assertThat(e).describedAs("Exception on setObject").isNotNull();
 	}
 	
-	private static final class LazyStringAndIntList2String implements Function2<String, Lazy<? extends List<? extends String>>, Lazy<? extends List<? extends Integer>>> {
+	private static final class LazyStringAndIntList2String implements SerializableBiFunction<Lazy<? extends List<? extends String>>, Lazy<? extends List<? extends Integer>>, String> {
 
 		@Override
 		public String apply(Lazy<? extends List<? extends String>> value, Lazy<? extends List<? extends Integer>> value2) {
@@ -180,7 +180,8 @@ public class TestModelTransformations extends AbstractModelTest {
 		}
 	}
 
-	private static final class LazyStringIntAndBoolList2String implements Function3<String, Lazy<? extends List<? extends String>>, Lazy<? extends List<? extends Integer>>, Lazy<? extends List<? extends Boolean>>> {
+	private static final class LazyStringIntAndBoolList2String implements
+		SerializableTriFunction<Lazy<? extends List<? extends String>>, Lazy<? extends List<? extends Integer>>, Lazy<? extends List<? extends Boolean>>, String> {
 
 		@Override
 		public String apply(Lazy<? extends List<? extends String>> value, Lazy<? extends List<? extends Integer>> value2, Lazy<? extends List<? extends Boolean>> value3) {
@@ -188,7 +189,7 @@ public class TestModelTransformations extends AbstractModelTest {
 		}
 	}
 
-	private static final class StringAndIntList2String implements Function2<String, List<? extends String>, List<? extends Integer>> {
+	private static final class StringAndIntList2String implements SerializableBiFunction<List<? extends String>, List<? extends Integer>, String> {
 
 		@Override
 		public String apply(List<? extends String> value, List<? extends Integer> value2) {
@@ -196,7 +197,8 @@ public class TestModelTransformations extends AbstractModelTest {
 		}
 	}
 
-	private static final class StringIntAndBoolList2String implements Function3<String, List<? extends String>, List<? extends Integer>, List<? extends Boolean>> {
+	private static final class StringIntAndBoolList2String implements
+		SerializableTriFunction<List<? extends String>, List<? extends Integer>, List<? extends Boolean>, String> {
 
 		@Override
 		public String apply(List<? extends String> value, List<? extends Integer> value2, List<? extends Boolean> value3) {
@@ -204,7 +206,7 @@ public class TestModelTransformations extends AbstractModelTest {
 		}
 	}
 
-	private static final class LazyStringList2String implements Function1<String, Lazy<? extends List<? extends String>>> {
+	private static final class LazyStringList2String implements SerializableFunction<Lazy<? extends List<? extends String>>, String> {
 
 		@Override
 		public String apply(Lazy<? extends List<? extends String>> value) {
@@ -212,7 +214,7 @@ public class TestModelTransformations extends AbstractModelTest {
 		}
 	}
 
-	private static final class StringList2String implements Function1<String, List<? extends String>> {
+	private static final class StringList2String implements SerializableFunction<List<? extends String>, String> {
 
 		@Override
 		public String apply(List<? extends String> value) {
@@ -220,7 +222,7 @@ public class TestModelTransformations extends AbstractModelTest {
 		}
 	}
 
-	private static final class AddToNumbersAndAString implements Function3<String, Integer, Integer, String> {
+	private static final class AddToNumbersAndAString implements SerializableTriFunction<Integer, Integer, String, String> {
 
 		@Override
 		public String apply(Integer value, Integer value2,String value3) {
@@ -228,7 +230,7 @@ public class TestModelTransformations extends AbstractModelTest {
 		}
 	}
 
-	private static final class AddTwoNumbers implements Function2<Integer, Integer, Integer> {
+	private static final class AddTwoNumbers implements SerializableBiFunction<Integer, Integer, Integer> {
 
 		@Override
 		public Integer apply(Integer value, Integer value2) {
@@ -236,7 +238,7 @@ public class TestModelTransformations extends AbstractModelTest {
 		}
 	}
 
-	private static final class IntegerToString implements Function1<String, Integer> {
+	private static final class IntegerToString implements SerializableFunction<Integer, String> {
 
 		@Override
 		public String apply(Integer value) {

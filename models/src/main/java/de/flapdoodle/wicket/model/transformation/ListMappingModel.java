@@ -21,8 +21,8 @@
 package de.flapdoodle.wicket.model.transformation;
 
 import de.flapdoodle.wicket.model.IReadOnlyListModel;
-import de.flapdoodle.wicket.model.functions.Function1;
 import org.apache.wicket.model.IModel;
+import org.danekja.java.util.function.serializable.SerializableFunction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +30,9 @@ import java.util.List;
 public class ListMappingModel<T, D> extends AbstractReadOnlyDetachDelegationModel<List<D>> implements IReadOnlyListModel<D> {
 
 	private final IModel<? extends Iterable<? extends T>> source;
-	private final Function1<D, T> map;
+	private final SerializableFunction<T, D> map;
 
-	public ListMappingModel(IModel<? extends Iterable<? extends T>> source, Function1<D, T> map) {
+	public ListMappingModel(IModel<? extends Iterable<? extends T>> source, SerializableFunction<T, D> map) {
 		super(source);
 		this.source = source;
 		this.map = map;
@@ -43,7 +43,7 @@ public class ListMappingModel<T, D> extends AbstractReadOnlyDetachDelegationMode
 		return map(source.getObject(), map);
 	}
 
-	protected static <T, I extends Iterable<? extends T>, D> List<D> map(I entries, Function1<D, T> map) {
+	protected static <T, I extends Iterable<? extends T>, D> List<D> map(I entries, SerializableFunction<T, D> map) {
 		ArrayList<D> ret = new ArrayList<>();
 		for (T value : entries) {
 			ret.add(map.apply(value));

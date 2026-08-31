@@ -20,12 +20,12 @@
  */
 package de.flapdoodle.wicket.model;
 
-import de.flapdoodle.wicket.model.functions.SerializableConsumer;
-import de.flapdoodle.wicket.model.functions.SerializableFunction;
-import de.flapdoodle.wicket.model.functions.SerializableSupplier;
 import org.apache.wicket.core.util.lang.WicketObjects;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LambdaModel;
+import org.danekja.java.util.function.serializable.SerializableConsumer;
+import org.danekja.java.util.function.serializable.SerializableFunction;
+import org.danekja.java.util.function.serializable.SerializableSupplier;
 import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;

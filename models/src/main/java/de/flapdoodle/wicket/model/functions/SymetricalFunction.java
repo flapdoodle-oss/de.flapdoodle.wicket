@@ -20,10 +20,12 @@
  */
 package de.flapdoodle.wicket.model.functions;
 
-public interface SymetricalFunction<S, D> extends Function1<D, S> {
-	public SymetricalFunction<D, S> reverse();
+import org.danekja.java.util.function.serializable.SerializableFunction;
 
-	public static <S, D> SymetricalFunction<S, D> with(Function1<D, S> to, Function1<S, D> from) {
+public interface SymetricalFunction<S, D> extends SerializableFunction<S, D> {
+	SymetricalFunction<D, S> reverse();
+
+	static <S, D> SymetricalFunction<S, D> with(SerializableFunction<S, D> to, SerializableFunction<D, S> from) {
 		return new SymetricalFunction<S, D>() {
 
 			@Override
