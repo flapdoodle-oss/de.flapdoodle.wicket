@@ -19,12 +19,12 @@ custom wicket extensions which might be useful
 
 ### Maven
 
-Stable (Maven Central Repository, Released: 25.08.2026 - wait 24hrs for maven central)
+Stable (Maven Central Repository, Released: 31.08.2026 - wait 24hrs for maven central)
 
 	<dependency>
 		<groupId>de.flapdoodle.wicket10</groupId>
 		<artifactId>de.flapdoodle.wicket--[modulename]</artifactId>
-		<version>10.0.1</version>
+		<version>10.1.0</version>
 	</dependency>
 
 
