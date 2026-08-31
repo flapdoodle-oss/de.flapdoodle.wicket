@@ -4,7 +4,7 @@
     <parent>
         <groupId>de.flapdoodle.wicket10</groupId>
         <artifactId>de.flapdoodle.wicket</artifactId>
-        <version>10.1.0</version>
+        <version>10.1.1-SNAPSHOT</version>
     </parent>
     <artifactId>de.flapdoodle.wicket--atp</artifactId>
     <packaging>jar</packaging>
