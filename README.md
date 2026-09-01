@@ -24,7 +24,7 @@ Stable (Maven Central Repository, Released: 01.09.2026 - wait 24hrs for maven ce
 	<dependency>
 		<groupId>de.flapdoodle.wicket10</groupId>
 		<artifactId>de.flapdoodle.wicket--[modulename]</artifactId>
-		<version>10.2.0</version>
+		<version>10.2.1</version>
 	</dependency>
 
 
