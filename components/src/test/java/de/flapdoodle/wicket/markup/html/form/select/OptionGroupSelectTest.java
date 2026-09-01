@@ -61,15 +61,22 @@ class OptionGroupSelectTest {
 				}
 			};
 
-			form.add(new OptionGroupSelect<>(
-				"group",
-				itemModel,
-				Model.ofList(sample()),
-				Group::entries,
-				Group::name,
-				Item::name,
-				Model::of
-			));
+			form.add(OptionGroupSelect.builder(itemModel, Model.ofList(sample()))
+				.groupItems(Group::entries)
+				.groupLabel(Group::name)
+				.itemLabel(Item::name)
+				.value2Model(Model::of)
+				.build("group"));
+
+//			form.add(new OptionGroupSelect<>(
+//				"group",
+//				itemModel,
+//				Model.ofList(sample()),
+//				Group::entries,
+//				Group::name,
+//				Item::name,
+//				Model::of
+//			));
 			form.add(new Button("submit"));
 			add(form);
 		}

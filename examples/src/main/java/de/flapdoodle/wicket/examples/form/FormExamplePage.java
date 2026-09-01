@@ -22,15 +22,13 @@ public class FormExamplePage extends WebPage {
 			}
 		};
 
-		form.add(new OptionGroupSelect<Item, Group>(
-			"group",
-			itemModel,
-			Model.ofList(sample()),
-			Group::entries,
-			Group::name,
-			Item::name,
-			Model::of
-		));
+		form.add(OptionGroupSelect.builder(itemModel, Model.ofList(sample()))
+			.groupItems(Group::entries)
+			.groupLabel(Group::name)
+			.itemLabel(Item::name)
+			.value2Model(Model::of)
+			.build("group"));
+
 		form.add(new Button("submit"));
 		add(form);
 	}
