@@ -21,6 +21,9 @@
 package de.flapdoodle.wicket.examples.form;
 
 import de.flapdoodle.wicket.markup.html.form.select.OptionGroupSelect;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
+import org.apache.wicket.ajax.form.OnChangeAjaxBehavior;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
@@ -41,13 +44,20 @@ public class FormExamplePage extends WebPage {
 				System.out.println("Model: "+itemModel.getObject());
 			}
 		};
+		form.setOutputMarkupId(true);
 
 		form.add(OptionGroupSelect.builder(itemModel, Model.ofList(sample()))
 			.groupItems(Group::entries)
 			.groupLabel(Group::name)
 			.itemLabel(Item::name)
 			.value2Model(Model::of)
-			.build("group"));
+			.build("group").withInputBehaviors(new OnChangeAjaxBehavior() {
+				@Override
+				protected void onUpdate(AjaxRequestTarget target) {
+					System.out.println("Ajax Update: "+itemModel.getObject());
+					target.add(form);
+				}
+			}));
 
 		form.add(new Button("submit"));
 		add(form);

@@ -21,6 +21,7 @@
 package de.flapdoodle.wicket.markup.html.form.select;
 
 import org.apache.wicket.AttributeModifier;
+import org.apache.wicket.behavior.Behavior;
 import org.apache.wicket.extensions.markup.html.form.select.IOptionRenderer;
 import org.apache.wicket.extensions.markup.html.form.select.Select;
 import org.apache.wicket.extensions.markup.html.form.select.SelectOptions;
@@ -29,6 +30,7 @@ import org.apache.wicket.markup.html.form.FormComponentPanel;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.danekja.java.util.function.serializable.SerializableFunction;
 
 import java.io.Serializable;
@@ -50,7 +52,7 @@ public class OptionGroupSelect<T, G> extends FormComponentPanel<T> {
 	) {
 		super(id, model);
 
-		Select<T> select = new Select<>("select", model);
+		this.select = new Select<>("select", model);
 		select.add(new ListView<G>("groups", groupModel) {
 			@Override
 			protected void populateItem(ListItem<G> item) {
@@ -74,7 +76,11 @@ public class OptionGroupSelect<T, G> extends FormComponentPanel<T> {
 			}
 		});
 		add(select);
-		this.select = select;
+	}
+
+	public OptionGroupSelect<T, G> withInputBehaviors(Behavior ... behaviors) {
+		select.add(behaviors);
+		return this;
 	}
 
 	@Override
