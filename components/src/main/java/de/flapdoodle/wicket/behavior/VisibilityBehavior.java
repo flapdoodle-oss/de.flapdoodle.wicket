@@ -41,9 +41,7 @@ public class VisibilityBehavior extends Behavior {
 		super.onConfigure(component);
 
 		Boolean visible = _model.getObject();
-		component.setVisible(visible != null
-				? visible
-				: false);
+		component.setVisible(visible != null && visible);
 	}
 	
 	@Override

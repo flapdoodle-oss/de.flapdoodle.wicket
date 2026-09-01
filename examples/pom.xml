@@ -96,6 +96,11 @@
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.flapdoodle.wicket--incubator</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.wicket</groupId>
+			<artifactId>wicket-extensions</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 
 		<!--  JETTY DEPENDENCIES FOR TESTING  -->
 		<dependency>

@@ -35,10 +35,8 @@ import java.lang.management.ManagementFactory;
 public class Start {
     /**
      * Main function, starts the jetty server.
-     *
-     * @param args
      */
-    public static void main(String[] args) throws Exception
+    public static void main(String[] args)
     {
         System.setProperty("wicket.configuration", "development");
 

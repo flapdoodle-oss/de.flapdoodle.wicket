@@ -20,6 +20,7 @@
  */
 package de.flapdoodle.wicket.examples.pages;
 
+import de.flapdoodle.wicket.examples.form.FormExamplePage;
 import de.flapdoodle.wicket.examples.header.CustomHeaderPage;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
@@ -38,5 +39,6 @@ public class StartPage extends WebPage {
 		add(new BookmarkablePageLink<UseExceptionAwarePage>("exceptions", UseExceptionAwarePage.class));
 		add(new BookmarkablePageLink<UseVisibilityBehaviorPage>("visibility", UseVisibilityBehaviorPage.class));
 		add(new BookmarkablePageLink<CustomHeaderPage>("customHeader", CustomHeaderPage.class));
+		add(new BookmarkablePageLink<FormExamplePage>("formExample", FormExamplePage.class));
 	}
 }
