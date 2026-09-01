@@ -4,7 +4,7 @@
     <parent>
         <groupId>de.flapdoodle.wicket10</groupId>
         <artifactId>de.flapdoodle.wicket</artifactId>
-        <version>10.2.1</version>
+        <version>10.2.2-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
