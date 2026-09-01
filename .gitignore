@@ -22,3 +22,4 @@ velocity.log
 
 # netbeans stuff #
 nb-configuration.xml
+/examples/de.flapdoodle.wicket--examples.iml

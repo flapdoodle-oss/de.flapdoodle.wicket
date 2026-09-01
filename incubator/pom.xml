@@ -9,7 +9,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>de.flapdoodle.wicket--incubator</artifactId>
-	<name>${project.name} - Debug Support</name>
+	<name>${project.name} - Incubator</name>
 
 	<dependencies>
 		<!--  JETTY DEPENDENCIES FOR TESTING  -->
@@ -22,16 +22,18 @@
 			<artifactId>jetty-server</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>jetty-webapp</artifactId>
+			<groupId>org.eclipse.jetty.ee10</groupId>
+			<artifactId>jetty-ee10-webapp</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-jmx</artifactId>
 		</dependency>
+
+		<!-- nur falls WebSocket-Unterstützung gebraucht wird -->
 		<dependency>
-			<groupId>org.eclipse.jetty.websocket</groupId>
-			<artifactId>websocket-jakarta-server</artifactId>
+			<groupId>org.eclipse.jetty.ee10.websocket</groupId>
+			<artifactId>jetty-ee10-websocket-jakarta-server</artifactId>
 		</dependency>
 	</dependencies>
 </project>

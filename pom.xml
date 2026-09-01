@@ -321,28 +321,35 @@
                 </configuration>
             </plugin>
 
-            <plugin>
-                <groupId>org.mortbay.jetty</groupId>
-                <artifactId>jetty-maven-plugin</artifactId>
-                <version>8.1.16.v20140903</version>
-                <configuration>
-                    <connectors>
-                        <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-                            <port>8080</port>
-                            <maxIdleTime>3600000</maxIdleTime>
-                        </connector>
-                        <connector implementation="org.eclipse.jetty.server.ssl.SslSocketConnector">
-                            <port>8443</port>
-                            <maxIdleTime>3600000</maxIdleTime>
-                            <keystore>${project.build.directory}/test-classes/keystore</keystore>
-                            <password>wicket</password>
-                            <keyPassword>wicket</keyPassword>
-                        </connector>
-                    </connectors>
-                    <stopKey />
-                    <stopPort />
-                </configuration>
-            </plugin>
+            <!--            <plugin>-->
+            <!--                <groupId>org.eclipse.jetty.ee10</groupId>-->
+            <!--                <artifactId>jetty-ee10-maven-plugin</artifactId>-->
+            <!--                <version>12.0.x</version>-->
+            <!--            </plugin>-->
+
+
+<!--            <plugin>-->
+<!--                <groupId>org.mortbay.jetty</groupId>-->
+<!--                <artifactId>jetty-maven-plugin</artifactId>-->
+<!--                <version>8.1.16.v20140903</version>-->
+<!--                <configuration>-->
+<!--                    <connectors>-->
+<!--                        <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">-->
+<!--                            <port>8080</port>-->
+<!--                            <maxIdleTime>3600000</maxIdleTime>-->
+<!--                        </connector>-->
+<!--                        <connector implementation="org.eclipse.jetty.server.ssl.SslSocketConnector">-->
+<!--                            <port>8443</port>-->
+<!--                            <maxIdleTime>3600000</maxIdleTime>-->
+<!--                            <keystore>${project.build.directory}/test-classes/keystore</keystore>-->
+<!--                            <password>wicket</password>-->
+<!--                            <keyPassword>wicket</keyPassword>-->
+<!--                        </connector>-->
+<!--                    </connectors>-->
+<!--                    <stopKey />-->
+<!--                    <stopPort />-->
+<!--                </configuration>-->
+<!--            </plugin>-->
         </plugins>
         <pluginManagement>
             <plugins>
@@ -379,20 +386,20 @@
                     </configuration>
                 </plugin>
 
-                <plugin>
-                    <groupId>org.eclipse.jetty</groupId>
-                    <artifactId>jetty-maven-plugin</artifactId>
-                    <version>${jetty.version}</version>
-                    <configuration>
-                        <systemProperties>
-                            <systemProperty>
-                                <name>maven.project.build.directory.test-classes</name>
-                                <value>${project.build.directory}/test-classes</value>
-                            </systemProperty>
-                        </systemProperties>
-                        <jettyXmls>${project.basedir}/src/test/jetty/jetty.xml,${project.basedir}/src/test/jetty/jetty-ssl.xml,${project.basedir}/src/test/jetty/jetty-http.xml,${project.basedir}/src/test/jetty/jetty-https.xml</jettyXmls>
-                    </configuration>
-                </plugin>
+<!--                <plugin>-->
+<!--                    <groupId>org.eclipse.jetty</groupId>-->
+<!--                    <artifactId>jetty-maven-plugin</artifactId>-->
+<!--                    <version>${jetty.version}</version>-->
+<!--                    <configuration>-->
+<!--                        <systemProperties>-->
+<!--                            <systemProperty>-->
+<!--                                <name>maven.project.build.directory.test-classes</name>-->
+<!--                                <value>${project.build.directory}/test-classes</value>-->
+<!--                            </systemProperty>-->
+<!--                        </systemProperties>-->
+<!--                        <jettyXmls>${project.basedir}/src/test/jetty/jetty.xml,${project.basedir}/src/test/jetty/jetty-ssl.xml,${project.basedir}/src/test/jetty/jetty-http.xml,${project.basedir}/src/test/jetty/jetty-https.xml</jettyXmls>-->
+<!--                    </configuration>-->
+<!--                </plugin>-->
             </plugins>
         </pluginManagement>
 
@@ -471,7 +478,7 @@
         <maven.compiler.target>21</maven.compiler.target>
         <wicket.version>10.10.0</wicket.version>
         <slf4j.version>2.0.16</slf4j.version>
-        <jetty.version>11.0.24</jetty.version>
+        <jetty.version>12.0.16</jetty.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- allowed values: R7, 1.0, 1.5, 2.0 or none -->
         <wtp.version>none</wtp.version>
@@ -550,6 +557,12 @@
             </dependency>
             <dependency>
                 <groupId>org.apache.wicket</groupId>
+                <artifactId>wicket-extensions</artifactId>
+                <version>${wicket.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.wicket</groupId>
                 <artifactId>wicket-native-websocket-javax</artifactId>
                 <version>${wicket.version}</version>
                 <scope>provided</scope>
@@ -588,36 +601,30 @@
             <dependency>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-server</artifactId>
-                <scope>test</scope>
                 <version>${jetty.version}</version>
+                <scope>test</scope>
             </dependency>
             <dependency>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-webapp</artifactId>
-                <scope>test</scope>
+                <groupId>org.eclipse.jetty.ee10</groupId>
+                <artifactId>jetty-ee10-webapp</artifactId>
                 <version>${jetty.version}</version>
+                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-jmx</artifactId>
-                <scope>test</scope>
                 <version>${jetty.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.jetty.websocket</groupId>
-                <artifactId>websocket-jakarta-server</artifactId>
                 <scope>test</scope>
-                <version>${jetty.version}</version>
             </dependency>
 
-            <!-- uncomment if WebSocket support is needed
+            <!-- nur falls WebSocket-Unterstützung gebraucht wird -->
             <dependency>
-                <groupId>org.eclipse.jetty.websocket</groupId>
-                <artifactId>websocket-jakarta-server</artifactId>
+                <groupId>org.eclipse.jetty.ee10.websocket</groupId>
+                <artifactId>jetty-ee10-websocket-jakarta-server</artifactId>
                 <version>${jetty.version}</version>
                 <scope>test</scope>
             </dependency>
-            -->
+
 
             <dependency>
                 <groupId>org.immutables</groupId>
