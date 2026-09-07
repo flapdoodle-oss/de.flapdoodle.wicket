@@ -25,33 +25,27 @@ import org.apache.wicket.model.IModel;
 import org.danekja.java.util.function.serializable.SerializableBiFunction;
 import org.danekja.java.util.function.serializable.SerializableFunction;
 
-public class CopyOnChangePropertyModel<T, M, IM> implements IMappableModel<T> {
+public class CopyOnChangePropertyModel<T, M, IM extends M> implements IMappableModel<T> {
 
 	private final IModel<M> sourceModel;
-	private final SerializableFunction<M, IM> asImmutable;
-	private final SerializableFunction<M, T> readProperty;
-	private final SerializableBiFunction<IM, T, M> changeProperty;
+	private final Lens<T, M, IM> lens;
 
 	public CopyOnChangePropertyModel(
 		IModel<M> sourceModel,
-		SerializableFunction<M, IM> asImmutable,
-		SerializableFunction<M, T> readProperty,
-		SerializableBiFunction<IM, T, M> changeProperty
+		Lens<T, M, IM> lens
 	) {
 		this.sourceModel = sourceModel;
-		this.asImmutable = asImmutable;
-		this.readProperty = readProperty;
-		this.changeProperty = changeProperty;
+		this.lens = lens;
 	}
 
 	@Override
 	public T getObject() {
-		return readProperty.apply(sourceModel.getObject());
+		return lens.read(sourceModel.getObject());
 	}
 
 	@Override
 	public void setObject(T object) {
-		sourceModel.setObject(changeProperty.apply(asImmutable.apply(sourceModel.getObject()), object));
+		sourceModel.setObject(lens.change(sourceModel.getObject(), object));
 	}
 
 	@Override
@@ -64,15 +58,22 @@ public class CopyOnChangePropertyModel<T, M, IM> implements IMappableModel<T> {
 		SerializableFunction<M, T> readProperty,
 		SerializableBiFunction<M, T, M> changeProperty
 	) {
-		return new CopyOnChangePropertyModel<>(source, it -> it, readProperty, changeProperty);
+		return new CopyOnChangePropertyModel<>(source, Lens.of(it -> it, readProperty, changeProperty));
 	}
 
-	public static <T, M, IM> IMappableModel<T> of(
+	public static <T, M, IM extends M> IMappableModel<T> of(
 		IModel<M> source,
 		SerializableFunction<M, IM> asImmutable,
 		SerializableFunction<M, T> readProperty,
 		SerializableBiFunction<IM, T, M> changeProperty
 	) {
-		return new CopyOnChangePropertyModel<>(source, asImmutable, readProperty, changeProperty);
+		return new CopyOnChangePropertyModel<>(source, Lens.of(asImmutable, readProperty, changeProperty));
+	}
+
+	public static <T, M, IM extends M> IMappableModel<T> of(
+		IModel<M> source,
+		Lens<T, M, IM> lens
+	) {
+		return new CopyOnChangePropertyModel<>(source, lens);
 	}
 }

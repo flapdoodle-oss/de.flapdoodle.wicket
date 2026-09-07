@@ -88,6 +88,10 @@ public abstract class ModelSet {
 		public <R, IT1 extends T1> IMappableModel<R> copyOnChangeProperty(SerializableFunction<T1, IT1> asImmutable, SerializableFunction<T1, R> readProperty, SerializableBiFunction<IT1, R, T1> changeProperty) {
 			return CopyOnChangePropertyModel.of(_m1, asImmutable, readProperty, changeProperty);
 		}
+
+		public <R, IT1 extends T1> IMappableModel<R> copyOnChangeProperty(Lens<R, T1, IT1> lens) {
+			return CopyOnChangePropertyModel.of(_m1, lens);
+		}
 	}
 
 	/**

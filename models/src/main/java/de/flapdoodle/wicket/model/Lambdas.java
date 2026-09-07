@@ -36,7 +36,7 @@ import java.util.function.Supplier;
  */
 public class Lambdas {
 	/**
-	 * Creates a chained model that uses a model and a getter. This model is null safe, such that
+	 * Creates a chained model that uses a model and a read. This model is null safe, such that
 	 * when the base model returns {@code null} the resulting expression is {@code null}. Example
 	 * usage:
 	 *
@@ -45,9 +45,9 @@ public class Lambdas {
 	 * Lambdas.of(personModel, Person::getName);
 	 * </pre>
 	 *
-	 * @param base   the model that is used as a base to evaluate the getter against
+	 * @param base   the model that is used as a base to evaluate the read against
 	 * @param getter a function that gets a {@code <T>}
-	 * @return a model that takes the base model and applies the getter to get the model object
+	 * @return a model that takes the base model and applies the read to get the model object
 	 */
 	public static <T, X, F extends SerializableFunction<X, T>> IModel<T> of(IModel<X> base,
 		F getter) {
@@ -96,7 +96,7 @@ public class Lambdas {
 	}
 
 	/**
-	 * Creates a model that uses the getter and setter. Calls to the getter (and setter) are not
+	 * Creates a model that uses the read and setter. Calls to the read (and setter) are not
 	 * cached but directly executed on each {@code getObject()} and {@code setObject()}. Example
 	 * usage:
 	 *
@@ -114,7 +114,7 @@ public class Lambdas {
 	}
 
 	/**
-	 * A read-only model that caches the call to the {@code getter()} until the model is detached.
+	 * A read-only model that caches the call to the {@code read()} until the model is detached.
 	 *
 	 * @param getter a supplier that gets a {@code <T>}
 	 * @return the read-only model that gets a {@code <T>} and caches the result until the model is
@@ -132,13 +132,13 @@ public class Lambdas {
 	}
 
 	/**
-	 * Creates a read-only model using a getter. Example usage:
+	 * Creates a read-only model using a read. Example usage:
 	 *
 	 * <pre>
 	 * Lambdas.readOnly(person::getName);
 	 * </pre>
 	 *
-	 * @param getter the getter function (also known as supplier)
+	 * @param getter the read function (also known as supplier)
 	 * @return a read-only model
 	 */
 	public static <T, S extends SerializableSupplier<T>> IModel<T> readOnly(S getter) {
@@ -146,7 +146,7 @@ public class Lambdas {
 	}
 
 	/**
-	 * Creates a write-only model using a getter. Example usage:
+	 * Creates a write-only model using a read. Example usage:
 	 *
 	 * <pre>
 	 * Lambdas.writeOnly(person::setName);

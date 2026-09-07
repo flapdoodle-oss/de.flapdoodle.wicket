@@ -78,6 +78,41 @@ public class ImmutableModelsTest {
 		);
 	}
 
+	@Test
+	void nestedPropertLensModel() {
+		Model<ImmutableRoot> sourceModel = Model.of(sample());
+
+		Lens<Sibling, ImmutableRoot, ImmutableRoot> siblingLens = Lens.ofProperty(ImmutableRoot::sibling)
+			.changeBy(ImmutableRoot::withSibling);
+		Lens<Integer, Sibling, ImmutableSibling> numberLens = Lens.ofProperty(Sibling::number)
+			.changeBy(ImmutableSibling::copyOf, ImmutableSibling::withNumber);
+		Lens<List<Item>, Sibling, ImmutableSibling> itemsLens = Lens.ofProperty(Sibling::items)
+			.changeBy(ImmutableSibling::copyOf, ImmutableSibling::withItems);
+
+		IMappableModel<Integer> numberModel = Models.on(sourceModel)
+			.copyOnChangeProperty(siblingLens.and(numberLens));
+
+		IMappableModel<List<Item>> listModel = Models.on(sourceModel)
+			.copyOnChangeProperty(siblingLens.and(itemsLens));
+
+		IModel<Item> secondItem = Models.copyOnChangeItem(listModel, 1);
+
+		assertThat(sourceModel.getObject().sibling().number()).isEqualTo(12);
+		assertThat(sourceModel.getObject().sibling().items()).containsExactly(
+			Item.builder().pos(1).label("foo").build(),
+			Item.builder().pos(2).label("bar").build()
+		);
+		numberModel.setObject(144);
+//		listModel.setObject(List.of(Item.builder().pos(3).label("baz").build()));
+		secondItem.setObject(Item.builder().pos(3).label("baz").build());
+
+		assertThat(sourceModel.getObject().sibling().number()).isEqualTo(144);
+		assertThat(sourceModel.getObject().sibling().items()).containsExactly(
+			Item.builder().pos(1).label("foo").build(),
+			Item.builder().pos(3).label("baz").build()
+		);
+	}
+
 	private static ImmutableRoot sample() {
 		return Root.builder()
 			.name("name")
