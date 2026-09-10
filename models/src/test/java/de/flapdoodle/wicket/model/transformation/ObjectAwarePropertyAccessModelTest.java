@@ -41,7 +41,7 @@ public class ObjectAwarePropertyAccessModelTest extends AbstractModelTest {
 		propertyModel.setObject("Fooo");
 		propertyModel.getObject();
 		propertyModel.detach();
-		serialize(propertyModel);
+		assertSerializable(propertyModel);
 	}
 	
 	@Test

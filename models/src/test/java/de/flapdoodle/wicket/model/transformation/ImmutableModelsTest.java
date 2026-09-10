@@ -20,6 +20,7 @@
  */
 package de.flapdoodle.wicket.model.transformation;
 
+import de.flapdoodle.wicket.model.AbstractModelTest;
 import de.flapdoodle.wicket.model.IMappableModel;
 import de.flapdoodle.wicket.model.IMappableObjectAwareModel;
 import de.flapdoodle.wicket.model.Models;
@@ -33,7 +34,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ImmutableModelsTest {
+public class ImmutableModelsTest extends AbstractModelTest {
 
 	@Test
 	void simplePropertyModel() {
@@ -46,6 +47,8 @@ public class ImmutableModelsTest {
 		assertThat(sourceModel.getObject().name()).isEqualTo("name");
 		nameModel.setObject("test");
 		assertThat(sourceModel.getObject().name()).isEqualTo("test");
+
+		assertSerializable(nameModel);
 	}
 
 	@Test
@@ -76,17 +79,21 @@ public class ImmutableModelsTest {
 			Item.builder().pos(1).label("foo").build(),
 			Item.builder().pos(3).label("baz").build()
 		);
+
+		assertSerializable(listModel);
+		assertSerializable(numberModel);
+		assertSerializable(secondItem);
 	}
 
 	@Test
 	void nestedPropertLensModel() {
 		Model<ImmutableRoot> sourceModel = Model.of(sample());
 
-		Lens<Sibling, ImmutableRoot, ImmutableRoot> siblingLens = Lens.ofProperty(ImmutableRoot::sibling)
+		ModelLens<ImmutableRoot, Sibling, ImmutableRoot> siblingLens = ModelLens.ofProperty(ImmutableRoot::sibling)
 			.changeBy(ImmutableRoot::withSibling);
-		Lens<Integer, Sibling, ImmutableSibling> numberLens = Lens.ofProperty(Sibling::number)
+		ModelLens<Sibling, Integer, ImmutableSibling> numberLens = ModelLens.ofProperty(Sibling::number)
 			.changeBy(ImmutableSibling::copyOf, ImmutableSibling::withNumber);
-		Lens<List<Item>, Sibling, ImmutableSibling> itemsLens = Lens.ofProperty(Sibling::items)
+		ModelLens<Sibling, List<Item>, ImmutableSibling> itemsLens = ModelLens.ofProperty(Sibling::items)
 			.changeBy(ImmutableSibling::copyOf, ImmutableSibling::withItems);
 
 		IMappableModel<Integer> numberModel = Models.on(sourceModel)
@@ -96,6 +103,8 @@ public class ImmutableModelsTest {
 			.copyOnChangeProperty(siblingLens.and(itemsLens));
 
 		IModel<Item> secondItem = Models.copyOnChangeItem(listModel, 1);
+
+
 
 		assertThat(sourceModel.getObject().sibling().number()).isEqualTo(12);
 		assertThat(sourceModel.getObject().sibling().items()).containsExactly(
@@ -111,6 +120,10 @@ public class ImmutableModelsTest {
 			Item.builder().pos(1).label("foo").build(),
 			Item.builder().pos(3).label("baz").build()
 		);
+
+		assertSerializable(listModel);
+		assertSerializable(numberModel);
+		assertSerializable(secondItem);
 	}
 
 	private static ImmutableRoot sample() {

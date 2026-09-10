@@ -38,7 +38,7 @@ public class ObjectAwareTransformatorTest extends AbstractModelTest {
 		model.setObject("13");
 		model.getObject();
 		model.detach();
-		serialize(model);
+		assertSerializable(model);
 	}
 	
 	@Test

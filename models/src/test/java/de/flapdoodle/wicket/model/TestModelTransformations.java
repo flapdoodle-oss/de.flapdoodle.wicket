@@ -58,7 +58,7 @@ public class TestModelTransformations extends AbstractModelTest {
 		assertThat((Object) model.getObject()).isEqualTo("1");
 		model.detach();
 		assertThat((Object) model.getObject()).isEqualTo("2");
-		serialize(model);
+		assertSerializable(model);
 	}
 
 	@Test
@@ -89,7 +89,7 @@ public class TestModelTransformations extends AbstractModelTest {
 		assertThat((Object) model.getObject()).isEqualTo(Integer.valueOf(4));
 		model.detach();
 		assertThat((Object) model.getObject()).isEqualTo(Integer.valueOf(5));
-		serialize(model);
+		assertSerializable(model);
 	}
 	
 	@Test
@@ -159,7 +159,7 @@ public class TestModelTransformations extends AbstractModelTest {
 		assertThat((Object) model.getObject()).isEqualTo("5 Kinder");
 		model.detach();
 		assertThat((Object) model.getObject()).isEqualTo("5 Äpfel");
-		serialize(model);
+		assertSerializable(model);
 	}
 	
 	private <T> void checkExceptionOnSetObject(IModel<T> model,T value) {

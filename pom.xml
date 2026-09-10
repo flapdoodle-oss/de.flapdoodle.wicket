@@ -483,7 +483,7 @@
         <!-- allowed values: R7, 1.0, 1.5, 2.0 or none -->
         <wtp.version>none</wtp.version>
 
-        <flapdoodle.version>1.5.1</flapdoodle.version>
+        <flapdoodle.version>1.6.1</flapdoodle.version>
         <immutables.version>2.12.2</immutables.version>
     </properties>
 

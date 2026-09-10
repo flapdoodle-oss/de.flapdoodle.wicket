@@ -24,12 +24,13 @@ import org.danekja.java.util.function.serializable.SerializableBiFunction;
 import org.danekja.java.util.function.serializable.SerializableFunction;
 
 import java.io.Serializable;
+import java.util.Objects;
 
-public class Lens<T, M, IM extends M> implements Serializable {
+public class ModelLens<M, T, IM extends M> implements Serializable {
 	private final SerializableFunction<M, IM> copy;
 	private final SerializableFunction<M, T> readProperty;
 	private final SerializableBiFunction<IM, T, M> changeProperty;
-	private Lens(
+	private ModelLens(
 		SerializableFunction<M, IM> copy,
 		SerializableFunction<M, T> readProperty,
 		SerializableBiFunction<IM, T, M> changeProperty
@@ -51,45 +52,69 @@ public class Lens<T, M, IM extends M> implements Serializable {
 		return change(model, map.apply(read(model)));
 	}
 
-	public <U> Lens<U, M, ?> and(Lens<U, T, ?> next) {
-		return new Lens<>(
+	public <U> ModelLens<M, U, ?> and(ModelLens<T, U, ?> next) {
+		return new ModelLens<>(
 			copy,
 			target -> next.read(this.read(target)),
 			(target, value) -> this.change(target, next.change(this.read(target), value))
 		);
 	}
 
-	public static <T, M, IM extends M> Lens<T, M, IM> of(
+	public static <T, M, IM extends M> ModelLens<M, T, IM> of(
 		SerializableFunction<M, IM> asImmutable,
 		SerializableFunction<M, T> readProperty,
 		SerializableBiFunction<IM, T, M> changeProperty
 	) {
-		return new Lens<>(asImmutable, readProperty, changeProperty);
+		return new ModelLens<>(asImmutable, readProperty, changeProperty);
 	}
 
-	public static <T, M> Lens<T, M, M> of(
+	public static <T, M> ModelLens<M, T, M> of(
 		SerializableFunction<M, T> readProperty,
 		SerializableBiFunction<M, T, M> changeProperty
 	) {
-		return new Lens<>(it -> it, readProperty, changeProperty);
+		return new ModelLens<>(it -> it, readProperty, changeProperty);
 	}
 
 	public static <T, M> WithGetter<T, M> ofProperty(SerializableFunction<M, T> read) {
 		return new WithGetter<>(read);
 	}
 
-	public record WithGetter<T, M>(SerializableFunction<M, T> read) {
-		public <IM extends M> Lens<T, M, IM> changeBy(
-			SerializableFunction<M, IM> copy,
-			SerializableBiFunction<IM, T, M> change
-		) {
-			return Lens.of(copy, read, change);
+	public static final class WithGetter<T, M> {
+		private final SerializableFunction<M, T> read;
+		public WithGetter(SerializableFunction<M, T> read) {
+			this.read = read;
+		}
+			public <IM extends M> ModelLens<M, T, IM> changeBy(
+				SerializableFunction<M, IM> copy,
+				SerializableBiFunction<IM, T, M> change
+			) {
+				return ModelLens.of(copy, read, change);
+			}
+
+			public ModelLens<M, T, M> changeBy(
+				SerializableBiFunction<M, T, M> change
+			) {
+				return ModelLens.of(read, change);
+			}
+		public SerializableFunction<M, T> read() {
+			return read;
+		}
+		@Override
+		public boolean equals(Object obj) {
+			if (obj == this) return true;
+			if (obj == null || obj.getClass() != this.getClass()) return false;
+			var that = (WithGetter) obj;
+			return Objects.equals(this.read, that.read);
+		}
+		@Override
+		public int hashCode() {
+			return Objects.hash(read);
+		}
+		@Override
+		public String toString() {
+			return "WithGetter[" +
+				"read=" + read + ']';
 		}
 
-		public Lens<T, M, M> changeBy(
-			SerializableBiFunction<M, T, M> change
-		) {
-			return Lens.of(read, change);
 		}
-	}
 }

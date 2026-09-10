@@ -31,7 +31,7 @@ public abstract class AbstractModelTest {
         System.getProperties().setProperty("sun.io.serialization.extendedDebugInfo", "true");
     }
     
-	protected <T> void serialize(IModel<T> model)
+	protected <T> void assertSerializable(IModel<T> model)
 	{
 		final IModel<T> clone = cloneBySerial(model);
 		Assertions.assertThat(clone).isInstanceOf(model.getClass());
