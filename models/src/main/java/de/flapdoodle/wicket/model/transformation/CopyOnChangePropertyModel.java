@@ -25,14 +25,14 @@ import org.apache.wicket.model.IModel;
 import org.danekja.java.util.function.serializable.SerializableBiFunction;
 import org.danekja.java.util.function.serializable.SerializableFunction;
 
-public class CopyOnChangePropertyModel<T, M, IM extends M> implements IMappableModel<T> {
+public class CopyOnChangePropertyModel<M, T> implements IMappableModel<T> {
 
 	private final IModel<M> sourceModel;
-	private final ModelLens<M, T, IM> lens;
+	private final ModelLens<M, T> lens;
 
 	public CopyOnChangePropertyModel(
 		IModel<M> sourceModel,
-		ModelLens<M, T, IM> lens
+		ModelLens<M, T> lens
 	) {
 		this.sourceModel = sourceModel;
 		this.lens = lens;
@@ -55,10 +55,17 @@ public class CopyOnChangePropertyModel<T, M, IM extends M> implements IMappableM
 
 	public static <T, M> IMappableModel<T> of(
 		IModel<M> source,
+		ModelLens<M, T> lens
+	) {
+		return new CopyOnChangePropertyModel<>(source, lens);
+	}
+
+	public static <T, M> IMappableModel<T> of(
+		IModel<M> source,
 		SerializableFunction<M, T> readProperty,
 		SerializableBiFunction<M, T, M> changeProperty
 	) {
-		return new CopyOnChangePropertyModel<>(source, ModelLens.of(it -> it, readProperty, changeProperty));
+		return of(source, ModelLens.of(it -> it, readProperty, changeProperty));
 	}
 
 	public static <T, M, IM extends M> IMappableModel<T> of(
@@ -67,13 +74,7 @@ public class CopyOnChangePropertyModel<T, M, IM extends M> implements IMappableM
 		SerializableFunction<M, T> readProperty,
 		SerializableBiFunction<IM, T, M> changeProperty
 	) {
-		return new CopyOnChangePropertyModel<>(source, ModelLens.of(asImmutable, readProperty, changeProperty));
+		return of(source, ModelLens.of(asImmutable, readProperty, changeProperty));
 	}
 
-	public static <T, M, IM extends M> IMappableModel<T> of(
-		IModel<M> source,
-		ModelLens<M, T, IM> lens
-	) {
-		return new CopyOnChangePropertyModel<>(source, lens);
-	}
 }

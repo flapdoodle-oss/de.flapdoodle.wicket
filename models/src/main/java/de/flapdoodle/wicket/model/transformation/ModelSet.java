@@ -89,7 +89,7 @@ public abstract class ModelSet {
 			return CopyOnChangePropertyModel.of(_m1, asImmutable, readProperty, changeProperty);
 		}
 
-		public <R, IT1 extends T1> IMappableModel<R> copyOnChangeProperty(ModelLens<T1, R, IT1> lens) {
+		public <R> IMappableModel<R> copyOnChangeProperty(ModelLens<T1, R> lens) {
 			return CopyOnChangePropertyModel.of(_m1, lens);
 		}
 	}

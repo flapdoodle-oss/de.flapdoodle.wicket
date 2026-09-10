@@ -89,11 +89,11 @@ public class ImmutableModelsTest extends AbstractModelTest {
 	void nestedPropertLensModel() {
 		Model<ImmutableRoot> sourceModel = Model.of(sample());
 
-		ModelLens<ImmutableRoot, Sibling, ImmutableRoot> siblingLens = ModelLens.ofProperty(ImmutableRoot::sibling)
+		ModelLens<ImmutableRoot, Sibling> siblingLens = ModelLens.ofProperty(ImmutableRoot::sibling)
 			.changeBy(ImmutableRoot::withSibling);
-		ModelLens<Sibling, Integer, ImmutableSibling> numberLens = ModelLens.ofProperty(Sibling::number)
+		ModelLens<Sibling, Integer> numberLens = ModelLens.ofProperty(Sibling::number)
 			.changeBy(ImmutableSibling::copyOf, ImmutableSibling::withNumber);
-		ModelLens<Sibling, List<Item>, ImmutableSibling> itemsLens = ModelLens.ofProperty(Sibling::items)
+		ModelLens<Sibling, List<Item>> itemsLens = ModelLens.ofProperty(Sibling::items)
 			.changeBy(ImmutableSibling::copyOf, ImmutableSibling::withItems);
 
 		IMappableModel<Integer> numberModel = Models.on(sourceModel)
