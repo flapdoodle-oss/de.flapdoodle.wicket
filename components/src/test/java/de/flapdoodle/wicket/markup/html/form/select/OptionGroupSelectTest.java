@@ -27,13 +27,18 @@ import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.util.tester.FormTester;
+import org.apache.wicket.util.tester.TagTester;
 import org.apache.wicket.util.tester.WicketTester;
 import org.apache.wicket.util.visit.IVisit;
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;
 import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class OptionGroupSelectTest {
 
@@ -54,19 +59,43 @@ class OptionGroupSelectTest {
 		Select<FormPage.Item> select =
 			(Select<FormPage.Item>) tester.getComponentFromLastRenderedPage("form:group:select");
 
-		SelectOption<FormPage.Item> option = select.visitChildren(SelectOption.class,
+		assertThat(tester.getTagsByWicketId("items")).hasSize(7)
+			.element(0, InstanceOfAssertFactories.type(TagTester.class))
+			.satisfies(tag -> {
+				assertThat(tag.getName()).isEqualTo("option");
+				assertThat(tag.getAttribute("value")).isEqualTo("A.1");
+			});
+
+		SelectOption<FormPage.Item> optionA2 = select.visitChildren(SelectOption.class,
 			(SelectOption<FormPage.Item> o, IVisit<SelectOption<FormPage.Item>> visit) -> {
 				if (new FormPage.Item("A.2").equals(o.getDefaultModelObject())) {
 					visit.stop(o);
 				}
 			});
 
-
 		FormTester formTester = tester.newFormTester("form");
-		formTester.setValue(select, option.getValue());
+		formTester.setValue(select, optionA2.getValue());
 		formTester.submit();
-
 		tester.assertModelValue("form:group", new FormPage.Item("A.2"));
+
+		assertThat(tester.getTagsByWicketId("items")).hasSize(7)
+			.element(0, InstanceOfAssertFactories.type(TagTester.class))
+			.satisfies(tag -> {
+				assertThat(tag.getName()).isEqualTo("option");
+				assertThat(tag.getAttribute("value")).isEqualTo("A.1");
+			});
+
+		SelectOption<FormPage.Item> optionB1 = select.visitChildren(SelectOption.class,
+			(SelectOption<FormPage.Item> o, IVisit<SelectOption<FormPage.Item>> visit) -> {
+				if (new FormPage.Item("B.1").equals(o.getDefaultModelObject())) {
+					visit.stop(o);
+				}
+			});
+
+		formTester = tester.newFormTester("form");
+		formTester.setValue(select, optionB1.getValue());
+		formTester.submit();
+		tester.assertModelValue("form:group", new FormPage.Item("B.1"));
 	}
 
 	public static class FormPage extends WebPage {
@@ -85,18 +114,10 @@ class OptionGroupSelectTest {
 				.groupItems(Group::entries)
 				.groupLabel(Group::name)
 				.itemLabel(Item::name)
+				.itemId(Item::name)
 				.value2Model(Model::of)
 				.build("group"));
 
-//			form.add(new OptionGroupSelect<>(
-//				"group",
-//				itemModel,
-//				Model.ofList(sample()),
-//				Group::entries,
-//				Group::name,
-//				Item::name,
-//				Model::of
-//			));
 			form.add(new Button("submit"));
 			add(form);
 		}

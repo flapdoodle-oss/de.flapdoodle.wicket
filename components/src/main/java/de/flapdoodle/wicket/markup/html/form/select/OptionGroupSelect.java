@@ -24,13 +24,17 @@ import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.behavior.Behavior;
 import org.apache.wicket.extensions.markup.html.form.select.IOptionRenderer;
 import org.apache.wicket.extensions.markup.html.form.select.Select;
+import org.apache.wicket.extensions.markup.html.form.select.SelectOption;
 import org.apache.wicket.extensions.markup.html.form.select.SelectOptions;
+import org.apache.wicket.markup.ComponentTag;
+import org.apache.wicket.markup.MarkupStream;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.FormComponentPanel;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.markup.parser.XmlTag;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
+import org.apache.wicket.util.string.Strings;
 import org.danekja.java.util.function.serializable.SerializableFunction;
 
 import java.io.Serializable;
@@ -39,6 +43,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class OptionGroupSelect<T, G> extends FormComponentPanel<T> {
+
 	private final Select<T> select;
 
 	public OptionGroupSelect(
@@ -48,9 +53,21 @@ public class OptionGroupSelect<T, G> extends FormComponentPanel<T> {
 		SerializableFunction<? super G, Collection<? extends T>> groupItems,
 		SerializableFunction<? super G, String> groupLabel,
 		SerializableFunction<T, String> itemLabel,
+		SerializableFunction<T, String> itemId,
 		SerializableFunction<T, IModel<T>> value2Model
 	) {
 		super(id, model);
+
+		IOptionRenderer<T> optionRenderer = new IOptionRenderer<>() {
+			@Override
+			public String getDisplayValue(T object) {
+				return itemLabel.apply(object);
+			}
+			@Override
+			public IModel<T> getModel(T value) {
+				return value2Model.apply(value);
+			}
+		};
 
 		this.select = new Select<>("select", model);
 		select.add(new ListView<G>("groups", groupModel) {
@@ -59,22 +76,12 @@ public class OptionGroupSelect<T, G> extends FormComponentPanel<T> {
 				WebMarkupContainer group = new WebMarkupContainer("group");
 				group.add(AttributeModifier.replace("label", item.getModel().map(groupLabel)));
 
-				SelectOptions<T> options = new SelectOptions<>("items",
-					item.getModel().map(groupItems), new IOptionRenderer<T>() {
-					@Override
-					public String getDisplayValue(T object) {
-						return itemLabel.apply(object);
-					}
-					@Override
-					public IModel<T> getModel(T value) {
-						return value2Model.apply(value);
-					}
-				});
+				SelectOptions<T> options = new StableOptionValueOptions<>("items", itemId, item.getModel().map(groupItems), optionRenderer);
 				options.setRecreateChoices(true);
 				group.add(options);
 				item.add(group);
 			}
-		});
+		}.setReuseItems(true));
 		add(select);
 	}
 
@@ -86,6 +93,62 @@ public class OptionGroupSelect<T, G> extends FormComponentPanel<T> {
 	@Override
 	public void convertInput() {
 		setConvertedInput(select.getConvertedInput());
+	}
+
+	private static class StableOptionValueOptions<T> extends SelectOptions<T> {
+
+		private final SerializableFunction<T, String> itemId;
+
+		public StableOptionValueOptions(String id, SerializableFunction<T, String> itemId, IModel<? extends Collection<? extends T>> model, IOptionRenderer<T> renderer) {
+			super(id, model, renderer);
+			this.itemId = itemId;
+		}
+
+		@Override
+		protected SelectOption<T> newOption(String id, String text, IModel<T> model) {
+			StableOptionValueOption<T> option = new StableOptionValueOption<>(id, model, itemId, text);
+			option.setEscapeModelStrings(this.getEscapeModelStrings());
+			return option;
+		}
+	}
+
+	/**
+	 * copy of {@link org.apache.wicket.extensions.markup.html.form.select.SelectOptions.SimpleSelectOption}
+	 * with a minor modification
+	 * @param <T>
+	 */
+	private static class StableOptionValueOption<T> extends SelectOption<T> {
+
+		private static final long serialVersionUID = 1L;
+		private final SerializableFunction<T, String> itemId;
+		private final String text;
+
+		public StableOptionValueOption(final String id, final IModel<T> model, SerializableFunction<T, String> itemId, final String text) {
+			super(id, model);
+			this.itemId = itemId;
+			this.text = text;
+		}
+
+		@Override
+		public void onComponentTagBody(final MarkupStream markupStream, final ComponentTag openTag) {
+			CharSequence escaped = text;
+			if (getEscapeModelStrings()) {
+				escaped = Strings.escapeMarkup(text);
+			}
+
+			replaceComponentTagBody(markupStream, openTag, escaped);
+		}
+
+		@Override
+		protected void onComponentTag(ComponentTag tag) {
+			super.onComponentTag(tag);
+			tag.setType(XmlTag.TagType.OPEN);
+		}
+
+		@Override
+		public String getValue() {
+			return itemId.apply(getModelObject());
+		}
 	}
 
 	public static <T, G> Builder<T, G> builder(IModel<T> model, IModel<? extends List<G>> groupModel) {
@@ -100,6 +163,7 @@ public class OptionGroupSelect<T, G> extends FormComponentPanel<T> {
 		private SerializableFunction<? super G, Collection<? extends T>> groupItems=null;
 		private SerializableFunction<? super G, String> groupLabel=null;
 		private SerializableFunction<T, String> itemLabel=null;
+		private SerializableFunction<T, String> itemId=null;
 		private SerializableFunction<T, IModel<T>> value2Model=null;
 
 		public Builder(IModel<T> model, IModel<? extends List<G>> groupModel) {
@@ -125,6 +189,12 @@ public class OptionGroupSelect<T, G> extends FormComponentPanel<T> {
 			return this;
 		}
 
+		public Builder<T, G> itemId(SerializableFunction<T, String> itemId) {
+			if (this.itemId!=null) throw new IllegalStateException("itemId already set");
+			this.itemId = itemId;
+			return this;
+		}
+
 		public Builder<T, G> value2Model(SerializableFunction<T, IModel<T>> value2Model) {
 			if (this.value2Model!=null) throw new IllegalStateException("value2Model already set");
 			this.value2Model = value2Model;
@@ -139,6 +209,7 @@ public class OptionGroupSelect<T, G> extends FormComponentPanel<T> {
 				Objects.requireNonNull(groupItems,"groupItems not set"),
 				Objects.requireNonNull(groupLabel, "groupLabel not set"),
 				Objects.requireNonNull(itemLabel,"itemLabel not set"),
+				Objects.requireNonNull(itemId,"itemId not set"),
 				Objects.requireNonNull(value2Model,"value2Model not set")
 			);
 		}
